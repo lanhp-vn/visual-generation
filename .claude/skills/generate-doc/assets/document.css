@@ -30,6 +30,17 @@ body { margin: 0; }
 .brandmark { position: running(brandmark); }
 .brandmark svg, .brandmark img { height: 15px; width: auto; display: block; }
 
+/* Paged.js 0.4.3's own string(runhead) resolution is unreliable: for the report
+   template it never resolves at all, and for the handbook it resolves but only
+   to the "first" chapter seen on the page (stale on later chapters) - both
+   stay invisible while the box measures 0 width, but the handbook's stale
+   value starts painting as soon as the box gains width from the real title
+   text base.html.j2's after-hook injects. That hook marks each box it injects
+   into with .has-doc-title; suppress the engine's own generated text only
+   there, so the injected span is the single visible title and the cover page
+   (never marked) keeps using its own untouched content:none gate. */
+.pagedjs_margin-top-right .pagedjs_margin-content.has-doc-title::after { content: none !important; }
+
 /* running strings: report header = doc title; handbook header = current chapter */
 .report .cover-title { string-set: runhead content(text); }
 .handbook .cover-title { string-set: runhead content(text); }   /* until first chapter */

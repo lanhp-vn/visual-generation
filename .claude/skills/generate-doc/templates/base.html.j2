@@ -26,6 +26,45 @@
       box.appendChild(mark);
     });
   });
+  // Running header TITLE (top-right): document.css sets it via
+  // `@top-right { content: string(runhead) }` + `string-set: runhead ...`, but
+  // in Paged.js 0.4.3 that margin box's `string()` resolution is unreliable
+  // (see the .has-doc-title rule in document.css for the full story) and never
+  // paints correctly on its own - unlike `element(brandmark)` (top-left logo),
+  // which works. Inject the real title as a visible DOM text node instead,
+  // same as the footer mirror above but visible: it inherits the box's
+  // font-size/letter-spacing/text-transform/color from the `@top-right` rule
+  // since those are inherited CSS properties.
+  const isHandbook = document.body.classList.contains("handbook");
+  // Each chapter heading tagged with the page it landed on, in document order -
+  // used to resolve the handbook's "current chapter" per page below.
+  const chapters = isHandbook
+    ? Array.from(document.querySelectorAll("main h1")).map((h) => ({
+        text: h.textContent.trim(),
+        page: Number(h.closest(".pagedjs_page").getAttribute("data-page-number")),
+      }))
+    : [];
+  document.querySelectorAll(".pagedjs_page").forEach((pg) => {
+    const n = Number(pg.getAttribute("data-page-number"));
+    const box = pg.querySelector(".pagedjs_margin-top-right .pagedjs_margin-content");
+    // skip the cover: @page :first sets @top-right { content: none }
+    if (!box || getComputedStyle(box, "::after").content === "none") return;
+    let title = document.title;
+    if (isHandbook) {
+      const current = chapters.filter((c) => c.page <= n).pop();
+      if (current) title = current.text;
+    }
+    const span = document.createElement("span");
+    // the top-right margin box auto-sizes to its content's intrinsic width;
+    // without nowrap it wraps one word per line instead of growing wider.
+    span.style.cssText = "white-space:nowrap;";
+    span.textContent = title;
+    box.appendChild(span);
+    // marks this box for document.css's has-doc-title rule, which suppresses
+    // Paged.js's own (stale/invisible) string(runhead) ::after text so it
+    // cannot double up with the span above once the box gains width.
+    box.classList.add("has-doc-title");
+  });
   window.__PAGED_DONE = true;
 } };</script>
 <style>{{ brand_css | safe }}</style>
