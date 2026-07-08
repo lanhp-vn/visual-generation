@@ -1,0 +1,164 @@
+{
+  "meta": {
+    "format": "deck-16x9",
+    "lang": "en",
+    "theme": "light",
+    "title": "Cất Cánh Fellowship 2026 Freeform"
+  },
+  "slides": [
+    {
+      "layout": "freeform",
+      "content": {
+        "blocks": [
+          {
+            "type": "heading",
+            "level": 2,
+            "eyebrow": "Freeform layout",
+            "text": "A slide built from <span class=\"hl\">typed blocks</span>"
+          },
+          {
+            "type": "paragraph",
+            "text": "When a moment in the deck does not fit a named layout, the freeform escape hatch composes the same brand-locked primitives in any order. This slide mixes a heading, a paragraph, and a bullet list."
+          },
+          {
+            "type": "spacer",
+            "size": 16
+          },
+          {
+            "type": "bullets",
+            "items": [
+              { "text": "<b>Heading, paragraph, and bullets</b> for narrative passages", "sub": "Reuses the CTA block typography" },
+              { "text": "<b>Card grid</b> for parallel ideas with optional icons", "sub": "Two to four columns" },
+              { "text": "<b>Stat row, people, and QR</b> for everything else", "sub": "All from the shared component library" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "layout": "freeform",
+      "content": {
+        "blocks": [
+          {
+            "type": "heading",
+            "level": 2,
+            "eyebrow": "What the program offers",
+            "text": "Three things every fellow <span class=\"gold\">gets</span>"
+          },
+          {
+            "type": "card-grid",
+            "cols": 3,
+            "accent": true,
+            "cards": [
+              {
+                "icon": "compass",
+                "heading": "Direction",
+                "body": "Pair each fellow with a mentor who has walked the same path abroad."
+              },
+              {
+                "icon": "rocket",
+                "tone": "gold",
+                "heading": "Momentum",
+                "body": "Turn ambition into a concrete application plan over the program term."
+              },
+              {
+                "icon": "network",
+                "heading": "Community",
+                "body": "Join a cohort and an alumni network that keeps giving back."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "layout": "freeform",
+      "content": {
+        "align": "center",
+        "blocks": [
+          {
+            "type": "heading",
+            "level": 2,
+            "align": "center",
+            "eyebrow": "Cohort 1 at a glance",
+            "text": "Where this cohort is heading"
+          },
+          {
+            "type": "stat-row",
+            "stats": [
+              { "num": "65", "unit": "fellows", "label": "selected for Cohort 1" },
+              { "num": "41", "unit": "mentors", "label": "local ambassadors offering guidance" },
+              { "num": "12", "unit": "weeks", "label": "of structured program support" },
+              { "num": "8", "unit": "countries", "label": "targeted for study abroad" }
+            ]
+          },
+          {
+            "type": "spacer",
+            "size": 16
+          },
+          {
+            "type": "paragraph",
+            "align": "center",
+            "muted": true,
+            "text": "Figures shown are illustrative for this fixture."
+          }
+        ]
+      }
+    },
+    {
+      "layout": "freeform",
+      "content": {
+        "blocks": [
+          {
+            "type": "heading",
+            "level": 2,
+            "eyebrow": "Who you will meet",
+            "text": "Faces of the <span class=\"gold\">program team</span>"
+          },
+          {
+            "type": "person-row",
+            "people": [
+              {
+                "name": "Phạm Hà Lân",
+                "role": "Program Manager",
+                "creds": [
+                  "Leads Cohort 1 delivery end to end",
+                  "Point of contact for fellows and mentors"
+                ]
+              },
+              {
+                "name": "Nguyễn Minh Anh",
+                "role": "Mentorship Lead",
+                "creds": [
+                  "Matches fellows with local ambassadors",
+                  "Runs the mentor onboarding sessions"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "layout": "freeform",
+      "content": {
+        "align": "center",
+        "blocks": [
+          {
+            "type": "heading",
+            "level": 2,
+            "align": "center",
+            "eyebrow": "Stay in touch",
+            "text": "Send the team a <span class=\"hl\">question</span>"
+          },
+          {
+            "type": "qr-card",
+            "url": "https://forms.gle/sGrc2sXojs4ZqydR6",
+            "caption": "Scan to share a question for the team",
+            "label": "forms.gle/catcanh"
+          }
+        ]
+      }
+    }
+  ]
+}

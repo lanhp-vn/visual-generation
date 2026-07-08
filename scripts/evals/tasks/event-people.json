@@ -1,0 +1,9 @@
+{
+  "id": "event-people",
+  "description": "Render the event people slide faithfully: highlighted title and person cards with initials avatar, name, role, and credential bullets.",
+  "content": "scripts/evals/tasks/_fixtures/people.content.json",
+  "required_strings": ["thế hệ đi trước", "Dr. Loi Nguyen", "Dr. Quang-Dam Le", "Marvell"],
+  "forbidden_strings": ["Cat Canh"],
+  "expected_page_px": [1920, 1080],
+  "trials": 1
+}

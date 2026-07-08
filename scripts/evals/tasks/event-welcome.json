@@ -1,0 +1,9 @@
+{
+  "id": "event-welcome",
+  "description": "Render the event hero / welcome slides (Cohort 1 kickoff opener) faithfully: eyebrow, headline with highlight, date, tagline, and decorative sparkles, both opener and closing hero.",
+  "content": "scripts/evals/tasks/_fixtures/hero.content.json",
+  "required_strings": ["Cất Cánh", "Cohort 1 Kickoff", "June 20, 2026", "We are taking off"],
+  "forbidden_strings": ["Cat Canh"],
+  "expected_page_px": [1920, 1080],
+  "trials": 1
+}

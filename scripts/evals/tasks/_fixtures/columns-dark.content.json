@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "format": "deck-16x9",
+    "theme": "dark",
+    "lang": "en",
+    "title": "Columns layout fixture (dark)"
+  },
+  "slides": [
+    {
+      "layout": "columns",
+      "content": {
+        "title": "How it works: <span class=\"hl\">roles and spirit</span>",
+        "columns": [
+          {
+            "icon": "network",
+            "heading": "VISEMI Core Team",
+            "body": "Designs and coordinates the program, tracks progress, and matches each Fellow with the right Ambassador."
+          },
+          {
+            "icon": "compass",
+            "heading": "Fellow",
+            "body": "The center of the program. Drives their own journey: attend workshops, submit on time, and prepare CV, SOP, and a target list."
+          },
+          {
+            "icon": "users",
+            "heading": "Ambassador",
+            "body": "Shares real experience and gives feedback on CV, SOP, and cold emails, and on choosing schools, labs, and professors."
+          }
+        ],
+        "spirit": "<span class=\"hl\">VISEMI coordinates</span> &middot; <span class=\"gold\">Fellow drives</span> &middot; <span class=\"hl\">Ambassador shares</span> &middot; <span class=\"gold\">Sponsor enables impact</span>"
+      }
+    }
+  ]
+}

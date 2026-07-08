@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "lang": "en",
+    "audience": "fellows",
+    "format": "deck-16x9",
+    "theme": "light",
+    "title": "Cất Cánh Fellowship 2026 - People"
+  },
+  "slides": [
+    {
+      "layout": "people",
+      "content": {
+        "title": "A conversation with <span class=\"hl\">thế hệ đi trước</span>",
+        "people": [
+          {
+            "name": "Dr. Loi Nguyen",
+            "role": "EVP Emeritus, Optics, Marvell · Founding sponsor, Cất Cánh",
+            "creds": [
+              "Co-Founder of Inphi, acquired by Marvell",
+              "7 U.S. patents and 50+ scientific publications",
+              "Ph.D. in Electrical Engineering, Cornell · MBA, UCLA Anderson"
+            ]
+          },
+          {
+            "name": "Dr. Quang-Dam Le",
+            "role": "General Director, Marvell Technology Vietnam · Founding sponsor",
+            "creds": [
+              "Built Marvell Vietnam from 6 to 500+ engineers",
+              "20+ years abroad before returning home to Vietnam",
+              "Ph.D. in Signal Processing, focus on AI, Canada"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

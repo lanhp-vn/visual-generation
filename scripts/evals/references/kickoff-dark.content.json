@@ -1,0 +1,326 @@
+{
+  "meta": {
+    "format": "deck-16x9",
+    "theme": "dark",
+    "lang": "en",
+    "audience": "fellows",
+    "title": "Cất Cánh Fellowship 2026: Cohort 1 Kickoff (Dark)"
+  },
+  "slides": [
+    {
+      "layout": "hero",
+      "content": {
+        "eyebrow": "Cohort 1 Kickoff",
+        "title": "<span class=\"hl\">Cất Cánh</span> Fellowship 2026",
+        "date": "June 20, 2026",
+        "tagline": "The whole Cất Cánh Community, together for the first time.",
+        "sparkles": [
+          {
+            "x": 220,
+            "y": 150,
+            "size": 44,
+            "tone": "gold"
+          },
+          {
+            "x": 1560,
+            "y": 760,
+            "size": 60,
+            "tone": "green"
+          },
+          {
+            "x": 1620,
+            "y": 300,
+            "size": 30,
+            "tone": "gold"
+          }
+        ]
+      }
+    },
+    {
+      "layout": "freeform",
+      "content": {
+        "align": "center",
+        "blocks": [
+          {
+            "type": "heading",
+            "level": 1,
+            "align": "center",
+            "eyebrow": "Icebreaker",
+            "text": "Introduce yourself <span class=\"hl\">in the chat</span>"
+          },
+          {
+            "type": "card-grid",
+            "cols": 4,
+            "cards": [
+              {
+                "icon": "message",
+                "heading": "Your name"
+              },
+              {
+                "icon": "grad-cap",
+                "heading": "Your school"
+              },
+              {
+                "icon": "compass",
+                "heading": "Your hometown"
+              },
+              {
+                "icon": "flag",
+                "heading": "One word for how you feel right now"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "layout": "stat-grid",
+      "content": {
+        "eyebrow": "By the numbers",
+        "title": "This is just the <span class=\"gold\">beginning.</span>",
+        "stats": [
+          {
+            "num": "3",
+            "unit": "months",
+            "label": "Recruitment, from application to interview"
+          },
+          {
+            "num": "30",
+            "unit": "reviewers",
+            "label": "Reviewers and interviewers on the evaluation committee"
+          },
+          {
+            "num": "65",
+            "unit": "fellows",
+            "label": "Our inaugural Cohort 1"
+          },
+          {
+            "num": "40",
+            "unit": "ambassadors",
+            "label": "Local mentors walking alongside you"
+          },
+          {
+            "num": "6",
+            "unit": "months",
+            "label": "The journey ahead"
+          }
+        ]
+      }
+    },
+    {
+      "layout": "agenda",
+      "content": {
+        "title": "Today's <span class=\"hl\">journey</span>",
+        "items": [
+          {
+            "text": "Welcome"
+          },
+          {
+            "text": "Why Cất Cánh, and why you"
+          },
+          {
+            "text": "A conversation with the founders"
+          },
+          {
+            "text": "Stories from our local ambassadors"
+          },
+          {
+            "text": "Your 6-month journey ahead"
+          },
+          {
+            "text": "A message to Cohort 1, and community moments"
+          }
+        ]
+      }
+    },
+    {
+      "layout": "icon-cards",
+      "content": {
+        "title": "Why Cất Cánh, and <span class=\"hl\">why you</span>",
+        "cards": [
+          {
+            "icon": "globe",
+            "heading": "Why Cất Cánh exists"
+          },
+          {
+            "icon": "grad-cap",
+            "heading": "Why this cohort"
+          }
+        ],
+        "pullquote": "\"You were chosen <span class=\"gold\">on purpose</span>, not by chance.\""
+      }
+    },
+    {
+      "layout": "people",
+      "content": {
+        "title": "A conversation with <span class=\"hl\">thế hệ đi trước</span>",
+        "people": [
+          {
+            "name": "Dr. Loi Nguyen",
+            "role": "EVP Emeritus, Optics, Marvell · Founding sponsor, Cất Cánh",
+            "creds": [
+              "Co-Founder of Inphi, acquired by Marvell",
+              "7 U.S. patents and 50+ scientific publications",
+              "Ph.D. in Electrical Engineering, Cornell · MBA, UCLA Anderson"
+            ],
+            "initials": "LN"
+          },
+          {
+            "name": "Dr. Quang-Dam Le",
+            "role": "General Director, Marvell Technology Vietnam · Founding sponsor",
+            "creds": [
+              "Built Marvell Vietnam from 6 to 500+ engineers",
+              "20+ years abroad before returning home to Vietnam",
+              "Ph.D. in Signal Processing, focus on AI, Canada"
+            ],
+            "initials": "QD"
+          }
+        ]
+      }
+    },
+    {
+      "layout": "people",
+      "content": {
+        "title": "Stories from our <span class=\"hl\">local ambassadors</span>",
+        "people": [
+          {
+            "name": "Trần Mỹ Nghệ",
+            "role": "R&amp;D Engineer, advanced semiconductor chips · imec, Belgium",
+            "creds": [
+              "PhD in France, 2024 (PEARL, MSCA / EU-funded)",
+              "30+ PhD applications worldwide, fully self-prepared",
+              "More than 10 offers. A story of persistence"
+            ],
+            "initials": "MN"
+          },
+          {
+            "name": "Trần Thị Bích Thủy",
+            "role": "PhD candidate, Materials Science &amp; Engineering, Li-ion batteries · Carnegie Mellon, USA",
+            "creds": [
+              "MS in Korea (scholarship), PhD expected 2027",
+              "Applied across Korea, the USA, and Taiwan in parallel",
+              "Won 4 of 10 U.S. PhD offers"
+            ],
+            "initials": "TT"
+          }
+        ]
+      }
+    },
+    {
+      "layout": "timeline-phases",
+      "content": {
+        "title": "Your <span class=\"gold\">6-month</span> journey",
+        "phases": [
+          {
+            "tag": "Phase I · Orientation",
+            "title": "Find your direction",
+            "bullets": [
+              "Choose target country and level (MS, PhD, or both)",
+              "Understand the systems (US, Taiwan, Korea, Japan, Europe)",
+              "Pick schools, labs, and professors",
+              "Build a funding and scholarship strategy"
+            ],
+            "outcome": "a direction report and a target list of schools, labs, and professors."
+          },
+          {
+            "tag": "Phase II · Application prep",
+            "title": "Build your application",
+            "body": "Academic CV, SOP, self-introduction, interview prep, and presenting your research interest with confidence.",
+            "outcome": "CV and SOP drafts, which unlock your 1:1 matching."
+          }
+        ],
+        "notes": [
+          "<b>Office Hours and 1:1 with Ambassadors:</b> book once you have a CV / SOP, a target list, and 3 to 5 specific questions.",
+          "<b>Throughout:</b> VISEMI tracks progress and coordinates workshops, deadlines, and Fellow-Ambassador matching."
+        ]
+      }
+    },
+    {
+      "layout": "columns",
+      "content": {
+        "title": "How it works: <span class=\"hl\">roles and spirit</span>",
+        "columns": [
+          {
+            "icon": "network",
+            "heading": "VISEMI Core Team",
+            "body": "Designs and coordinates the program; tracks progress; matches each Fellow with the right Ambassador."
+          },
+          {
+            "icon": "compass",
+            "heading": "Fellow",
+            "body": "The center of the program. Drives their own journey: attend workshops, submit on time, prepare CV / SOP / target list, book and follow up on 1:1s."
+          },
+          {
+            "icon": "users",
+            "heading": "Ambassador",
+            "body": "Shares real experience; gives feedback on CV / SOP / cold emails and on choosing schools, labs, and professors; supports flexibly."
+          }
+        ],
+        "spirit": "<span class=\"hl\">VISEMI coordinates</span> · <span class=\"gold\">Fellow drives</span> · <span class=\"hl\">Ambassador shares</span> · <span class=\"gold\">Sponsor enables impact</span>"
+      }
+    },
+    {
+      "layout": "hero",
+      "content": {
+        "kicker": "Cất Cánh Fellowship 2026 · Cohort 1",
+        "title_size": 104,
+        "title": "We are taking off, <span class=\"hl\">together.</span>",
+        "sub": "Cameras on for our Day One photo",
+        "sub_gold": true,
+        "tagline": "This is the first time the whole community is in one place. Smile, wave, and let us capture it.",
+        "sparkles": [
+          {
+            "x": 300,
+            "y": 170,
+            "size": 50,
+            "tone": "gold"
+          },
+          {
+            "x": 1540,
+            "y": 230,
+            "size": 40,
+            "tone": "green"
+          },
+          {
+            "x": 340,
+            "y": 800,
+            "size": 34,
+            "tone": "gold"
+          },
+          {
+            "x": 1560,
+            "y": 820,
+            "size": 48,
+            "tone": "green"
+          }
+        ]
+      }
+    },
+    {
+      "layout": "cta-qr",
+      "content": {
+        "title": "What's next, and <span class=\"gold\">thank you</span>",
+        "heading": "What's next",
+        "blocks": [
+          {
+            "text": "Join the <b>Cất Cánh (Takeoff) Fellowship</b> Facebook Group."
+          },
+          {
+            "text": "<b>First workshop, Cất Cánh Pathway:</b> Tìm hiểu về Du học tại Đài Loan.",
+            "sub": "Chủ Nhật, 21/06/2026 · 19:00 to 21:00 (giờ Việt Nam)"
+          },
+          {
+            "text": "<b>Coming to your inbox:</b> the detailed 6-month program documents, the Local Ambassador Notebook, and a Homework 1 preview."
+          }
+        ],
+        "qr": {
+          "url": "https://forms.gle/sGrc2sXojs4ZqydR6",
+          "caption": "Send your questions to the Ambassadors before the workshop",
+          "label": "forms.gle/sGrc2sXojs4ZqydR6"
+        },
+        "footer": "Thank you to our <span class=\"hl\">founding sponsors</span> and <span class=\"gold\">speakers</span>.",
+        "closing": "We'll stay in the room for a few more minutes for any questions."
+      }
+    }
+  ]
+}

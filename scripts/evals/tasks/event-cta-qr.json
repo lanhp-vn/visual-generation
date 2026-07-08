@@ -1,0 +1,9 @@
+{
+  "id": "event-cta-qr",
+  "description": "Render the event call-to-action slide with injected QR faithfully: title, a left next-steps block, and a right QR card (navy QR SVG, caption, and URL label).",
+  "content": "scripts/evals/tasks/_fixtures/cta-qr.content.json",
+  "required_strings": ["Cất Cánh (Takeoff) Fellowship", "What's next", "thank you", "forms.gle/sGrc2sXojs4ZqydR6"],
+  "forbidden_strings": ["Cat Canh"],
+  "expected_page_px": [1920, 1080],
+  "trials": 1
+}

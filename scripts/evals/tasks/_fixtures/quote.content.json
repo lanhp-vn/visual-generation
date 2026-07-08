@@ -1,0 +1,18 @@
+{
+  "meta": {
+    "format": "deck-16x9",
+    "lang": "en",
+    "title": "Quote layout fixture",
+    "theme": "light"
+  },
+  "slides": [
+    {
+      "layout": "quote",
+      "content": {
+        "eyebrow": "A message to Cohort 1",
+        "quote": "\"You were chosen <span class=\"gold\">on purpose</span>, not by chance. The whole <span class=\"hl\">Cất Cánh Community</span> is taking off, together.\"",
+        "attribution": "Cất Cánh (Takeoff) Fellowship 2026"
+      }
+    }
+  ]
+}

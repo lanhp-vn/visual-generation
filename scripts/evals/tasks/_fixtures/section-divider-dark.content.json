@@ -1,0 +1,24 @@
+{
+  "meta": {
+    "lang": "en",
+    "audience": "fellows",
+    "format": "deck-16x9",
+    "theme": "dark",
+    "title": "Section Divider Fixture (Dark)"
+  },
+  "slides": [
+    {
+      "layout": "section-divider",
+      "content": {
+        "eyebrow": "Phase 2",
+        "title": "Your <span class=\"hl\">6-month</span> journey starts here"
+      }
+    },
+    {
+      "layout": "section-divider",
+      "content": {
+        "title": "Chào mừng đến với <span class=\"gold\">Cất Cánh</span>"
+      }
+    }
+  ]
+}

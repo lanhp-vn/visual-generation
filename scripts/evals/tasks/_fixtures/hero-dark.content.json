@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "format": "deck-16x9",
+    "lang": "en",
+    "title": "Cất Cánh Fellowship - Hero Layout Fixture (Dark)",
+    "theme": "dark"
+  },
+  "slides": [
+    {
+      "layout": "hero",
+      "content": {
+        "eyebrow": "Cohort 1 Kickoff",
+        "title": "<span class=\"hl\">Cất Cánh</span> Fellowship 2026",
+        "date": "June 20, 2026",
+        "tagline": "The whole Cất Cánh Community, together for the first time.",
+        "sparkles": [
+          { "x": 220, "y": 150, "size": 44, "tone": "gold" },
+          { "x": 1560, "y": 760, "size": 60, "tone": "green" },
+          { "x": 1620, "y": 300, "size": 30, "tone": "gold" }
+        ]
+      }
+    },
+    {
+      "layout": "hero",
+      "content": {
+        "kicker": "Cất Cánh (Takeoff) Fellowship 2026 · Cohort 1",
+        "title_size": 104,
+        "title": "We are taking off, <span class=\"hl\">together.</span>",
+        "sub": "Cameras on for our Day One photo",
+        "sub_gold": true,
+        "tagline": "This is the first time the whole community is in one place. Smile, wave, and let us capture it.",
+        "sparkles": [
+          { "x": 300, "y": 170, "size": 50, "tone": "gold" },
+          { "x": 1540, "y": 230, "size": 40, "tone": "green" },
+          { "x": 340, "y": 800, "size": 34, "tone": "gold" },
+          { "x": 1560, "y": 820, "size": 48, "tone": "green" }
+        ]
+      }
+    }
+  ]
+}

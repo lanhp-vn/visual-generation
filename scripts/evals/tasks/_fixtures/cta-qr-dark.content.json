@@ -1,0 +1,35 @@
+{
+  "meta": {
+    "format": "deck-16x9",
+    "theme": "dark",
+    "title": "cta-qr fixture - kickoff Slide 11 (dark)"
+  },
+  "slides": [
+    {
+      "layout": "cta-qr",
+      "content": {
+        "title": "What's next, and <span class=\"gold\">thank you</span>",
+        "heading": "What's next",
+        "blocks": [
+          {
+            "text": "Join the <b>Cất Cánh (Takeoff) Fellowship</b> Facebook Group."
+          },
+          {
+            "text": "<b>First workshop, Cất Cánh Pathway:</b> Tìm hiểu về Du học tại Đài Loan.",
+            "sub": "Chủ Nhật, 21/06/2026 · 19:00 to 21:00 (giờ Việt Nam)"
+          },
+          {
+            "text": "<b>Coming to your inbox:</b> the detailed 6-month program documents, the Local Ambassador Notebook, and a Homework 1 preview."
+          }
+        ],
+        "qr": {
+          "url": "https://forms.gle/sGrc2sXojs4ZqydR6",
+          "caption": "Send your questions to the Ambassadors before the workshop",
+          "label": "forms.gle/sGrc2sXojs4ZqydR6"
+        },
+        "footer": "Thank you to our <span class=\"hl\">founding sponsors</span> and <span class=\"gold\">speakers</span>.",
+        "closing": "We'll stay in the room for a few more minutes for any questions."
+      }
+    }
+  ]
+}

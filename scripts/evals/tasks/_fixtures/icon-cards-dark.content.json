@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "format": "deck-16x9",
+    "lang": "en",
+    "theme": "dark",
+    "title": "Cất Cánh Fellowship 2026 Icon Cards (Dark)"
+  },
+  "slides": [
+    {
+      "layout": "icon-cards",
+      "content": {
+        "eyebrow": "Why we are here",
+        "title": "Why Cất Cánh, and <span class=\"hl\">why you</span>",
+        "cards": [
+          {
+            "icon": "compass",
+            "heading": "Why Cất Cánh exists",
+            "body": "To help talented Vietnamese students find their direction abroad, with guidance from those who have walked the path before."
+          },
+          {
+            "icon": "users",
+            "heading": "Why this cohort",
+            "body": "You were selected from a strong applicant pool for your potential, your drive, and your readiness to take the next step."
+          }
+        ],
+        "pullquote": "\"You were chosen <span class=\"gold\">on purpose</span>, not by chance.\""
+      }
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "meta": {"lang": "en", "audience": "donors", "format": "one-pager-landscape",
+           "title": "Cất Cánh (Takeoff) Fellowship - Donor One-pager"},
+  "slides": [{"layout": "one-pager-3col", "content": {
+    "header": {
+      "title": "Cất Cánh (Takeoff) Fellowship",
+      "subtitle": "The launch pad for Viet talent",
+      "founder": "Founded by Dr. Loi Nguyen (Exec VP Emeritus, Marvell) & VISEMI Foundation"
+    },
+    "gaps": [
+      {"icon": "globe", "lead": "Talent Gap:", "body": "A massive global shortage of technical professionals in high-level semiconductors and advanced tech."},
+      {"icon": "grad-cap", "lead": "Overseas Pathways:", "body": "With limited local MS and PhD opportunities, fully funded programs in regions like the USA or Taiwan offer the strongest paths for talented STEM students."},
+      {"icon": "alert", "lead": "Systemic Barriers:", "body": "Surveys and interviews reveal that STEM talent faces financial, language, and strategic roadblocks limiting their access to overseas education."}
+    ],
+    "bridge": [
+      {"icon": "target", "lead": "Intensive Prep:", "body": "Structured English training and application coaching."},
+      {"icon": "grad-cap-dollar", "lead": "Milestone Funding:", "body": "Up to $15K per student via a tiered financial support system, covering basic needs, qualified exams, application fees, conferences."},
+      {"icon": "network", "lead": "Global Mentorship:", "body": "Pair with VISEMI ambassadors & worldwide experts."},
+      {"icon": "flywheel", "lead": "The Alumni Flywheel:", "body": "Every fellow commits to mentoring the next cohort, ensuring sustainable growth."}
+    ],
+    "impacts": {
+      "roi": {"headline": "7x to 20x ROI",
+              "body": "A ~$10K Prep Grant can unlock fully-funded scholarships worth ~$70K (MS) to ~$200K (PhD)."},
+      "stats": [
+        {"number": "15", "color": "var(--green)", "label": "Fellows Funded", "sub": "Year 1 Target",
+         "body": "Achieve 80%+ admission success rate with a funding of $150K for grants & operations."},
+        {"number": "150", "color": "var(--navy)", "label": "Fellows Funded", "sub": "5-Year Vision",
+         "body": "Escalate to a global Viet tech talent network with a budget under $2M."}
+      ],
+      "qr_caption": "Scan the QR code to fill out our Partner Interest Form and connect with our founding team."
+    }
+  }}]
+}

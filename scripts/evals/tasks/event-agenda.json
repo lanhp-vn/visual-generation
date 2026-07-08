@@ -1,0 +1,9 @@
+{
+  "id": "event-agenda",
+  "description": "Render the event agenda / run-of-show slide faithfully: eyebrow, highlighted title, and a numbered list of agenda items with optional sub-lines.",
+  "content": "scripts/evals/tasks/_fixtures/agenda.content.json",
+  "required_strings": ["Cất Cánh", "Run of show", "Welcome and opening", "Your 6-month journey ahead", "thế hệ đi trước"],
+  "forbidden_strings": ["Cat Canh"],
+  "expected_page_px": [1920, 1080],
+  "trials": 1
+}

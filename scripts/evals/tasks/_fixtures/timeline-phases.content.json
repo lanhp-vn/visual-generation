@@ -1,0 +1,39 @@
+{
+  "meta": {
+    "format": "deck-16x9",
+    "lang": "vi",
+    "title": "Cất Cánh Fellowship 2026 Timeline Phases",
+    "theme": "light"
+  },
+  "slides": [
+    {
+      "layout": "timeline-phases",
+      "content": {
+        "title": "Your <span class=\"gold\">6-month</span> journey",
+        "phases": [
+          {
+            "tag": "Phase I · Orientation",
+            "title": "Find your direction",
+            "bullets": [
+              "Choose target country and level (MS, PhD, or both)",
+              "Understand the systems (US, Taiwan, Korea, Japan, Europe)",
+              "Pick schools, labs, and professors",
+              "Build a funding and scholarship strategy"
+            ],
+            "outcome": "a direction report and a target list of schools, labs, and professors."
+          },
+          {
+            "tag": "Phase II · Application prep",
+            "title": "Build your application",
+            "body": "Academic CV, SOP, self-introduction, interview prep, and presenting your research interest with confidence.",
+            "outcome": "CV and SOP drafts, which unlock your 1:1 matching."
+          }
+        ],
+        "notes": [
+          "<b>Office Hours and 1:1 with Ambassadors:</b> book once you have a CV / SOP, a target list, and 3 to 5 specific questions.",
+          "<b>Throughout:</b> VISEMI tracks progress and coordinates workshops, deadlines, and Fellow-Ambassador matching."
+        ]
+      }
+    }
+  ]
+}

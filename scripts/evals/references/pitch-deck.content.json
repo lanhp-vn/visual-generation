@@ -1,0 +1,93 @@
+{
+  "meta": {"lang": "en", "audience": "donors", "format": "deck-16x9",
+           "title": "Cất Cánh (Takeoff) Fellowship Program"},
+  "slides": [
+    {"layout": "title", "content": {
+      "title": "Cất Cánh (Takeoff) Fellowship Program",
+      "subtitle_vi": "Bệ phóng cho trí tuệ Việt",
+      "subtitle_en": "The launch pad for Viet talent",
+      "footer": "Founded by Dr. Loi Nguyen & VISEMI Foundation"}},
+
+    {"layout": "gaps-bridge", "content": {
+      "title": "Cất Cánh (Takeoff) Fellowship Introduction",
+      "meta_band": "Founded by Dr. Loi Nguyen (Executive VP Emeritus, Marvell) & VISEMI Foundation",
+      "gaps": [
+        {"icon": "globe", "lead": "", "body": "Global technical talent shortage in high-level semiconductors and advanced tech."},
+        {"icon": "grad-cap", "lead": "", "body": "With limited local MS and PhD opportunities, fully funded programs in the USA, Taiwan, Korea, Japan, and the EU offer strong paths for talented STEM students."},
+        {"icon": "alert", "lead": "", "body": "Based on surveys and interviews, top STEM talent faces severe financial, language, and strategic barriers that limit access to overseas education."}
+      ],
+      "bridge": [
+        {"icon": "rocket", "lead": "", "body": "Delivers a structured 6-month accelerator to help students successfully pursue fully funded graduate programs overseas."},
+        {"icon": "grad-cap-dollar", "lead": "", "body": "Breaks down barriers via a tiered financial support and milestone-based financial funding."},
+        {"icon": "network", "lead": "", "body": "Connects fellows with VISEMI's network of local ambassadors and tech leaders."},
+        {"icon": "users", "lead": "", "body": "Builds an alumni flywheel model where every fellow commits to mentoring the next cohort."}
+      ]}},
+
+    {"layout": "pillars-tiers", "content": {
+      "title": "6-Month Accelerator Program (06/26 - 12/26)",
+      "pillars": [
+        {"icon": "clipboard", "title": "Pillar 1: Intensive Preparation",
+         "body": "Structured English training and strategic application coaching."},
+        {"icon": "presentation", "title": "Pillar 2: Milestone Funding",
+         "body": "Up to $15K per student covering English learning, testing, conference, application, and basic needs."},
+        {"icon": "rocket", "title": "Pillar 3: Global Mentorship",
+         "body": "Pair with local ambassadors and worldwide experts for application coaching and long-term placement strategy."}
+      ],
+      "tiers_heading": "Tiered Financial Support",
+      "tiers": [
+        {"variant": "navy", "title": "Tier 1: Full Support Grant ($8K-$15K)",
+         "body": "Full support for students with excellent academic records and documented financial hardship."},
+        {"variant": "green", "title": "Tier 2: Application Grant ($4K-$5K)",
+         "body": "Targeted funding for English and application gaps."},
+        {"variant": "light", "title": "Tier 3 & 4: Mentorship Grant (~$1K)",
+         "body": "Strategic network access and early research exposure."}
+      ]}},
+
+    {"layout": "impact-roi", "content": {
+      "title": "Transformative Impact with Unmatched ROI",
+      "stats": [
+        {"variant": "navy", "number": "15", "label": "Fellows Funded (Year 1 Target)",
+         "bullets": ["80%+ admission success rate.", "$150K fundraising target for grants & operations."]},
+        {"variant": "green", "number": "150", "label": "Fellows Funded (5-Year Goal)",
+         "bullets": ["Escalate to a global Viet tech talent network with a budget under $2M."]}
+      ],
+      "flow": {
+        "grant": {"title": "Cất Cánh Prep Grant*", "headline": "~$10,000", "body": "resolves existing roadblocks."},
+        "roi": {"headline": "7x to 20x ROI", "body": "driven by the 6-month accelerator program."},
+        "scholarship": {"title": "Fully-Funded Scholarship**",
+          "rows": [{"label": "Average MS Program", "figure": "$70,000"},
+                   {"label": "Average PhD Program", "figure": "$200,000"}]}
+      },
+      "footnotes": [
+        "*An individual grant to bridge English language, research, admission fees.",
+        "**Total degree value, paid entirely by the destination host university or secured scholarship programs."
+      ]}},
+
+    {"layout": "donor-tiers", "content": {
+      "title": "Partner With Us to Nurture Viet Talent",
+      "tiers": [
+        {"name": "Founding Partner", "amount": "$50,000+", "bullets": [
+          "A seat on the Cất Cánh Advisory Board.",
+          "Quarterly strategy dialogues with program leadership.",
+          "Featured on website, impact report, and media announcements.",
+          "Curated access to fellows and alumni for mentoring and talent."]},
+        {"name": "Leadership Circle", "amount": "$25,000+", "bullets": [
+          "Invitation to an annual leadership roundtable with Founding Partners and mentors.",
+          "Featured on the website and in the annual impact report.",
+          "Curated introductions to selected fellows in relevant fields."]},
+        {"name": "Strategic Fellow Sponsor", "amount": "$10,000", "bullets": [
+          "Name one Cất Cánh Strategic Fellow.",
+          "Donor name on the fellow's profile and program materials.",
+          "Recognition in announcements, impact reports, and websites."]},
+        {"name": "Application Grantor", "amount": "$5,000", "bullets": [
+          "Recognition in announcements, impact reports, and websites.",
+          "Invitation to selected networking and program events.",
+          "Group briefing on cohort outcomes at the end of the cycle."]},
+        {"name": "Ecosystem Contributor", "amount": "$500+", "bullets": [
+          "Name listed on Cất Cánh donor pages and in the impact report.",
+          "Invitation to VISEMI community events where feasible."]}
+      ],
+      "qr_caption": "Scan the QR code to fill out our Partner Interest Form and connect with our founding team.",
+      "footer": "The Cất Cánh Fellowship Program, founded by Dr. Loi Nguyen and VISEMI Foundation, is administered by VISEMI Foundation, a registered 501(c)(3) nonprofit organization, ensuring transparent and tax-deductible support.\nvisemi.org | catcanh@visemi.org"}}
+  ]
+}

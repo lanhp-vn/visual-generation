@@ -1,0 +1,10 @@
+{
+  "id": "donor-one-pager",
+  "description": "Reproduce the donor one-pager faithfully (three zones: Gaps, Bridge, Impacts).",
+  "content": "scripts/evals/references/one-pager.content.json",
+  "required_strings": ["The Gaps", "The Bridge", "The Impacts", "7x to 20x ROI",
+                       "$15K", "$150K", "Cất Cánh (Takeoff) Fellowship"],
+  "forbidden_strings": ["Cat Canh"],
+  "expected_page_px": [1920, 1080],
+  "trials": 1
+}

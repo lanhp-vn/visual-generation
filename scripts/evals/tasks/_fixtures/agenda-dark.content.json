@@ -1,0 +1,25 @@
+{
+  "meta": {
+    "format": "deck-16x9",
+    "lang": "en",
+    "title": "Cất Cánh (Takeoff) Fellowship 2026 - Agenda fixture (dark)",
+    "theme": "dark"
+  },
+  "slides": [
+    {
+      "layout": "agenda",
+      "content": {
+        "eyebrow": "Run of show",
+        "title": "Today's <span class=\"hl\">journey</span>",
+        "items": [
+          { "text": "Welcome and opening", "sub": "VISEMI Core Team" },
+          { "text": "Why Cất Cánh, and why you" },
+          { "text": "A conversation with the founders", "sub": "thế hệ đi trước" },
+          { "text": "Stories from our local ambassadors" },
+          { "text": "Your 6-month journey ahead", "sub": "Orientation to application prep" },
+          { "text": "A message to Cohort 1, and community moments" }
+        ]
+      }
+    }
+  ]
+}

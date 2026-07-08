@@ -1,0 +1,16 @@
+{
+  "meta": {"lang": "en", "audience": "fellows", "format": "deck-16x9", "theme": "dark",
+           "title": "Cất Cánh (Takeoff) Fellowship: By the Numbers"},
+  "slides": [
+    {"layout": "stat-grid", "content": {
+      "eyebrow": "By the numbers",
+      "title": "This is just the <span class=\"gold\">beginning.</span>",
+      "stats": [
+        {"num": "3", "unit": "months", "label": "Recruitment, from application to interview"},
+        {"num": "30", "unit": "reviewers", "label": "Reviewers and interviewers on the evaluation committee"},
+        {"num": "65", "unit": "fellows", "label": "Our inaugural Cohort 1"},
+        {"num": "40", "unit": "ambassadors", "label": "Local mentors walking alongside you"},
+        {"num": "6", "unit": "months", "label": "The journey ahead"}
+      ]}}
+  ]
+}

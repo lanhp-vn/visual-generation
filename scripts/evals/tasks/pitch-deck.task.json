@@ -1,0 +1,12 @@
+{
+  "id": "donor-pitch-deck",
+  "description": "Reproduce the 5-slide donor pitch deck faithfully (title, Gaps->Bridge, pillars+tiers, impact/ROI, donor tiers).",
+  "content": "scripts/evals/references/pitch-deck.content.json",
+  "required_strings": ["Cất Cánh (Takeoff) Fellowship Introduction",
+                       "6-Month Accelerator Program", "Tiered Financial Support",
+                       "Transformative Impact with Unmatched ROI", "Partner With Us to Nurture Viet Talent",
+                       "$70,000", "$200,000", "$50,000+", "501(c)(3)"],
+  "forbidden_strings": ["Cat Canh"],
+  "expected_page_px": [1920, 1080],
+  "trials": 1
+}
