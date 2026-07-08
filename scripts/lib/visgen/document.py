@@ -26,7 +26,8 @@ def parse_frontmatter(text: str) -> tuple[dict, str]:
     m = _FRONT_MATTER.match(text)
     if not m:
         raise SchemaError("document must start with a YAML front-matter block delimited by '---'")
-    meta = yaml.safe_load(m.group(1)) or {}
+    raw = yaml.safe_load(m.group(1))
+    meta = {} if raw is None else raw
     if not isinstance(meta, dict):
         raise SchemaError("front-matter must be a mapping")
     return meta, text[m.end():]

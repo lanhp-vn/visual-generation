@@ -39,6 +39,19 @@ def test_parse_frontmatter_requires_fence():
         parse_frontmatter("# no front-matter here\n")
 
 
+def test_parse_frontmatter_rejects_non_mapping():
+    with pytest.raises(SchemaError):
+        parse_frontmatter("---\n- a\n- b\n---\nbody\n")
+    with pytest.raises(SchemaError):
+        parse_frontmatter("---\nfalse\n---\nbody\n")
+
+
+def test_parse_frontmatter_empty_block_still_returns_empty_dict():
+    meta, body = parse_frontmatter("---\n\n---\nbody\n")
+    assert meta == {}
+    assert body == "body\n"
+
+
 def test_doc_extensions_value():
     assert DOC_EXTENSIONS == ["extra", "toc", "admonition"]
 
