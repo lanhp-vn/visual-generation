@@ -4,3 +4,4 @@ __pycache__/
 .venv/
 scripts/evals/runs/
 brand/generated/
+.claude/skills/generate-slides-workspace/
