@@ -68,11 +68,13 @@ $150,000 fundraising goal.
 
 !!! success "Progress to date"
     The 2026 application cycle drew 193 submissions, of which 174 met baseline
-    eligibility. After a Round 2 interview stage, Cohort 1 finalized at 60 fellows
-    across 14 Vietnamese institutions, funded through Tiers 2 to 4 (no full Tier 1
-    grants awarded this cycle), alongside a Tier 4 early-research pipeline confirmed
-    ahead of the June 20, 2026 kickoff. Fundraising toward the Year 1 goal is in
-    progress; the amount raised will be reported at cohort close.
+    eligibility. The initial Year 1 plan scoped roughly 15 fully funded fellows;
+    after a Round 2 interview stage, Cohort 1 was finalized at 60 fellows across
+    14 Vietnamese institutions, funded across Tiers 2 and 3 with no full Tier 1
+    grants this cycle, alongside a separate Tier 4 early-research pipeline of 15
+    candidates confirmed ahead of the June 20, 2026 kickoff. Fundraising toward
+    the Year 1 goal is in progress; the amount raised will be reported at cohort
+    close.
 
 # Impact and ROI
 
