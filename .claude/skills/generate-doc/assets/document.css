@@ -17,7 +17,11 @@ body { margin: 0; }
   @bottom-right { content: "Page " counter(page); font-size: 9pt; color: var(--muted); }
   @bottom-center { content: string(docfoot); font-size: 8.5pt; color: var(--faint); }
 }
-@page cover {
+@page :first {
+  /* the cover is always page 1: use the standard :first pseudo-class rather
+     than a custom named page (`page: cover`), which triggers a Paged.js
+     left/right-page-alternation quirk that inserts a blank filler page
+     before a named first page. */
   margin: 0;
   @top-left { content: none; } @top-right { content: none; }
   @bottom-right { content: none; } @bottom-center { content: none; }
@@ -33,7 +37,7 @@ body { margin: 0; }
 .cover-orgline { string-set: docfoot content(text); }
 
 /* ============ COVER ============ */
-.cover { page: cover; break-after: page; width: 210mm; height: 297mm;
+.cover { break-after: page; width: 210mm; height: 297mm;
   display: flex; flex-direction: column; justify-content: center;
   padding: 40mm 28mm; background: var(--bg-grad); color: var(--heading); }
 .cover-brand svg, .cover-brand img { height: 34px; width: auto; margin-bottom: 24mm; }

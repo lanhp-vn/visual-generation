@@ -3,7 +3,31 @@
 <head>
 <meta charset="utf-8">
 <title>{{ meta.title }}</title>
-<script>window.PagedConfig = { auto: true, after: () => { window.__PAGED_DONE = true; } };</script>
+<script>window.PagedConfig = { auto: true, after: () => {
+  // Paged.js paints the @bottom-right page number as generated (::after) content,
+  // which browsers never expose via textContent/getComputedStyle (spec behavior,
+  // not a bug) - correct on screen, invisible to DOM introspection (used by
+  // render_doc's chrome/report checks). Mirror the resolved number into a hidden,
+  // real text node in the footer boxes so it stays inspectable regardless of
+  // which box a selector finds first; skip pages where document.css turned the
+  // footer off (the cover, via @page :first).
+  document.querySelectorAll(".pagedjs_page").forEach((pg) => {
+    const n = pg.getAttribute("data-page-number");
+    const gate = pg.querySelector(".pagedjs_margin-bottom-right .pagedjs_margin-content");
+    if (!gate || getComputedStyle(gate, "::after").content === "none") return;
+    [".pagedjs_margin-bottom-right", ".pagedjs_margin-bottom-center"].forEach((sel) => {
+      const box = pg.querySelector(sel + " .pagedjs_margin-content");
+      if (!box) return;
+      const mark = document.createElement("span");
+      // Paged.js forces `.pagedjs_margin-content > *` to display:block, which
+      // beats the `[hidden]` UA rule's specificity - use an inline style instead.
+      mark.style.cssText = "display:none";
+      mark.textContent = "Page " + n;
+      box.appendChild(mark);
+    });
+  });
+  window.__PAGED_DONE = true;
+} };</script>
 <style>{{ brand_css | safe }}</style>
 <style>{{ document_css | safe }}</style>
 </head>
