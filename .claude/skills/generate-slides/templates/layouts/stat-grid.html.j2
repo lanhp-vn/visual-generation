@@ -1,0 +1,31 @@
+{# stat-grid layout — a row of 2-6 stat cards, each with a big number, optional
+   unit, and a label. Ported from kickoff Slide 3 (.stats / .statcard / .num /
+   .unit / .lab, green->gold accent ::before bar). Markup-only: every colour
+   comes from a CSS token via the .evt-* / named classes in themes/visemi.css
+   (identical class rules in visemi-dark.css), so this one template renders under
+   either theme. No literal brand hex appears here.
+
+   content (c):
+     title    required  — section heading (may carry <span class="hl">/<span class="gold">)
+     eyebrow  optional  — small uppercased kicker above the title
+     stats    required  — list of 2-6 {num, unit?, label}
+#}
+{% import "components.html.j2" as cx %}
+<section class="slide evt">
+  {{ cx.slide_bg(decor) }}
+  {{ cx.logo(logo) }}
+  <div class="section-head center">
+    {% if c.eyebrow %}<div class="eyebrow">{{ c.eyebrow }}</div>{% endif %}
+    <h2 class="title">{{ c.title | safe }}</h2>
+  </div>
+  <div class="stats" style="grid-template-columns:repeat({{ c.stats | length }},1fr);">
+    {% for s in c.stats %}
+    <div class="statcard">
+      <div class="num">{{ s.num }}</div>
+      {% if s.unit %}<span class="unit">{{ s.unit }}</span>{% endif %}
+      <div class="lab">{{ s.label }}</div>
+    </div>
+    {% endfor %}
+  </div>
+  {{ cx.pageno(page_num) }}
+</section>

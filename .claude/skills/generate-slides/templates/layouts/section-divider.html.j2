@@ -1,0 +1,16 @@
+{# section-divider: a minimal centred divider between deck sections.
+   Ported from the approved kickoff deck's `.section-head.center` pattern
+   (`.eyebrow` + `h2.title`) on the centred event canvas. Tokens only: every
+   colour comes from the active theme CSS, so this renders under light or dark
+   by swapping the theme file. Title may carry <span class="hl">/<span class="gold">
+   for an inline accent. #}
+{% import "components.html.j2" as c2 %}
+<section class="slide evt center">
+  {{ c2.slide_bg(decor) }}
+  {{ c2.logo(logo) }}
+  <div class="section-head center" style="margin-bottom:0;gap:30px;">
+    {% if c.eyebrow %}<div class="eyebrow">{{ c.eyebrow }}</div>{% endif %}
+    <h2 class="title" style="font-size:96px;max-width:1480px;">{{ c.title | safe }}</h2>
+  </div>
+  {{ c2.pageno(page_num) }}
+</section>

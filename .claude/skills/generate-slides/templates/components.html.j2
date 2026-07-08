@@ -1,0 +1,242 @@
+{# Reusable slide components for the Cất Cánh layouts. Brand styling comes from
+   themes/visemi.css (CSS vars + helper classes) and html-ppt base.css utilities.
+   `icon()` is an environment global (registered in html_render.build_env). #}
+
+{# Slide header: title + underline rule + corner logo (deck slides S2-S5). #}
+{% macro slide_header(title, logo) %}
+<div style="position:absolute;left:64px;right:64px;top:46px;">
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:24px;">
+    <h2 style="color:var(--navy);font-weight:700;font-size:54px;line-height:1.08;margin:0;
+               letter-spacing:-0.02em;">{{ title }}</h2>
+    {% if logo %}<div style="flex:0 0 auto;width:210px;">{{ logo | safe }}</div>{% endif %}
+  </div>
+  <div style="height:4px;background:var(--navy-200);margin-top:16px;"></div>
+</div>
+{% endmacro %}
+
+{# Green metadata band (S2 founder line). #}
+{% macro meta_band(text) %}
+<div style="background:var(--green-100);border-left:6px solid var(--green);
+            padding:18px 28px;margin:0;">
+  <p style="margin:0;color:var(--navy);font-weight:600;font-size:24px;">{{ text }}</p>
+</div>
+{% endmacro %}
+
+{# Icon + bold lead + body (one-pager columns, S2 panels). Body color inherits from
+   parent; icon_color sets the glyph tint (green for Bridge, muted navy for Gaps). #}
+{% macro icon_list_item(item, icon_color="var(--green)") %}
+<div style="display:flex;gap:18px;align-items:flex-start;">
+  <span style="color:{{ icon_color }};font-size:38px;flex:0 0 auto;line-height:1;">{{ icon(item.icon) | safe }}</span>
+  <p style="margin:0;font-size:22px;line-height:1.42;color:inherit;">
+    {% if item.lead %}<strong style="font-weight:700;">{{ item.lead }}</strong> {% endif %}{{ item.body }}</p>
+</div>
+{% endmacro %}
+
+{# Panel with heading + icon items, items distributed to fill the panel height.
+   variant: gray|navy. bar: left accent bar color. #}
+{% macro panel(title, items, variant="gray", bar="var(--navy)", title_color="var(--navy)", icon_color="var(--green)") %}
+{% set bg = "var(--light)" if variant == "gray" else "var(--navy)" %}
+{% set fg = "var(--purple)" if variant == "gray" else "var(--white)" %}
+<div style="position:relative;background:{{ bg }};color:{{ fg }};border-left:12px solid {{ bar }};
+            padding:36px 40px;height:100%;box-sizing:border-box;display:flex;flex-direction:column;">
+  <h3 style="margin:0;font-size:48px;font-weight:700;color:{{ title_color }};">{{ title }}</h3>
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:space-evenly;padding:10px 0;">
+    {% for item in items %}{{ icon_list_item(item, icon_color) }}{% endfor %}
+  </div>
+</div>
+{% endmacro %}
+
+{# Arrow. kind="block" → solid green block arrow; kind="outline" → big outlined arrow w/ text. #}
+{% macro arrow(kind="block", headline="", body="") %}
+{% if kind == "block" %}
+<div style="display:flex;align-items:center;justify-content:center;color:var(--green);font-size:64px;">
+  <svg viewBox="0 0 64 48" width="80" height="60" fill="currentColor" aria-hidden="true">
+    <path d="M0 16 h36 V4 l28 20 -28 20 V32 H0 Z"/></svg>
+</div>
+{% else %}
+<div style="text-align:center;">
+  <div style="position:relative;width:280px;height:150px;margin:0 auto;">
+    <svg viewBox="0 0 280 150" width="280" height="150" fill="var(--white)" stroke="var(--navy-300)"
+         stroke-width="3" aria-hidden="true" style="position:absolute;inset:0;">
+      <path d="M6 45 H182 V18 L274 75 182 132 V105 H6 Z"/></svg>
+    <div style="position:absolute;left:0;top:0;width:186px;height:150px;display:flex;
+                align-items:center;justify-content:center;padding:0 14px;box-sizing:border-box;">
+      <div style="color:var(--navy);font-weight:700;font-size:30px;line-height:1.05;text-align:center;">{{ headline }}</div>
+    </div>
+  </div>
+  <div style="color:var(--purple);font-size:18px;margin-top:10px;line-height:1.3;">{{ body }}</div>
+</div>
+{% endif %}
+{% endmacro %}
+
+{# Pillar card: white card with a navy offset shadow block behind. p={icon,title,body}. #}
+{% macro pillar_card(p) %}
+<div style="position:relative;">
+  <div style="position:absolute;left:10px;top:12px;right:-10px;bottom:-12px;background:var(--navy);"></div>
+  <div style="position:relative;background:var(--white);border:1px solid var(--navy-100);
+              padding:34px 30px;min-height:340px;">
+    <div style="color:var(--green);font-size:60px;line-height:1;margin-bottom:18px;">{{ icon(p.icon) | safe }}</div>
+    <h4 style="margin:0 0 14px;color:var(--navy);font-weight:700;font-size:28px;">{{ p.title }}</h4>
+    <p style="margin:0;color:var(--purple);font-size:20px;line-height:1.45;">{{ p.body }}</p>
+  </div>
+</div>
+{% endmacro %}
+
+{# Tier banner: notched (clip-path) banner. t={variant: navy|green|light, title, body}. #}
+{% macro tier_banner(t) %}
+<div class="tier-{{ t.variant }}" style="padding:22px 30px 22px 28px;
+     clip-path:polygon(0 0, calc(100% - 28px) 0, 100% 100%, 0 100%);">
+  <div style="font-weight:700;font-size:26px;">{{ t.title }}</div>
+  <div style="font-size:19px;line-height:1.4;margin-top:6px;opacity:.95;">{{ t.body }}</div>
+</div>
+{% endmacro %}
+
+{# Stat card: color top-bar + big number + label + bullets. s={variant: navy|green, number, label, bullets}. #}
+{% macro stat_card(s) %}
+{% set col = "var(--navy)" if s.variant == "navy" else "var(--green)" %}
+<div style="background:var(--white);border:1px solid var(--navy-100);box-shadow:var(--shadow);">
+  <div class="bar-{{ s.variant }}" style="height:16px;"></div>
+  <div style="display:flex;gap:24px;padding:30px 34px;align-items:center;">
+    <div style="font-weight:700;font-size:112px;line-height:.85;color:{{ col }};flex:0 0 auto;">{{ s.number }}</div>
+    <div>
+      <div style="font-weight:700;font-size:32px;color:var(--navy);line-height:1.1;">{{ s.label }}</div>
+      <ul style="margin:12px 0 0;padding-left:22px;color:var(--purple);font-size:19px;line-height:1.45;">
+        {% for b in s.bullets %}<li>{{ b }}</li>{% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endmacro %}
+
+{# Big stat: huge number + label + sub + body (one-pager Impacts column). #}
+{% macro big_stat(s) %}
+<div style="display:flex;gap:18px;align-items:flex-start;">
+  <div style="font-weight:700;font-size:84px;line-height:.85;color:{{ s.color | default('var(--navy)') }};flex:0 0 auto;">{{ s.number }}</div>
+  <div>
+    <div style="font-weight:700;font-size:24px;color:var(--navy);line-height:1.1;">{{ s.label }}</div>
+    <div style="font-weight:600;font-size:20px;color:{{ s.color | default('var(--green)') }};">{{ s.sub }}</div>
+    <div style="font-size:16px;color:var(--purple);line-height:1.35;margin-top:6px;">{{ s.body }}</div>
+  </div>
+</div>
+{% endmacro %}
+
+{# Callout card: rounded card, title + big figure + body. card={title, headline, body}. #}
+{% macro callout_card(card, border="var(--navy)") %}
+<div style="border:2px solid {{ border }};border-radius:18px;padding:26px 28px;text-align:center;background:var(--white);">
+  {% if card.title %}<div style="font-weight:700;font-size:24px;color:var(--navy);">{{ card.title }}</div>{% endif %}
+  <div style="font-weight:700;font-size:44px;color:var(--green);margin:6px 0;">{{ card.headline }}</div>
+  <div style="font-size:18px;color:var(--purple);line-height:1.4;">{{ card.body }}</div>
+</div>
+{% endmacro %}
+
+{# Scholarship card: title + label/figure rows. card={title, rows:[{label, figure}]}. #}
+{% macro scholarship_card(card) %}
+<div style="border:2px solid var(--navy);border-radius:18px;padding:24px 30px;background:var(--white);">
+  <div style="font-weight:700;font-size:26px;color:var(--navy);margin-bottom:10px;">{{ card.title }}</div>
+  {% for r in card.rows %}
+  <div style="border-top:1px solid var(--navy-100);padding:10px 0;">
+    <div style="font-size:18px;color:var(--purple);">{{ r.label }}</div>
+    <div style="font-weight:700;font-size:36px;color:var(--green);">{{ r.figure }}</div>
+  </div>
+  {% endfor %}
+</div>
+{% endmacro %}
+
+{# Donor tier: name + green amount + bullets. t={name, amount, bullets}. #}
+{% macro donor_tier(t) %}
+<div>
+  <div style="font-weight:700;font-size:30px;color:var(--navy);line-height:1.1;">{{ t.name }}
+    <span style="color:var(--green);">({{ t.amount }})</span></div>
+  <ul style="margin:7px 0 0;padding-left:24px;color:var(--purple);font-size:19px;line-height:1.4;">
+    {% for b in t.bullets %}<li>{{ b }}</li>{% endfor %}
+  </ul>
+</div>
+{% endmacro %}
+
+{# Styled placeholder box (QR, chip, portraits). #}
+{% macro placeholder(label, w, h) %}
+<div style="width:{{ w }}px;height:{{ h }}px;border:2px dashed var(--navy-200);
+     display:flex;align-items:center;justify-content:center;color:var(--caption);
+     font-size:14px;text-align:center;border-radius:8px;background:var(--light);">{{ label }}</div>
+{% endmacro %}
+
+{# =====================================================================
+   Event-deck components (ported from the approved Cohort 1 kickoff deck).
+   Markup-only macros; all visual styling lives in the `.evt-*` and shared
+   class rules in themes/visemi.css + visemi-dark.css, which reference CSS
+   tokens only. One layout renders under either theme by swapping the theme
+   CSS. No literal brand hex appears in any macro below; dynamic values use
+   tokens (var(--...)).
+   ===================================================================== #}
+
+{# Decoration layer: faint dot-grid + an in-bounds corner glow + an optional
+   sparkles container. All three are kept fully inside the 1920x1080 box (no
+   negative offsets / transforms that would inflate scrollHeight). Pass the
+   renderer's `decor` flag; when false, nothing is emitted. `sparkles` is an
+   optional list of {x, y, size, tone} dicts (tone: green|gold|green-soft). #}
+{% macro slide_bg(decor=True, sparkles=None) %}
+{% if decor %}
+<div class="slide-bg-dots" aria-hidden="true"></div>
+<div class="slide-bg-glow" aria-hidden="true"></div>
+{% if sparkles %}
+<div class="sparkles" aria-hidden="true">
+  {% for s in sparkles %}{{ sparkle(s.x, s.y, s.size, s.tone | default("gold")) }}{% endfor %}
+</div>
+{% endif %}
+{% endif %}
+{% endmacro %}
+
+{# One decorative 4-point sparkle, positioned absolutely inside the slide box.
+   Color comes from a token via currentColor (no literal hex in the macro);
+   tone selects the token. x/y are px from top-left; size is the px square. #}
+{% macro sparkle(x, y, size, tone="gold") %}
+{% set tones = {"gold":"var(--gold-fill)","green":"var(--green)","green-soft":"var(--green-soft)","navy":"var(--navy)"} %}
+<svg class="spark" style="top:{{ y }}px;left:{{ x }}px;width:{{ size }}px;height:{{ size }}px;color:{{ tones[tone] | default('var(--gold-fill)') }};"
+     viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z" fill="currentColor"/></svg>
+{% endmacro %}
+
+{# Corner logo (theme-aware mark passed in by the renderer as `active_logo`). #}
+{% macro logo(active_logo) %}
+{% if active_logo %}<div class="logo">{{ active_logo | safe }}</div>{% endif %}
+{% endmacro %}
+
+{# Slide page number (bottom-right). #}
+{% macro pageno(n) %}
+<div class="pageno">{{ n }}</div>
+{% endmacro %}
+
+{# Icon circle / rounded-square chip with a tinted background. tone selects the
+   accent ring token (green default, gold for emphasis). `icon` is an inline SVG
+   string (e.g. from the icon() global) coloured by currentColor. #}
+{% macro icon_circle(icon, tone="green") %}
+<div class="evt-ic evt-ic-{{ tone }}">{{ icon | safe }}</div>
+{% endmacro %}
+
+{# Generic event card: a boxed surface with optional accent top-bar. `accent`
+   true draws the green->gold top bar (stat-card style). The caller fills the
+   body via `caller()`. #}
+{% macro card(accent=False, extra_class="") %}
+<div class="evt-card{% if accent %} evt-card-accent{% endif %}{% if extra_class %} {{ extra_class }}{% endif %}">
+  {{ caller() }}
+</div>
+{% endmacro %}
+
+{# Person avatar: a round chip with the person's photo when present, else the
+   initials derived from person.name. `tone` selects the ring colour token
+   (green default; pass "gold" for an alternating accent). #}
+{% macro avatar(person, tone="green") %}
+{% if person.photo %}
+<div class="avatar avatar-{{ tone }}" style="background-image:url('{{ person.photo }}');background-size:cover;background-position:center;"></div>
+{% else %}
+<div class="avatar avatar-{{ tone }}">{{ person.initials if person.initials else initials(person.name) }}</div>
+{% endif %}
+{% endmacro %}
+
+{# Initials helper: first letter of each of the last two name words, uppercased.
+   Keeps Vietnamese diacritics on the source word but takes the leading glyph. #}
+{% macro initials(name) %}
+{%- set parts = (name | string).split() -%}
+{%- if parts | length >= 2 -%}{{ (parts[-2][0] ~ parts[-1][0]) | upper }}
+{%- elif parts | length == 1 -%}{{ parts[0][0] | upper }}
+{%- endif -%}
+{% endmacro %}

@@ -1,0 +1,21 @@
+{% import "components.html.j2" as cm %}
+<section class="slide" style="display:flex;flex-direction:column;background:var(--white);padding:0;">
+  {{ cm.slide_header(c.title, logo_color) }}
+
+  <div style="margin-top:150px;padding:10px 64px 0;">
+    {# 3 pillar cards #}
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:36px;">
+      {% for p in c.pillars %}{{ cm.pillar_card(p) }}{% endfor %}
+    </div>
+
+    {# tiered financial support #}
+    <h2 style="margin:44px 0 18px;color:var(--navy);font-weight:700;font-size:40px;">
+      {{ c.tiers_heading | default("Tiered Financial Support") }}</h2>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      {% for t in c.tiers %}
+      <div style="width:{{ 760 + loop.index0 * 60 }}px;margin-left:{{ loop.index0 * 90 }}px;">{{ cm.tier_banner(t) }}</div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="page-num">{{ page_num }}</div>
+</section>

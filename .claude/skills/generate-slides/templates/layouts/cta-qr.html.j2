@@ -1,0 +1,52 @@
+{# cta-qr layout - a closing "what's next" call-to-action with a scannable QR.
+   Ported from the approved kickoff deck Slide 11 (.next-layout / .block / .qr-card
+   / .qrbox / .qr-cap / .qr-url / .thanks-strip / .closing-line). All visual styling
+   lives in themes/visemi.css(+dark) via those class rules; this template references
+   component macros + CSS tokens only and carries no literal brand hex.
+
+   The QR SVG is injected by the renderer (html_render.py calls qr_svg(c.qr.url) and
+   passes the responsive markup in as `qr_svg_markup`); the template falls back to the
+   qr_svg() global when rendered standalone. The SVG is brand-lint exempt (vendored svg).
+
+   content (c):
+     title    required - heading; may carry inline <span class="hl">/<span class="gold">.
+     blocks   required - left-column bullets; list of {text, sub?} (sub -> small .when line).
+     qr       required - {url (required), caption?, label?}.
+     eyebrow  optional - small uppercase kicker above the title.
+     heading  optional - heading shown inside the left .block (default "What's next").
+     footer   optional - .thanks-strip band (HTML; may carry .hl/.gold spans).
+     closing  optional - italic .closing-line under the strip.
+   Tokens only: every colour lives in the named classes in the theme CSS. #}
+{% import "components.html.j2" as cm %}
+{% set qr = c.qr %}
+{% set qr_markup = qr_svg_markup if qr_svg_markup is defined and qr_svg_markup else qr_svg(qr.url) %}
+<section class="slide evt">
+  {{ cm.slide_bg(decor) }}
+  {{ cm.logo(logo) }}
+
+  <div class="section-head">
+    {% if c.eyebrow %}<div class="eyebrow left">{{ c.eyebrow }}</div>{% endif %}
+    <h2 class="title">{{ c.title | safe }}</h2>
+  </div>
+
+  <div class="next-layout">
+    <div class="block next">
+      <h3>{{ c.heading | default("What's next") | safe }}</h3>
+      <ul>
+        {% for b in c.blocks %}
+        <li>{{ b.text | safe }}{% if b.sub %}<span class="when">{{ b.sub | safe }}</span>{% endif %}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="qr-card">
+      {% if qr.caption %}<div class="qr-cap">{{ qr.caption | safe }}</div>{% endif %}
+      <div class="qrbox">{{ qr_markup | safe }}</div>
+      {% if qr.label %}<div class="qr-url">{{ qr.label }}</div>{% endif %}
+    </div>
+  </div>
+
+  {% if c.footer %}<div class="thanks-strip">{{ c.footer | safe }}</div>{% endif %}
+  {% if c.closing %}<div class="closing-line">{{ c.closing | safe }}</div>{% endif %}
+
+  {{ cm.pageno(page_num) }}
+</section>

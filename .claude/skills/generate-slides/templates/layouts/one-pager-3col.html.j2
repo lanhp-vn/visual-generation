@@ -1,0 +1,84 @@
+{% import "components.html.j2" as cm %}
+<section class="slide" style="display:flex;flex-direction:row;align-items:stretch;justify-content:flex-start;background:var(--white);">
+
+  {# ===== LEFT 2/3: header on top, then Gaps | Bridge fill the rest ===== #}
+  <div style="flex:0 0 1280px;display:flex;flex-direction:column;">
+
+    {# header band #}
+    <div style="display:flex;gap:24px;align-items:center;padding:34px 40px 24px;">
+      <div style="flex:0 0 132px;">{{ logo_color | safe }}</div>
+      <div style="flex:1;">
+        <h1 style="margin:0;color:var(--navy);font-weight:700;font-size:68px;line-height:1.0;
+                   letter-spacing:-0.02em;">{{ c.header.title }}</h1>
+        <p style="margin:12px 0 0;font-size:38px;font-weight:700;color:var(--green);line-height:1.05;">
+          <span style="color:var(--green);">|</span> {{ c.header.subtitle }}</p>
+        <p style="margin:14px 0 0;font-size:23px;color:var(--purple);line-height:1.3;">{{ c.header.founder }}</p>
+      </div>
+    </div>
+
+    {# Gaps | Bridge #}
+    <div style="flex:1;display:flex;align-items:stretch;">
+      {# The Gaps — navy panel #}
+      <div style="flex:0 0 500px;background:var(--navy);color:var(--white);padding:36px 40px;
+                  box-sizing:border-box;display:flex;flex-direction:column;">
+        <h2 style="margin:0;font-size:54px;font-weight:700;color:var(--white);">The Gaps</h2>
+        <div style="flex:1;display:flex;flex-direction:column;justify-content:space-evenly;padding:8px 0;">
+          {% for item in c.gaps %}
+          <div style="display:flex;gap:18px;align-items:flex-start;">
+            <span style="color:var(--navy-200);font-size:42px;flex:0 0 auto;line-height:1;">{{ icon(item.icon) | safe }}</span>
+            <p style="margin:0;font-size:22px;line-height:1.42;color:inherit;">
+              <strong style="font-weight:700;">{{ item.lead }}</strong> {{ item.body }}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {# The Bridge — light gray panel #}
+      <div style="flex:1;background:var(--light);color:var(--purple);padding:36px 44px;
+                  box-sizing:border-box;display:flex;flex-direction:column;">
+        <h2 style="margin:0;font-size:52px;font-weight:700;line-height:1.05;">
+          <span style="color:var(--navy);">The Bridge:</span><br>
+          <span style="color:var(--green);">A 6-Month Accelerator</span></h2>
+        <div style="flex:1;display:flex;flex-direction:column;justify-content:space-evenly;padding:8px 0;">
+          {% for item in c.bridge %}
+          <div style="display:flex;gap:18px;align-items:flex-start;">
+            <span style="color:var(--green);font-size:40px;flex:0 0 auto;line-height:1;">{{ icon(item.icon) | safe }}</span>
+            <p style="margin:0;font-size:21px;line-height:1.4;color:inherit;">
+              <strong style="font-weight:700;">{{ item.lead }}</strong> {{ item.body }}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# ===== RIGHT 1/3: green Impacts column, cards fill full height ===== #}
+  <div style="flex:1;background:var(--green);display:flex;flex-direction:column;gap:12px;padding:28px 26px;">
+    <h2 style="margin:0;font-size:46px;font-weight:700;color:var(--white);flex:0 0 auto;">The Impacts</h2>
+
+    {# ROI card #}
+    <div style="flex:1;background:var(--white);padding:16px 26px;display:flex;flex-direction:column;
+                justify-content:center;text-align:center;">
+      <div style="font-weight:700;font-size:48px;color:var(--navy);line-height:1;">{{ c.impacts.roi.headline }}</div>
+      <div style="font-size:19px;color:var(--purple);line-height:1.35;margin-top:8px;">{{ c.impacts.roi.body }}</div>
+    </div>
+
+    {# stat cards #}
+    {% for s in c.impacts.stats %}
+    <div style="flex:1;background:var(--white);padding:14px 26px;display:flex;gap:18px;align-items:center;">
+      <div style="font-weight:700;font-size:100px;line-height:.8;color:{{ s.color }};flex:0 0 auto;">{{ s.number }}</div>
+      <div>
+        <div style="font-weight:700;font-size:26px;color:var(--navy);line-height:1.05;">{{ s.label }}</div>
+        <div style="font-weight:700;font-size:23px;color:{{ s.color }};">{{ s.sub }}</div>
+        <div style="font-size:16px;color:var(--purple);line-height:1.3;margin-top:5px;">{{ s.body }}</div>
+      </div>
+    </div>
+    {% endfor %}
+
+    {# QR card #}
+    <div style="flex:1;background:var(--white);padding:14px 26px;display:flex;gap:18px;align-items:center;">
+      <p style="margin:0;flex:1;font-size:18px;color:var(--navy);font-weight:600;line-height:1.4;">{{ c.impacts.qr_caption }}</p>
+      <div style="flex:0 0 auto;">{{ cm.placeholder("QR code", 150, 150) }}</div>
+    </div>
+  </div>
+
+</section>

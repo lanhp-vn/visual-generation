@@ -1,0 +1,32 @@
+{# agenda layout - a numbered run-of-show list.
+   Ported from kickoff.html Slide 4 (.agenda / .agenda-item / .n / .t / .when).
+   The .slide.evt element is itself the padded, vertically-centred flex container
+   (its rule wins over the base print-CSS), so content sits as direct children -
+   exactly like the approved kickoff deck. content (c):
+     title   required - heading; may carry inline <span class="hl">/<span class="gold">.
+     items   required - list of {text, sub?}; rendered as numbered cards.
+     eyebrow optional - small uppercase kicker above the title.
+   Layout uses one column when items <= 4, otherwise two (look matches kickoff).
+   Tokens only: every colour lives in the named classes in the theme CSS. #}
+{% import "components.html.j2" as ui %}
+{# c["items"] (not c.items): Jinja attribute lookup would resolve `items` to the
+   dict.items() method, so the content key is read via subscript. #}
+{% set agenda_items = c["items"] %}
+{% set one_col = (agenda_items | length) <= 4 %}
+<section class="slide evt">
+  {{ ui.slide_bg(decor) }}
+  {{ ui.logo(logo) }}
+  <div class="section-head">
+    {% if c.eyebrow %}<div class="eyebrow left">{{ c.eyebrow }}</div>{% endif %}
+    <h2 class="title">{{ c.title | safe }}</h2>
+  </div>
+  <div class="agenda{% if one_col %} cols-1{% endif %}">
+    {% for item in agenda_items %}
+    <div class="agenda-item">
+      <div class="n">{{ loop.index }}</div>
+      <div class="t">{{ item.text | safe }}{% if item.sub %}<small>{{ item.sub | safe }}</small>{% endif %}</div>
+    </div>
+    {% endfor %}
+  </div>
+  {{ ui.pageno(page_num) }}
+</section>

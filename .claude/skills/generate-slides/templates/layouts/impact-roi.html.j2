@@ -1,0 +1,24 @@
+{% import "components.html.j2" as cm %}
+<section class="slide" style="display:flex;flex-direction:column;background:var(--white);padding:0;">
+  {{ cm.slide_header(c.title, logo_color) }}
+
+  <div style="margin-top:150px;padding:8px 64px 0;display:flex;flex-direction:column;gap:30px;">
+    {# two stat cards on a light band #}
+    <div style="background:var(--light);padding:28px 30px;display:grid;grid-template-columns:repeat(2,1fr);gap:30px;">
+      {% for s in c.stats %}{{ cm.stat_card(s) }}{% endfor %}
+    </div>
+
+    {# grant -> ROI arrow -> scholarship flow #}
+    <div style="display:flex;align-items:center;gap:18px;">
+      <div style="flex:1;">{{ cm.callout_card(c.flow.grant) }}</div>
+      <div style="flex:0 0 260px;">{{ cm.arrow("outline", c.flow.roi.headline, c.flow.roi.body) }}</div>
+      <div style="flex:1;">{{ cm.scholarship_card(c.flow.scholarship) }}</div>
+    </div>
+
+    {# footnotes #}
+    <div style="color:var(--caption);font-size:15px;line-height:1.4;">
+      {% for f in c.footnotes %}<div>{{ f }}</div>{% endfor %}
+    </div>
+  </div>
+  <div class="page-num">{{ page_num }}</div>
+</section>

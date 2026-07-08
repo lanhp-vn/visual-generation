@@ -1,0 +1,150 @@
+{# ============================================================================
+   freeform layout — the escape hatch.
+
+   Renders an ordered list of typed blocks (c.blocks) so a slide that does not fit
+   a named layout can still be composed from the same brand-locked primitives. Each
+   block is one of the vocabulary types below; every coloured surface reuses a named
+   primitive class from themes/visemi.css (+ visemi-dark.css), so the SAME markup
+   renders under either theme by swapping the theme CSS. Only arrangement geometry
+   (stacking, grid columns, sizing, centring) is set inline; NO literal brand hex
+   appears here - colours always come from the named classes' tokens.
+
+   Block vocabulary (block.type):
+     heading     {text, level?(1|2|3), eyebrow?, align?(left|center)}
+     paragraph   {text, align?(left|center), muted?(bool)}
+     bullets     {items:[str | {text, sub?}]}
+     card-grid   {cols?(2|3|4), accent?(bool), cards:[{icon?, tone?, heading?, body?}]}
+     stat-row    {stats:[{num, unit?, label}]}            (1-6; ported .statcard)
+     person-row  {people:[{name, role?, creds?[], photo?, tone?}]}  (2-3)
+     image       {src, alt?, max_h?(px), caption?}
+     qr-card     {url, caption?, label?}                  (uses .qrbox -> brand-lint exempt)
+     spacer      {size?(px, default 32)}
+
+   Inline emphasis in text fields may use <span class="hl">/<span class="gold">/
+   <span class="muted"> and <b>; those fields are passed through |safe. Source
+   sections ported from the approved kickoff deck:
+     heading/eyebrow -> .eyebrow / h1.headline / h2.title
+     paragraph       -> body text + .muted token helper
+     bullets         -> .block li (CTA section)
+     card-grid       -> .why-grid / .why-card
+     stat-row        -> .stats / .statcard
+     person-row      -> .people / .person + avatar()
+     qr-card         -> .qr-card / .qrbox / .qr-cap / .qr-url
+============================================================================ #}
+{% import "components.html.j2" as cm %}
+
+{%- macro ff_heading(b) -%}
+  {%- set lvl = b.level | default(2) -%}
+  {%- set centered = (b.align == "center") -%}
+  <div class="section-head{% if centered %} center{% endif %}" style="margin-bottom:0;gap:16px;">
+    {% if b.eyebrow %}<div class="eyebrow{% if not centered %} left{% endif %}">{{ b.eyebrow }}</div>{% endif %}
+    {% if lvl == 1 %}<h1 class="headline" style="font-size:88px;">{{ b.text | safe }}</h1>
+    {% elif lvl == 3 %}<h2 class="title" style="font-size:40px;">{{ b.text | safe }}</h2>
+    {% else %}<h2 class="title">{{ b.text | safe }}</h2>{% endif %}
+  </div>
+{%- endmacro -%}
+
+{%- macro ff_paragraph(b) -%}
+  <p class="{% if b.muted %}muted{% endif %}" style="font-size:30px;line-height:1.5;max-width:1400px;
+     {% if b.align == 'center' %}align-self:center;text-align:center;{% endif %}{% if not b.muted %}color:var(--text);{% endif %}">{{ b.text | safe }}</p>
+{%- endmacro -%}
+
+{%- macro ff_bullets(b) -%}
+  <div class="block" style="width:100%;">
+    <ul>
+      {% for it in b["items"] %}
+        {% if it is string %}
+          <li>{{ it | safe }}</li>
+        {% else %}
+          <li>{{ it.text | safe }}{% if it.sub %}<span class="when">{{ it.sub | safe }}</span>{% endif %}</li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+{%- endmacro -%}
+
+{%- macro ff_card_grid(b) -%}
+  {%- set cols = b.cols | default(b.cards | length) -%}
+  <div class="why-grid" style="grid-template-columns:repeat({{ cols }},1fr);">
+    {% for cd in b.cards %}
+    <div class="why-card{% if b.accent %} evt-card-accent{% endif %}">
+      {% if cd.icon %}<div class="ic{% if cd.tone == 'gold' %} evt-ic-gold{% endif %}">{{ icon(cd.icon) | safe }}</div>{% endif %}
+      {% if cd.heading %}<h3>{{ cd.heading | safe }}</h3>{% endif %}
+      {% if cd.body %}<p>{{ cd.body | safe }}</p>{% endif %}
+    </div>
+    {% endfor %}
+  </div>
+{%- endmacro -%}
+
+{%- macro ff_stat_row(b) -%}
+  <div class="stats" style="grid-template-columns:repeat({{ b.stats | length }},1fr);">
+    {% for s in b.stats %}
+    <div class="statcard">
+      <div class="num">{{ s.num }}</div>
+      {% if s.unit %}<span class="unit">{{ s.unit }}</span>{% endif %}
+      <div class="lab">{{ s.label | safe }}</div>
+    </div>
+    {% endfor %}
+  </div>
+{%- endmacro -%}
+
+{%- macro ff_person_row(b) -%}
+  <div class="people" style="grid-template-columns:repeat({{ b.people | length }},1fr);">
+    {% for pn in b.people %}
+    <div class="person">
+      {{ cm.avatar(pn, pn.tone | default("gold" if loop.index is even else "green")) }}
+      <div class="name">{{ pn.name }}</div>
+      {% if pn.role %}<div class="role">{{ pn.role | safe }}</div>{% endif %}
+      {% if pn.creds %}
+      <ul class="creds">
+        {% for cr in pn.creds %}<li>{{ cr | safe }}</li>{% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+{%- endmacro -%}
+
+{%- macro ff_image(b) -%}
+  <figure style="display:flex;flex-direction:column;align-items:center;gap:16px;width:100%;margin:0;">
+    <img src="{{ b.src }}" alt="{{ b.alt | default('') }}"
+         style="max-width:100%;{% if b.max_h %}max-height:{{ b.max_h }}px;{% endif %}border-radius:18px;
+         border:1px solid var(--line);box-shadow:var(--card-shadow);display:block;">
+    {% if b.caption %}<figcaption class="muted" style="font-size:24px;text-align:center;">{{ b.caption | safe }}</figcaption>{% endif %}
+  </figure>
+{%- endmacro -%}
+
+{%- macro ff_qr_card(b) -%}
+  <div class="qr-card" style="align-self:center;max-width:420px;">
+    {% if b.caption %}<div class="qr-cap">{{ b.caption | safe }}</div>{% endif %}
+    <div class="qrbox">{{ qr_svg(b.url) | safe }}</div>
+    {% if b.label %}<div class="qr-url">{{ b.label }}</div>{% endif %}
+  </div>
+{%- endmacro -%}
+
+{%- macro ff_spacer(b) -%}
+  <div aria-hidden="true" style="flex:0 0 auto;height:{{ b.size | default(32) }}px;"></div>
+{%- endmacro -%}
+
+<section class="slide evt{% if c.align == 'center' %} center{% endif %}">
+  {{ cm.slide_bg(decor, c.sparkles) }}
+  {{ cm.logo(logo) }}
+
+  <div style="display:flex;flex-direction:column;gap:34px;width:100%;
+       {% if c.align == 'center' %}align-items:center;text-align:center;{% endif %}">
+    {% for b in c.blocks %}
+      {% if b.type == "heading" %}{{ ff_heading(b) }}
+      {% elif b.type == "paragraph" %}{{ ff_paragraph(b) }}
+      {% elif b.type == "bullets" %}{{ ff_bullets(b) }}
+      {% elif b.type == "card-grid" %}{{ ff_card_grid(b) }}
+      {% elif b.type == "stat-row" %}{{ ff_stat_row(b) }}
+      {% elif b.type == "person-row" %}{{ ff_person_row(b) }}
+      {% elif b.type == "image" %}{{ ff_image(b) }}
+      {% elif b.type == "qr-card" %}{{ ff_qr_card(b) }}
+      {% elif b.type == "spacer" %}{{ ff_spacer(b) }}
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  {{ cm.pageno(page_num) }}
+</section>

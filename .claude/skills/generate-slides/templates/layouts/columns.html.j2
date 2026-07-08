@@ -1,0 +1,28 @@
+{% import "components.html.j2" as cm %}
+{# columns layout — ported from kickoff Slide 9 (.roles / .role / .spirit).
+   Fields: title (may carry <span class="hl"|"gold">), columns[] (2-4) each
+   {icon?, heading, body}, optional spirit (HTML string with .hl/.gold spans).
+   2-4 columns; the grid column count follows the number of columns so 2 and 4
+   read as balanced as the canonical 3. Tokens only; all colour lives in the
+   theme CSS via the .role/.role .ic/.spirit class rules. #}
+{% set cols = c.columns %}
+<section class="slide evt">
+  {{ cm.slide_bg(decor, c.sparkles) }}
+  {{ cm.logo(logo) }}
+
+  <div class="section-head"><h2 class="title">{{ c.title | safe }}</h2></div>
+
+  <div class="roles" style="grid-template-columns:repeat({{ cols | length }},1fr);">
+    {% for col in cols %}
+    <div class="role">
+      {% if col.icon %}<div class="ic">{{ icon(col.icon) | safe }}</div>{% endif %}
+      <h3>{{ col.heading }}</h3>
+      <p>{{ col.body | safe }}</p>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% if c.spirit %}<div class="spirit">{{ c.spirit | safe }}</div>{% endif %}
+
+  {{ cm.pageno(page_num) }}
+</section>

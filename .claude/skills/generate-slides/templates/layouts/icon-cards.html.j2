@@ -1,0 +1,24 @@
+{# icon-cards layout — ported from kickoff.html Slide 5 (.why-grid / .why-card /
+   .ic / .pullquote). A title, 2-4 icon cards (each {icon, heading, body?}), and an
+   optional pullquote. Component macros + theme classes only; no literal brand hex.
+   Renders under either theme by swapping the theme CSS. #}
+{% import "components.html.j2" as cm %}
+<section class="slide evt">
+  {{ cm.slide_bg(decor) }}
+  {{ cm.logo(logo) }}
+  <div class="section-head">
+    {% if c.eyebrow %}<div class="eyebrow left">{{ c.eyebrow }}</div>{% endif %}
+    <h2 class="title">{{ c.title | safe }}</h2>
+  </div>
+  <div class="why-grid">
+    {% for card in c.cards %}
+    <div class="why-card">
+      <div class="ic">{{ icon(card.icon) | safe }}</div>
+      <h3>{{ card.heading | safe }}</h3>
+      {% if card.body %}<p>{{ card.body | safe }}</p>{% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% if c.pullquote %}<div class="pullquote">{{ c.pullquote | safe }}</div>{% endif %}
+  {{ cm.pageno(page_num) }}
+</section>

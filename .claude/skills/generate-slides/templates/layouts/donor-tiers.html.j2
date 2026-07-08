@@ -1,0 +1,21 @@
+{% import "components.html.j2" as cm %}
+<section class="slide" style="display:flex;flex-direction:column;background:var(--white);padding:0;">
+  {{ cm.slide_header(c.title, logo_color) }}
+
+  <div style="flex:1;margin-top:168px;padding:10px 64px 0;display:flex;flex-direction:row;gap:48px;align-items:stretch;">
+    {# left: chip + QR placeholders + caption #}
+    <div style="flex:0 0 380px;display:flex;flex-direction:column;align-items:center;gap:28px;justify-content:center;">
+      {{ cm.placeholder("Chip image", 340, 250) }}
+      {{ cm.placeholder("QR code", 210, 210) }}
+      <p style="margin:0;text-align:center;font-size:19px;color:var(--navy);font-weight:600;line-height:1.4;">{{ c.qr_caption }}</p>
+    </div>
+    {# right: 5 donor tiers, distributed to fill #}
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:space-evenly;">
+      {% for t in c.tiers %}{{ cm.donor_tier(t) }}{% endfor %}
+    </div>
+  </div>
+
+  {# footer 501(c)(3) + contact #}
+  <div style="padding:14px 64px 30px;color:var(--caption);font-size:15px;line-height:1.45;white-space:pre-line;">{{ c.footer }}</div>
+  <div class="page-num">{{ page_num }}</div>
+</section>

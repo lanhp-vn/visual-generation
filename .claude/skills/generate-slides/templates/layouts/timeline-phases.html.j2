@@ -1,0 +1,41 @@
+{# timeline-phases layout — ported from kickoff Slide 8 (.journey / .phases /
+   .phase / .tag / .bullets / .out / .journey-foot / .note). Phases laid out in a
+   2-column grid (2-4 phases); each phase is a tag + title + (bulleted list OR a
+   paragraph body) + optional outcome line. Optional notes render as a footer row
+   of dashed cards. The .phase:nth-child(2) rule in the theme alternates the tag
+   colour (green / gold) automatically, so no tone is set in markup. All styling
+   lives in themes/visemi(.|-dark).css and references CSS tokens only - this
+   template carries no literal hex. Renders identically under light or dark by
+   swapping the theme CSS. #}
+{% import "components.html.j2" as cm %}
+<section class="slide evt">
+  {{ cm.slide_bg(decor, c.sparkles) }}
+  {{ cm.logo(logo) }}
+  <div class="section-head">
+    <h2 class="title">{{ c.title | safe }}</h2>
+  </div>
+  <div class="journey">
+    <div class="phases">
+      {% for p in c.phases %}
+      <div class="phase">
+        {% if p.tag %}<span class="tag">{{ p.tag }}</span>{% endif %}
+        {% if p.title %}<h3>{{ p.title | safe }}</h3>{% endif %}
+        {% if p.bullets %}
+        <ul class="bullets">
+          {% for b in p.bullets %}<li>{{ b | safe }}</li>{% endfor %}
+        </ul>
+        {% elif p.body %}
+        <p>{{ p.body | safe }}</p>
+        {% endif %}
+        {% if p.outcome %}<div class="out"><b>Outcome:</b> {{ p.outcome | safe }}</div>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% if c.notes %}
+    <div class="journey-foot">
+      {% for n in c.notes %}<div class="note">{{ n | safe }}</div>{% endfor %}
+    </div>
+    {% endif %}
+  </div>
+  {{ cm.pageno(page_num) }}
+</section>

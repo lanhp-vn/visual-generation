@@ -1,0 +1,33 @@
+{# people layout - a row of 2-3 person cards (avatar + name + role + creds).
+   Ported from the approved kickoff deck Slides 6/7 (.people / .person / .avatar
+   / .role / .creds). Styling lives entirely in themes/visemi.css(+dark) via the
+   .people/.person/.avatar/.creds class rules and the shared chrome; this template
+   references component macros + CSS tokens only and carries no literal brand hex.
+   c = {title, eyebrow?, people[] each {name, role, creds[]?, photo?}}. #}
+{% import "components.html.j2" as cm %}
+<section class="slide evt" style="padding-top:72px;padding-bottom:72px;">
+  {{ cm.slide_bg(decor) }}
+  {{ cm.logo(logo) }}
+
+  <div class="section-head" style="margin-bottom:36px;">
+    {% if c.eyebrow %}<div class="eyebrow left">{{ c.eyebrow }}</div>{% endif %}
+    <h2 class="title">{{ c.title | safe }}</h2>
+  </div>
+
+  <div class="people">
+    {% for p in c.people %}
+    <div class="person">
+      {{ cm.avatar(p, "gold" if loop.index is even else "green") }}
+      <div class="name">{{ p.name }}</div>
+      {% if p.role %}<div class="role">{{ p.role | safe }}</div>{% endif %}
+      {% if p.creds %}
+      <ul class="creds">
+        {% for cr in p.creds %}<li>{{ cr | safe }}</li>{% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+
+  {{ cm.pageno(page_num) }}
+</section>

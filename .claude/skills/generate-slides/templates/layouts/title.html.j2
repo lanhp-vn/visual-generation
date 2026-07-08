@@ -1,0 +1,21 @@
+<section class="slide title-slide" style="background:linear-gradient(135deg,#F6F6F6 0%, #CCF2E7 100%);">
+  {# faint tech-grid / diamond watermark on the right #}
+  <div style="position:absolute;inset:0;opacity:.06;pointer-events:none;
+       background-image:repeating-linear-gradient(45deg,var(--navy) 0 2px,transparent 2px 64px),
+                        repeating-linear-gradient(-45deg,var(--navy) 0 2px,transparent 2px 64px);
+       -webkit-mask-image:linear-gradient(to left, #000 0%, transparent 60%);
+       mask-image:linear-gradient(to left, #000 0%, transparent 60%);"></div>
+  <div style="position:absolute;left:64px;top:56px;width:300px;">
+    {{ logo_color | safe }}
+  </div>
+  <div style="position:absolute;left:64px;top:284px;right:96px;">
+    <h1 style="color:var(--navy);font-weight:700;font-size:108px;line-height:1.02;
+               letter-spacing:-0.02em;margin:0;">{{ c.title }}</h1>
+    <div style="width:320px;height:9px;background:var(--green);margin:34px 0 44px;"></div>
+    <p style="font-size:40px;color:var(--purple);margin:0;">
+      {{ c.subtitle_vi }} <span style="color:var(--green);font-weight:600;">|</span> {{ c.subtitle_en }}
+    </p>
+    <p style="font-size:23px;color:var(--caption);margin-top:72px;">{{ c.footer }}</p>
+  </div>
+  <div class="page-num">{{ page_num }}</div>
+</section>

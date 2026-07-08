@@ -1,0 +1,19 @@
+{# Hero layout - centred title slide (kickoff Slides 1 and 10).
+   Required: title (may carry inline <span class="hl"> / <span class="gold">).
+   Optional: eyebrow, kicker, date, sub (sub.gold via c.sub_gold), tagline,
+   sparkles (list of {x, y, size, tone} for the slide_bg macro).
+   Styling comes entirely from themes/visemi*.css (tokens only); this template
+   carries no literal hex. The `.evt` class supplies the event canvas + z-index
+   layering; `.hero` supplies the centred hero modifiers. #}
+{% import "components.html.j2" as cm %}
+<section class="slide evt center hero">
+  {{ cm.slide_bg(decor, c.sparkles) }}
+  {{ cm.logo(logo) }}
+  {% if c.eyebrow %}<div class="eyebrow">{{ c.eyebrow }}</div>{% endif %}
+  {% if c.kicker %}<div class="kicker">{{ c.kicker }}</div>{% endif %}
+  <h1 class="headline"{% if c.title_size %} style="font-size:{{ c.title_size }}px"{% endif %}>{{ c.title | safe }}</h1>
+  {% if c.date %}<div class="date">{{ c.date }}</div>{% endif %}
+  {% if c.sub %}<div class="sub{% if c.sub_gold %} gold{% endif %}">{{ c.sub | safe }}</div>{% endif %}
+  {% if c.tagline %}<div class="tagline">{{ c.tagline | safe }}</div>{% endif %}
+  {{ cm.pageno(page_num) }}
+</section>

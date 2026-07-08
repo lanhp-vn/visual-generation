@@ -1,0 +1,16 @@
+{# quote layout - big pull-quote / message slide.
+   Fields: quote (required), attribution?, eyebrow?.
+   Ported from the approved kickoff deck's .pullquote (Slide 5) + .closing-line
+   (Slide 11) + .eyebrow chrome. All colour comes from CSS tokens via the shared
+   classes in themes/visemi.css (light) / visemi-dark.css (dark); one template
+   renders under either theme. No literal brand hex appears here. The quote text
+   allows inline <span class="hl">/<span class="gold"> emphasis (|safe). #}
+{% import "components.html.j2" as cm %}
+<section class="slide evt center">
+  {{ cm.slide_bg(decor) }}
+  {{ cm.logo(logo) }}
+  {% if c.eyebrow %}<div class="eyebrow">{{ c.eyebrow }}</div>{% endif %}
+  <div class="pullquote" style="margin-top:0;font-size:72px;line-height:1.22;max-width:1480px;">{{ c.quote | safe }}</div>
+  {% if c.attribution %}<div class="closing-line" style="margin-top:40px;font-style:normal;color:var(--green-deep);">{{ c.attribution | safe }}</div>{% endif %}
+  {{ cm.pageno(page_num) }}
+</section>

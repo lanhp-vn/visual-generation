@@ -1,0 +1,21 @@
+{% import "components.html.j2" as cm %}
+<section class="slide" style="display:flex;flex-direction:column;background:var(--white);padding:0;">
+  {{ cm.slide_header(c.title, logo_color) }}
+  <div style="margin-top:150px;">{{ cm.meta_band(c.meta_band) }}</div>
+
+  <div style="flex:1;display:flex;flex-direction:row;align-items:stretch;gap:0;padding:34px 56px;">
+    {# The Gaps — gray panel, navy left bar, muted icons #}
+    <div style="flex:1;">
+      {{ cm.panel("The Gaps", c.gaps, "gray", "var(--navy)", "var(--navy)", "var(--navy-200)") }}
+    </div>
+    {# connecting green arrow #}
+    <div style="flex:0 0 120px;display:flex;align-items:center;justify-content:center;">
+      {{ cm.arrow("block") }}
+    </div>
+    {# The Bridge — gray panel, green left bar, green icons #}
+    <div style="flex:1;">
+      {{ cm.panel("The Bridge", c.bridge, "gray", "var(--green)", "var(--green)", "var(--green)") }}
+    </div>
+  </div>
+  <div class="page-num">{{ page_num }}</div>
+</section>
