@@ -127,6 +127,10 @@ The `cta-qr` layout takes a `qr: {url, caption?, label?}`. On render, the engine
 
 When no named layout fits, use `freeform`: its `content.blocks` is a non-empty ordered list of typed blocks rendered in sequence, reusing the same component macros. Block types: `heading`, `paragraph`, `bullets`, `card-grid`, `stat-row`, `person-row`, `qr-card`, `image`, `spacer`. See `scripts/evals/tasks/_fixtures/freeform.content.json`. Reach for a named layout first; `freeform` is the deliberate exception, not the default.
 
+## One-pager composition
+
+The theme-aware logo is fixed in a top corner of every page, so on a dense `one-pager-landscape` the header band is the easy place to get an awkward result: a `heading` block whose eyebrow runs a decorative rule across the top will visually collide with that corner logo, and the collision reads as clutter rather than structure. The cleaner pattern the brand wants is a balanced top band - the logo in one corner and the page's identifying line (organization / date / "founded" meta) set as its own quiet element in the opposite corner or on the line below, never a full-width rule butting into the logo. Keep the headline and intro as a left-column hero, group supporting numbers as a compact card cluster rather than a full-width row, and reserve any horizontal rule for interior section breaks well clear of the logo. When the content is a header plus contrasting sections, prefer the `one-pager-3col` layout, which already encodes this structure, over improvising the whole page in `freeform`.
+
 ## Graders & exemplars
 
 - **Brand-lint** (`scripts/ops/grade_brand.py`, logic in
