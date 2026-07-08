@@ -124,6 +124,14 @@ def render_doc(md_path, out_dir, skill_dir=None) -> dict:
 
         report["headings"] = page.evaluate(_HEADINGS_JS)
         report["toc"] = page.evaluate(_TOC_JS)
+        # Paged.js 0.4.3 names its target-counter with an embedded UUID, so the
+        # getComputedStyle('::after') readout in _TOC_JS captures garbage digits, not the
+        # rendered TOC page number (e.g. 3837 for target page 3). The visible TOC number
+        # is correct (it comes straight from target-counter); only this readout is
+        # untrustworthy. targetPage (from the heading's real .pagedjs_page) is
+        # authoritative, so null out shownPage rather than feed doc_lint a false mismatch.
+        for _e in report["toc"]:
+            _e["shownPage"] = None
         report["chrome"] = page.evaluate(_CHROME_JS)
         report["orphan_headings"] = page.evaluate(_ORPHAN_JS)
 

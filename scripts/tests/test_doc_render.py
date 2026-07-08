@@ -28,6 +28,7 @@ def test_render_doc_report_facts(tmp_path):
     assert report["toc"]
     assert all(isinstance(e["targetPage"], int) and e["targetPage"] >= 1
                for e in report["toc"])
+    assert all(e["shownPage"] is None for e in report["toc"])  # Paged.js 0.4.3 readout unreliable; targetPage authoritative
     # content pages (page >= 2) carry running header + footer page number
     body_pages = [c for c in report["chrome"] if c["page"] >= 2]
     assert body_pages and all(c["hasHeader"] and c["hasFooterNum"] for c in body_pages)
