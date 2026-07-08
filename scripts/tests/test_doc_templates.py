@@ -34,7 +34,7 @@ def test_base_report_has_cover_toc_body_pagedjs():
     assert "cover-report" in html
     assert 'class="toc-page"' in html
     assert "Contents" in html
-    assert "<main>" in html and "Sec" in html
+    assert '<main class="report">' in html and "Sec" in html
     assert "/*PAGEDJS*/" in html            # Paged.js inlined
     assert "__PAGED_DONE" in html           # completion flag wired
     assert "My Report" in html

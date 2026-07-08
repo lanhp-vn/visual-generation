@@ -101,9 +101,18 @@ main li { margin: 3px 0; font-size: 11pt; color: var(--text); }
 strong, b { color: var(--heading); font-weight: 600; }
 hr { border: none; border-top: 1px solid var(--line); margin: 16px 0; }
 
-/* handbook: each top-level heading opens a new chapter page */
-.handbook main h1 { break-before: page; font-size: 24pt; padding-top: 8mm;
-  border-top: 3px solid var(--green); }
+/* handbook: each top-level heading opens a new chapter page, except the
+   first - the TOC's own break-after: page already lands it on a fresh page,
+   so an explicit break-before there would insert a blank page in between.
+   Paged.js's break-before/after engine resolves selectors against a
+   content-only clone that drops the <body> element (and its class), so a
+   selector anchored on the live body class (.handbook main h1) never
+   matches there - only the fragmentation declaration needs an ancestor that
+   survives in that clone, hence main carries the template name (base.html.j2).
+   Visual chapter-opener styling stays keyed off .handbook (the real DOM body
+   class), unaffected by that clone. */
+.handbook main h1 { font-size: 24pt; padding-top: 8mm; border-top: 3px solid var(--green); }
+main.handbook h1:not(:first-of-type) { break-before: page; }
 
 /* ============ TABLES ============ */
 table { width: 100%; border-collapse: collapse; margin: 10px 0 14px; font-size: 10.5pt;

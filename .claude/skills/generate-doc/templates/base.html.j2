@@ -77,7 +77,7 @@
     <h2 class="toc-title">{{ 'Nội dung' if meta.lang == 'vi' else 'Contents' }}</h2>
     {{ toc_html | safe }}
   </nav>
-  <main>{{ body_html | safe }}</main>
+  <main class="{{ meta.template }}">{{ body_html | safe }}</main>
   <script>{{ pagedjs_js | safe }}</script>
 </body>
 </html>

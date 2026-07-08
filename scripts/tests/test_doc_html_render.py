@@ -25,9 +25,9 @@ def test_render_doc_html_is_self_contained():
     assert "@page" in html                        # document.css inlined
     # Paged.js inlined (no CDN, no external src)
     assert "PagedPolyfill" in html or "Paged" in html
-    assert "src=" not in html.split("<main>")[0] or "http" not in html  # no external script/CDN
+    assert "src=" not in html.split("<main")[0] or "http" not in html  # no external script/CDN
     # structure
-    assert "cover-report" in html and "<main>" in html and "Overview" in html
+    assert "cover-report" in html and "<main class=" in html and "Overview" in html
     assert "__PAGED_DONE" in html
 
 
