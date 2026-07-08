@@ -1,0 +1,23 @@
+[project]
+name = "visual-generation"
+version = "0.0.0"
+description = "VISEMI visual-generation skills: shared engine, brand tokens, evals/graders."
+requires-python = ">=3.12"
+dependencies = [
+    "jinja2",
+    "playwright",
+    "segno",
+    "anthropic",
+]
+
+[dependency-groups]
+dev = ["pytest"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["scripts/tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = "-q"
