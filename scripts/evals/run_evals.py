@@ -14,6 +14,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts" / "lib"))
 from visgen.brand_lint import lint  # noqa: E402
+from visgen.doc_lint import lint_doc  # noqa: E402
 from visgen.formats import page_px  # noqa: E402
 
 
@@ -23,24 +24,33 @@ def metrics(per_trial_pass, k):
             "pass_caret_k": 1.0 if passes and all(passes) else 0.0}
 
 
-def _render(content_path, out_dir):
-    subprocess.run([sys.executable, str(ROOT / "scripts/ops/render_canvas.py"),
-                    str(ROOT / content_path), "--format", "both", "--out", str(out_dir)],
-                   check=True, cwd=str(ROOT))
+def _render(content_path, out_dir, renderer="canvas"):
+    if renderer == "doc":
+        cmd = [sys.executable, str(ROOT / "scripts/ops/render_doc.py"),
+               str(ROOT / content_path), "--out", str(out_dir)]
+    else:
+        cmd = [sys.executable, str(ROOT / "scripts/ops/render_canvas.py"),
+               str(ROOT / content_path), "--format", "both", "--out", str(out_dir)]
+    subprocess.run(cmd, check=True, cwd=str(ROOT))
 
 
 def run_task(task, k, out_root, judge=False):
+    renderer = task.get("renderer", "canvas")
     trial_results = []
     for t in range(1, k + 1):
         trial_dir = out_root / task["id"] / f"trial-{t:02d}"
         trial_dir.mkdir(parents=True, exist_ok=True)
-        _render(task["content"], trial_dir)
+        _render(task["content"], trial_dir, renderer=renderer)
         html = (trial_dir / "index.html").read_text(encoding="utf-8")
         report = json.loads((trial_dir / "render_report.json").read_text(encoding="utf-8"))
-        brand = lint(html, report,
-                     required_strings=task.get("required_strings", []),
-                     forbidden_strings=task.get("forbidden_strings", []),
-                     expected_page_px=task.get("expected_page_px"))
+        if renderer == "doc":
+            pdf = sorted((trial_dir / "pdf").glob("*.pdf"))[0]
+            brand = lint_doc(html, report, pdf)
+        else:
+            brand = lint(html, report,
+                         required_strings=task.get("required_strings", []),
+                         forbidden_strings=task.get("forbidden_strings", []),
+                         expected_page_px=task.get("expected_page_px"))
         transcript = {"task": task["id"], "trial": t, "brand": brand}
         if judge:
             transcript["rubric"] = _judge(task, trial_dir)
@@ -61,8 +71,15 @@ def _judge(task, trial_dir):
     pngs = sorted((trial_dir / "png").glob("page-*.png"))
     imgs = [base64.standard_b64encode(p.read_bytes()).decode() for p in pngs]
     rubric_dir = ROOT / "scripts/evals/rubrics"
-    rubrics = {d: (rubric_dir / f"{d}.md").read_text(encoding="utf-8") for d in gr.DIMENSIONS}
-    return gr.grade(anthropic.Anthropic(), "claude-opus-4-8", imgs, rubrics, task["description"])
+    if task.get("renderer") == "doc":
+        dims = list(gr.DIMENSIONS) + list(gr.DOC_DIMENSIONS)
+        surface, theme_note = "document pages", False
+    else:
+        dims = list(gr.DIMENSIONS)
+        surface, theme_note = "slides", True
+    rubrics = {d: (rubric_dir / f"{d}.md").read_text(encoding="utf-8") for d in dims}
+    return gr.grade(anthropic.Anthropic(), "claude-opus-4-8", imgs, rubrics,
+                    task["description"], dimensions=dims, surface=surface, theme_note=theme_note)
 
 
 def main():
@@ -104,6 +121,18 @@ def main():
                 "description": f"Regression: render + brand-lint reference exemplar {ref.name}.",
                 "content": rel,
                 "expected_page_px": list(page_px(doc_meta["format"])),
+                "trials": 1,
+            })
+
+        for ref in sorted((ROOT / "scripts/evals/references").glob("*.md")):
+            rel = ref.relative_to(ROOT).as_posix()
+            if rel in covered:
+                continue
+            tasks.append({
+                "id": f"ref-{ref.stem}",
+                "description": f"Regression: render + doc-lint reference exemplar {ref.name}.",
+                "content": rel,
+                "renderer": "doc",
                 "trials": 1,
             })
 

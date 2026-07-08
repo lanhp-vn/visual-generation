@@ -20,6 +20,7 @@ import sys
 from pathlib import Path
 
 DIMENSIONS = ["brand", "layout", "content", "polish"]
+DOC_DIMENSIONS = ["doc-pagination", "toc-usefulness"]
 
 RUBRIC_DIR = Path(__file__).resolve().parents[1] / "evals/rubrics"
 SCORE_SCHEMA = {
@@ -38,18 +39,22 @@ def _parse(resp):
     return json.loads(text)
 
 
-def build_prompt_content(image_b64_list, rubric_text, dimension, task_desc):
+def build_prompt_content(image_b64_list, rubric_text, dimension, task_desc,
+                         surface="slides", theme_note=True):
     """Build the user-message content blocks for one dimension's judge.
 
     Pure / client-free so prompt construction can be verified without an API key.
+    Defaults reproduce the slide prompt exactly; documents pass surface="document
+    pages", theme_note=False.
     """
     content = [{"type": "image",
                 "source": {"type": "base64", "media_type": "image/png", "data": b64}}
                for b64 in image_b64_list]
+    lead = f"You are grading the '{dimension}' dimension of generated Cất Cánh {surface}.\n"
+    theme = ("The deck may use the light or the dark theme; both are correct, so judge "
+             "against the theme the slides actually use.\n") if theme_note else ""
     content.append({"type": "text", "text":
-        f"You are grading the '{dimension}' dimension of generated Cất Cánh slides.\n"
-        "The deck may use the light or the dark theme; both are correct, so judge "
-        "against the theme the slides actually use.\n"
+        lead + theme +
         f"Task: {task_desc}\n\nRubric:\n{rubric_text}\n\n"
         "Return JSON {score, justification}. Use \"Unknown\" if you cannot tell."})
     return content
@@ -60,8 +65,10 @@ def load_rubrics(dimensions=DIMENSIONS, rubric_dir=RUBRIC_DIR):
     return {d: (rubric_dir / f"{d}.md").read_text(encoding="utf-8") for d in dimensions}
 
 
-def grade_dimension(client, model, image_b64_list, rubric_text, dimension, task_desc):
-    content = build_prompt_content(image_b64_list, rubric_text, dimension, task_desc)
+def grade_dimension(client, model, image_b64_list, rubric_text, dimension, task_desc,
+                    surface="slides", theme_note=True):
+    content = build_prompt_content(image_b64_list, rubric_text, dimension, task_desc,
+                                   surface=surface, theme_note=theme_note)
     resp = client.messages.create(
         model=model, max_tokens=1024,
         messages=[{"role": "user", "content": content}],
@@ -72,10 +79,12 @@ def grade_dimension(client, model, image_b64_list, rubric_text, dimension, task_
             "justification": out["justification"]}
 
 
-def grade(client, model, image_b64_list, rubrics, task_desc):
+def grade(client, model, image_b64_list, rubrics, task_desc, dimensions=DIMENSIONS,
+          surface="slides", theme_note=True):
     dims, scores = {}, {}
-    for d in DIMENSIONS:
-        r = grade_dimension(client, model, image_b64_list, rubrics[d], d, task_desc)
+    for d in dimensions:
+        r = grade_dimension(client, model, image_b64_list, rubrics[d], d, task_desc,
+                            surface=surface, theme_note=theme_note)
         dims[d] = r
         scores[d] = None if r["score"] == "Unknown" else int(r["score"])
     return {"dimensions": dims, "scores": scores}
