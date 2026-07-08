@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Brand-lint a render output directory. Local-only; deterministic.
 
-Delegates all checks to slidegen.brand_lint (single source of truth): the
+Delegates all checks to visgen.brand_lint (single source of truth): the
 sanctioned palette (navy/green house hexes + token shades, the gold accent
-#F5B433 and its shades, and the dark-theme token hexes) is allowed; any other
-hex is flagged. Vendored <style>/<svg>, the decoration sparkles
+(--gold-fill) and its shades, and the dark-theme token hexes) is allowed; any
+other hex is flagged. Vendored <style>/<svg>, the decoration sparkles
 (<svg class="spark">), and the .qrbox QR module SVG are exempt from the palette
 scan. Em/en dashes, off-brand fonts, page size, overflow, and required/forbidden
 strings (e.g. "Cat Canh" without diacritics) are still checked.

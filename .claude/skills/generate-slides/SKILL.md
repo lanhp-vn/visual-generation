@@ -1,5 +1,6 @@
 ---
-name: generate-slides description: Build brand-locked HTML slides and one-pagers for the Cất Cánh (Takeoff) Fellowship from a structured content JSON, render them to pixel-exact 1920x1080 PNG and PDF via headless Chromium (Playwright), then grade them (deterministic brand-lint + optional LLM-judge rubric). Use whenever the operator wants a Cất Cánh / VISEMI slide deck, pitch deck, one-pager, info-session deck, event deck, or any "make slides / make a one-pager" task, even if they do not say "HTML". Content lives in JSON (facts from the brief, never invented); layout lives in a fixed Jinja2 template library; brand lives in one VISEMI theme (light or dark). Output is html-ppt-compatible. Local only - no Gmail, Drive, or Zoom.
+name: generate-slides
+description: Build brand-locked HTML slides and one-pagers for the Cất Cánh (Takeoff) Fellowship from a structured content JSON, render them to pixel-exact 1920x1080 PNG and PDF via headless Chromium (Playwright), then grade them (deterministic brand-lint + optional LLM-judge rubric). Use whenever the operator wants a Cất Cánh / VISEMI slide deck, pitch deck, one-pager, info-session deck, event deck, or any "make slides / make a one-pager" task, even if they do not say "HTML". Content lives in JSON (facts from the brief, never invented); layout lives in a fixed Jinja2 template library; brand lives in one VISEMI theme (light or dark). Output is html-ppt-compatible. Local only - no Gmail, Drive, or Zoom.
 ---
 
 # generate-slides
@@ -140,7 +141,7 @@ When no named layout fits, use `freeform`: its `content.blocks` is a non-empty o
 For decks the layout library does not cover, reuse the vendored MIT toolkits rather than building every layout from scratch:
 
 - **Layouts/themes:** `references/presentation-frameworks/html-ppt-skill` (31 layouts,
-  animations) and `references/presentation-frameworks/beautiful-html-templates` (35 branded   templates) - apply the VISEMI theme (`assets/components.css` plus `brand/tokens.json` is written in   html-ppt's token format, so it drops in).
+  animations) and `references/presentation-frameworks/beautiful-html-templates` (35 branded   templates) - apply the VISEMI theme (`brand/fonts.css` plus `brand/tokens.json` via   `visgen.tokens`, plus this skill's `assets/components.css`); `brand/tokens.json` is written   in html-ppt's token format, so it drops in directly.
 
 Vendored MIT assets are attributed in `assets/THIRD_PARTY_LICENSES`.
 
