@@ -22,6 +22,11 @@ tokens, and eval/grader stack. Design spec:
 - Palette: navy `#001669`, dark purple `#262538`, green `#01B68B`, white, the
   token ramps, accent cyan `#00E5FF` (very sparing), gold `#F5B433` (sparing
   accent). No other hexes; no hardcoded hexes outside `brand/`.
+- Status colors `--warn` `#F5A524` (amber), `--bad` `#DC2626` (red), and `--good`
+  (green) are functional-only: use them for document callouts, status and
+  validation states, and data encodings that carry meaning; never as decorative
+  fills or as a brand accent (navy, green, and gold carry the brand). They stay
+  brand-lint-allowed because their use is functional, not decorative.
 - Type: Be Vietnam Pro only (400/500/600/700).
 - No em/en dashes, no emojis; Vietnamese keeps full diacritics ("Cất Cánh",
   never "Cat Canh").
