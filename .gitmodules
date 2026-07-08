@@ -1,0 +1,60 @@
+[submodule "references/ui-component-libs/tabler"]
+	path = references/ui-component-libs/tabler
+	url = https://github.com/tabler/tabler
+[submodule "references/ui-component-libs/gentelella"]
+	path = references/ui-component-libs/gentelella
+	url = https://github.com/ColorlibHQ/gentelella
+[submodule "references/ui-component-libs/TerminalGuiDesigner"]
+	path = references/ui-component-libs/TerminalGuiDesigner
+	url = https://github.com/tui-cs/TerminalGuiDesigner
+[submodule "references/ui-component-libs/GUIslice"]
+	path = references/ui-component-libs/GUIslice
+	url = https://github.com/ImpulseAdventure/GUIslice
+[submodule "references/ui-component-libs/raygui"]
+	path = references/ui-component-libs/raygui
+	url = https://github.com/raysan5/raygui
+[submodule "references/ui-component-libs/RmlUi"]
+	path = references/ui-component-libs/RmlUi
+	url = https://github.com/mikke89/RmlUi
+[submodule "references/presentation-frameworks/reveal.js"]
+	path = references/presentation-frameworks/reveal.js
+	url = https://github.com/hakimel/reveal.js.git
+[submodule "references/presentation-frameworks/slidev"]
+	path = references/presentation-frameworks/slidev
+	url = https://github.com/slidevjs/slidev.git
+[submodule "references/presentation-frameworks/beautiful-html-templates"]
+	path = references/presentation-frameworks/beautiful-html-templates
+	url = https://github.com/zarazhangrui/beautiful-html-templates.git
+[submodule "references/presentation-frameworks/frontend-slides"]
+	path = references/presentation-frameworks/frontend-slides
+	url = https://github.com/zarazhangrui/frontend-slides.git
+[submodule "references/presentation-frameworks/html-ppt-skill"]
+	path = references/presentation-frameworks/html-ppt-skill
+	url = https://github.com/lewislulu/html-ppt-skill.git
+[submodule "references/css-frameworks/tailwindcss"]
+	path = references/css-frameworks/tailwindcss
+	url = https://github.com/tailwindlabs/tailwindcss
+[submodule "references/css-frameworks/tailwindcss-animate"]
+	path = references/css-frameworks/tailwindcss-animate
+	url = https://github.com/jamiebuilds/tailwindcss-animate
+[submodule "references/design-inspiration/web-design"]
+	path = references/design-inspiration/web-design
+	url = https://github.com/xiaopu-ai/web-design
+[submodule "references/design-inspiration/open-design"]
+	path = references/design-inspiration/open-design
+	url = https://github.com/nexu-io/open-design
+[submodule "references/claude-design-galleries/awesome-claude-design-rohitg00"]
+	path = references/claude-design-galleries/awesome-claude-design-rohitg00
+	url = https://github.com/rohitg00/awesome-claude-design
+[submodule "references/claude-design-galleries/awesome-claude-design-voltagent"]
+	path = references/claude-design-galleries/awesome-claude-design-voltagent
+	url = https://github.com/VoltAgent/awesome-claude-design
+[submodule "references/doc-visualization-tools/PowerDocu"]
+	path = references/doc-visualization-tools/PowerDocu
+	url = https://github.com/modery/PowerDocu
+[submodule "references/doc-visualization-tools/visual-explainer"]
+	path = references/doc-visualization-tools/visual-explainer
+	url = https://github.com/nicobailon/visual-explainer
+[submodule "references/visemi-internal/visemi-website"]
+	path = references/visemi-internal/visemi-website
+	url = https://github.com/visemi-website-team/visemi-website
