@@ -72,3 +72,25 @@ def validate_document(doc: dict) -> None:
             blocks = content.get("blocks")
             if not isinstance(blocks, list) or not blocks:
                 raise SchemaError(f"slide {i} (freeform): 'blocks' must be a non-empty list")
+
+
+# --- Document front-matter (generate-doc) -------------------------------------
+DOC_TEMPLATES = {"report", "handbook"}
+DOC_LANGS = {"en", "vi"}
+
+
+def validate_frontmatter(meta: dict) -> None:
+    """Validate a document's YAML front-matter. Facts/styling never live here;
+    this only checks the template family, a title, and the language code."""
+    if not isinstance(meta, dict):
+        raise SchemaError("front-matter must be a mapping")
+    template = meta.get("template")
+    if template not in DOC_TEMPLATES:
+        raise SchemaError(
+            f"front-matter 'template' must be one of {sorted(DOC_TEMPLATES)}, got {template!r}")
+    title = meta.get("title")
+    if not isinstance(title, str) or not title.strip():
+        raise SchemaError("front-matter 'title' is required and must be a non-empty string")
+    lang = meta.get("lang", "en")
+    if lang not in DOC_LANGS:
+        raise SchemaError(f"front-matter 'lang' must be one of {sorted(DOC_LANGS)}, got {lang!r}")
