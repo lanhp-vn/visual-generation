@@ -121,7 +121,13 @@ def render_doc(md_path, out_dir, skill_dir=None) -> dict:
                 "return c ? (c.scrollHeight > c.clientHeight + 1) : false; }")
             report["pages"].append({"index": i, "overflow": bool(overflow),
                                     "width": round(box["width"]), "height": round(box["height"])})
-            pg.screenshot(path=str(out_dir / "png" / f"page-{i:02d}.png"))
+            # Adjacent .pagedjs_page boxes are stacked with zero gap, so the raw
+            # element screenshot's rounded bounding box grabs a ~1px sliver of the
+            # neighboring page. Clip 1px off the top/bottom (inside the page margin)
+            # to drop that bleed without touching the reported page dimensions.
+            page.screenshot(path=str(out_dir / "png" / f"page-{i:02d}.png"), full_page=True,
+                             clip={"x": box["x"], "y": box["y"] + 1,
+                                   "width": box["width"], "height": box["height"] - 2})
 
         report["headings"] = page.evaluate(_HEADINGS_JS)
         report["toc"] = page.evaluate(_TOC_JS)
