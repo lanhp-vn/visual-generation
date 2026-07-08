@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="{{ meta.lang | default('en') }}">
+<head>
+<meta charset="utf-8">
+<title>{{ meta.title }}</title>
+<script>window.PagedConfig = { auto: true, after: () => { window.__PAGED_DONE = true; } };</script>
+<style>{{ brand_css | safe }}</style>
+<style>{{ document_css | safe }}</style>
+</head>
+<body class="doc {{ meta.template }} lang-{{ meta.lang | default('en') }}">
+  <div class="brandmark">{{ logo | safe }}</div>
+  {% include "partials/cover-" ~ meta.template ~ ".html.j2" %}
+  <nav class="toc-page">
+    <h2 class="toc-title">{{ 'Nội dung' if meta.lang == 'vi' else 'Contents' }}</h2>
+    {{ toc_html | safe }}
+  </nav>
+  <main>{{ body_html | safe }}</main>
+  <script>{{ pagedjs_js | safe }}</script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+<header class="cover cover-report">
+  <div class="cover-brand">{{ logo | safe }}</div>
+  <p class="cover-eyebrow">{{ meta.eyebrow | default('Cất Cánh (Takeoff) Fellowship') }}</p>
+  <h1 class="cover-title">{{ meta.title }}</h1>
+  {% if meta.subtitle %}<p class="cover-subtitle">{{ meta.subtitle }}</p>{% endif %}
+  <div class="cover-meta">
+    {% if meta.date %}<span>{{ meta.date }}</span>{% endif %}
+    {% if meta.audience %}<span>{{ meta.audience }}</span>{% endif %}
+  </div>
+  <p class="cover-orgline">{{ meta.orgline | default('VISEMI Foundation | visemi.org') }}</p>
+</header>
