@@ -6,7 +6,10 @@ blocks (base.css default tokens, the VISEMI theme, embedded fonts) and vendored
 <svg> artwork (logos, icons — which carry the official logo's own hex stops),
 plus the decoration sparkles (<svg class="spark">) and the .qrbox QR module SVG,
 are trusted and stripped before scanning, so only inline styles in the slide
-body are linted.
+body are linted. Inlined <script> content (e.g. the vendored Paged.js polyfill
+embedded in M2 document HTML) is likewise trusted, non-authored markup and is
+stripped like <style>: script content is behavior, not brand surface, and
+brand values live in tokens/CSS by convention, never in JS.
 
 Palette: every hex named in brand/tokens.json (all theme token values) plus its
 extra_allowed_hexes; any other hex is flagged. Em dash (U+2014) and en dash
@@ -19,6 +22,10 @@ from visgen.tokens import palette
 BRAND_HEX = palette()
 ALLOWED_FONTS = {"be vietnam pro", "inter", "sans-serif"}
 _STYLE = re.compile(r"<style\b[^>]*>.*?</style>", re.S | re.I)
+# Inlined <script> (vendored Paged.js polyfill in M2 doc HTML) is trusted like
+# <style>: it's behavior, not brand surface, so its hex/font/dash content
+# (library internals, not authored content) must not reach the scan below.
+_SCRIPT = re.compile(r"<script\b[^>]*>.*?</script>", re.S | re.I)
 _SVG = re.compile(r"<svg\b[^>]*>.*?</svg>", re.S | re.I)
 # Decoration sparkles and the QR module SVG carry their own (non-brand) hexes and
 # are not part of the authored brand surface; exempt them explicitly so a future
@@ -33,9 +40,10 @@ _TAGS = re.compile(r"<[^>]+>")
 def lint_html(html, required_strings=(), forbidden_strings=()):
     violations = []
     # Drop trusted, non-authored markup before the palette/font scan:
-    # vendored CSS (<style>), all SVG artwork (logos/icons/sparkles/QR), and the
-    # .qrbox QR container (decoration sparkles and the QR module SVG explicitly).
-    authored = _QRBOX.sub("", _SPARK_SVG.sub("", _SVG.sub("", _STYLE.sub("", html))))
+    # vendored CSS (<style>), inlined <script> (vendored Paged.js polyfill),
+    # all SVG artwork (logos/icons/sparkles/QR), and the .qrbox QR container
+    # (decoration sparkles and the QR module SVG explicitly).
+    authored = _QRBOX.sub("", _SPARK_SVG.sub("", _SVG.sub("", _SCRIPT.sub("", _STYLE.sub("", html)))))
     for hx in set(_HEX.findall(authored)):
         if hx.lower() not in BRAND_HEX:
             violations.append({"code": "offbrand-hex", "detail": hx})
