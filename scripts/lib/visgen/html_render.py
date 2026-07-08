@@ -16,6 +16,8 @@ from visgen.qr import qr_svg
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_SKILL_DIR = REPO_ROOT / ".claude/skills/generate-slides"
+DEFAULT_DOC_SKILL_DIR = REPO_ROOT / ".claude/skills/generate-doc"
+_PAGEDJS = Path(__file__).resolve().parent / "vendor/paged.polyfill.js"
 
 _FONT_URL = re.compile(r'url\(\s*["\']?(?:\.\./)?fonts/([^"\')]+)["\']?\s*\)')
 
@@ -40,10 +42,16 @@ def _embed_fonts(css: str) -> str:
     return _FONT_URL.sub(repl, css)
 
 
-def _theme_css(theme: str, skill_dir: Path) -> str:
+def _fonts_and_tokens(theme: str) -> str:
+    """Shared brand CSS both renderers build on: base64-embedded Be Vietnam Pro
+    (offline-deterministic) + the generated :root token block for `theme`."""
     fonts = _embed_fonts((BRAND_DIR / "fonts.css").read_text(encoding="utf-8"))
+    return "\n".join([fonts, tokens_css(theme)])
+
+
+def _theme_css(theme: str, skill_dir: Path) -> str:
     components = (skill_dir / "assets/components.css").read_text(encoding="utf-8")
-    return "\n".join([fonts, tokens_css(theme), components])
+    return "\n".join([_fonts_and_tokens(theme), components])
 
 
 def render_document(doc: dict, skill_dir: Path | None = None) -> str:
@@ -82,3 +90,21 @@ def render_document(doc: dict, skill_dir: Path | None = None) -> str:
     return base.render(meta=meta, slides_html=slides_html,
                        base_css=base_css, theme_css=theme_css,
                        decor=decor, page_w=page_w, page_h=page_h)
+
+
+def render_doc_html(meta: dict, body_html: str, toc_html: str,
+                    skill_dir: Path | None = None) -> str:
+    """Assemble a document (front-matter + converted Markdown) into one
+    self-contained HTML string: inlined brand CSS (light theme) + the skill's
+    document.css + the vendored Paged.js polyfill, wrapped in the doc base
+    template with the template-specific cover. Docs are light-theme only."""
+    skill_dir = skill_dir or DEFAULT_DOC_SKILL_DIR
+    env = build_env(skill_dir / "templates")
+    brand_css = _fonts_and_tokens("light")
+    document_css = (skill_dir / "assets/document.css").read_text(encoding="utf-8")
+    pagedjs_js = _PAGEDJS.read_text(encoding="utf-8")
+    logo = (BRAND_DIR / "logos/visemi-logo-color.svg").read_text(encoding="utf-8")
+    base = env.get_template("base.html.j2")
+    return base.render(meta=meta, body_html=body_html, toc_html=toc_html,
+                       brand_css=brand_css, document_css=document_css,
+                       pagedjs_js=pagedjs_js, logo=logo)
