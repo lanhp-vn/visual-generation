@@ -21,7 +21,7 @@ def main():
     dark = parse_root_block((FIX / "visemi-dark.css").read_text(encoding="utf-8"))
     # Two divergences in the old helper-class sections become tokens so ONE shared
     # components.css can serve both themes (see Task 9):
-    light["--body"] = "#262538"          # old light body color: var(--purple)
+    light["--body"] = light["--purple"]  # old light body color: var(--purple)
     dark["--body"] = dark["--text"]      # old dark body color: var(--text)
     light["--num-bg"] = light["--navy"]  # .agenda-item .n background on light
     dark["--num-bg"] = dark["--green"]   # ... and on dark
