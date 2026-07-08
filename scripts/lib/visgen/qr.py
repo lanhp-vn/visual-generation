@@ -11,17 +11,22 @@ import re
 
 import segno
 
+from visgen.tokens import load_tokens
+
 _OPEN_SVG = re.compile(r"<svg\b([^>]*)>")
 _XMLDECL = re.compile(r"<\?xml[^>]*\?>\s*")
 
 
-def qr_svg(url: str, dark: str = "#001669", scale: int = 12, border: int = 2) -> str:
+def qr_svg(url: str, dark: str | None = None, scale: int = 12, border: int = 2) -> str:
     """Return a responsive, self-contained QR SVG for ``url``.
 
-    ``dark`` colours the QR modules (navy by default); ``scale`` and ``border``
-    control the intrinsic module size and quiet-zone. The returned <svg> carries a
-    viewBox and width="100%" height="100%" so it scales to its container.
+    ``dark`` colours the QR modules (navy from brand/tokens.json by default);
+    ``scale`` and ``border`` control the intrinsic module size and quiet-zone.
+    The returned <svg> carries a viewBox and width="100%" height="100%" so it
+    scales to its container.
     """
+    if dark is None:
+        dark = load_tokens()["themes"]["light"]["--navy"]
     qr = segno.make(url, error="m")
     buf = io.BytesIO()
     qr.save(buf, kind="svg", scale=scale, border=border, dark=dark, xmldecl=False)
