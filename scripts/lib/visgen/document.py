@@ -49,7 +49,7 @@ def markdown_to_html(body_md: str) -> tuple[str, str]:
 # --- browser-side introspection (run after Paged.js finishes) -----------------
 _HEADINGS_JS = """() => Array.from(
   document.querySelectorAll('main h1, main h2, main h3, main h4')
-).map(h => {
+).filter(h => !h.classList.contains('toc-title')).map(h => {
   const pg = h.closest('.pagedjs_page');
   return { id: h.id || null, text: h.textContent.trim(), level: Number(h.tagName[1]),
            page: pg ? Number(pg.getAttribute('data-page-number')) : null };
@@ -78,6 +78,7 @@ _CHROME_JS = """() => Array.from(document.querySelectorAll('.pagedjs_page')).map
 _ORPHAN_JS = """() => {
   const bad = [];
   document.querySelectorAll('main h1, main h2, main h3, main h4').forEach(h => {
+    if (h.classList.contains('toc-title')) return;
     const pg = h.closest('.pagedjs_page'); if (!pg) return;
     const content = pg.querySelector('.pagedjs_page_content') || pg;
     const blocks = Array.from(
@@ -95,8 +96,16 @@ def render_doc(md_path, out_dir, skill_dir=None) -> dict:
     text = Path(md_path).read_text(encoding="utf-8")
     meta, body_md = parse_frontmatter(text)
     validate_frontmatter(meta)
-    body_html, toc_html = markdown_to_html(body_md)
-    html = render_doc_html(meta, body_html, toc_html, skill_dir=skill_dir)
+    # Content before an optional `<!-- TOC -->` marker renders BEFORE the table of
+    # contents (e.g. a program summary right after the cover); the rest follows the
+    # TOC. The TOC itself is always built from the full document's headings.
+    marker = "<!-- TOC -->"
+    lead_md, rest_md = body_md.split(marker, 1) if marker in body_md else ("", body_md)
+    # TOC covers the report body (post-marker); lead content sits before the TOC.
+    _, toc_html = markdown_to_html(rest_md)
+    lead_html = markdown_to_html(lead_md)[0] if lead_md.strip() else ""
+    body_html = markdown_to_html(rest_md)[0]
+    html = render_doc_html(meta, body_html, toc_html, lead_html=lead_html, skill_dir=skill_dir)
 
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)

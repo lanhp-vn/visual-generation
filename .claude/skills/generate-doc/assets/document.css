@@ -14,9 +14,11 @@ body { margin: 0; }
   @top-left { content: element(brandmark); }
   @top-right { content: string(runhead); font-size: 9pt; letter-spacing: .10em;
     text-transform: uppercase; color: var(--muted); }
+  @bottom-left { content: string(docfoot); font-size: 8pt; color: var(--faint); }
   @bottom-right { content: "Page " counter(page); font-size: 9pt; color: var(--muted); }
-  @bottom-center { content: string(docfoot); font-size: 8.5pt; color: var(--faint); }
 }
+/* keep the org line on a single row (the default 1/3 margin box would wrap it) */
+.pagedjs_margin-bottom-left .pagedjs_margin-content { white-space: nowrap; }
 @page :first {
   /* the cover is always page 1: use the standard :first pseudo-class rather
      than a custom named page (`page: cover`), which triggers a Paged.js
@@ -24,11 +26,11 @@ body { margin: 0; }
      before a named first page. */
   margin: 0;
   @top-left { content: none; } @top-right { content: none; }
-  @bottom-right { content: none; } @bottom-center { content: none; }
+  @bottom-right { content: none; } @bottom-left { content: none; }
 }
 
 .brandmark { position: running(brandmark); }
-.brandmark svg, .brandmark img { height: 15px; width: auto; display: block; }
+.brandmark svg, .brandmark img { height: 30px; width: auto; display: block; }
 
 /* Paged.js 0.4.3's own string(runhead) resolution is unreliable: for the report
    template it never resolves at all, and for the handbook it resolves but only
@@ -49,16 +51,33 @@ body { margin: 0; }
 
 /* ============ COVER ============ */
 .cover { break-after: page; width: 210mm; height: 297mm;
-  display: flex; flex-direction: column; justify-content: center;
-  padding: 40mm 28mm; background: var(--bg-grad); color: var(--heading); }
+  display: flex; flex-direction: column;
+  padding: 40mm 28mm; background: var(--bg-grad); color: var(--heading);
+  position: relative; isolation: isolate; overflow: hidden; }
+/* hero block: centered as a unit - align-items:center makes each text child
+   (p/h1, normally 100% width in flow) shrink to its own content width first,
+   THEN centers it; text-align handles multi-line wrap within each child.
+   cover-stats opts back out via align-self:stretch (see COVER STAT BAND). */
+.cover-main { flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center; }
 .cover-brand svg, .cover-brand img { height: 34px; width: auto; margin-bottom: 24mm; }
-.cover-eyebrow { font-size: 11pt; font-weight: 600; letter-spacing: .16em;
-  text-transform: uppercase; color: var(--green-deep); margin: 0 0 10px; }
-.cover-title { font-family: var(--font-display); font-size: 30pt; line-height: 1.1;
-  font-weight: 700; color: var(--heading); margin: 0 0 12px; }
-.cover-subtitle { font-size: 14pt; color: var(--text); margin: 0 0 20px; }
-.cover-meta { display: flex; gap: 18px; font-size: 11pt; color: var(--muted); margin-top: auto; }
-.cover-orgline { font-size: 9.5pt; color: var(--muted); margin-top: 14px; }
+/* eyebrow: bigger and bolder than the tagline below it, navy (not green) so
+   the two read as distinct lines rather than two shades of the same accent;
+   letter-spacing trimmed from .16em so a typical program name fits on one
+   line at the larger size. No white-space:nowrap here or on .cover-title:
+   .cover has overflow:hidden, so forcing one line would silently CLIP a
+   longer title/eyebrow instead of wrapping - let it wrap to 2 lines when a
+   given document's text runs long; keep titles short if one line matters. */
+.cover-eyebrow { font-size: 15pt; font-weight: 700; letter-spacing: .07em;
+  text-transform: uppercase; color: var(--navy); margin: 0 0 16px; }
+.cover-title { font-family: var(--font-display); font-size: 22pt; line-height: 1.15;
+  font-weight: 700; color: var(--heading); margin: 0 0 18px; }
+.cover-subtitle { font-size: 14pt; color: var(--text); margin: 0 0 26px; }
+/* footer strip: pinned below the centered hero by flex (.cover-main flex:1) */
+.cover-footer { flex: 0 0 auto; border-top: 1px solid var(--line-strong);
+  padding-top: 12px; margin-top: 20px; text-align: center; }
+.cover-meta { display: flex; justify-content: center; gap: 18px; font-size: 10pt; color: var(--muted); }
+.cover-orgline { font-size: 9pt; color: var(--muted); margin-top: 6px; }
 .cover-label { display: inline-block; align-self: flex-start; font-size: 10pt; font-weight: 600;
   letter-spacing: .14em; text-transform: uppercase; border-radius: 999px;
   padding: 4px 14px; margin-bottom: 16px; }
@@ -100,6 +119,11 @@ main ul, main ol { margin: 0 0 10px; padding-left: 20px; }
 main li { margin: 3px 0; font-size: 11pt; color: var(--text); }
 strong, b { color: var(--heading); font-weight: 600; }
 hr { border: none; border-top: 1px solid var(--line); margin: 16px 0; }
+
+/* report headings flow continuously by default (see template table in
+   SKILL.md); opt a specific section into a fresh page with {: .pagebreak }
+   on its heading - e.g. a closing/CTA section that should stand alone. */
+main.report h1.pagebreak { break-before: page; }
 
 /* handbook: each top-level heading opens a new chapter page, except the
    first - the TOC's own break-after: page already lands it on a fresh page,
@@ -153,3 +177,170 @@ pre code { background: none; padding: 0; }
 /* ============ FOOTNOTES (extra) ============ */
 .footnote { font-size: 9pt; color: var(--muted); }
 .footnote ol { padding-left: 16px; }
+
+/* ============ STAT TILES (KPI row) ============ */
+/* A row of big-number-over-label tiles. grid auto-fit keeps them even without
+   media queries; min-width:0 stops a long value from blowing out a track. */
+.statrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: 10px; margin: 14px 0 16px; break-inside: avoid; }
+.stile { border: 1px solid var(--line); border-top: 3px solid var(--green);
+  border-radius: var(--radius-sm); background: var(--box); padding: 12px 12px 11px;
+  min-width: 0; text-align: center; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+.stile strong { display: block; font-family: var(--font-display); font-weight: 700;
+  font-size: 23pt; line-height: 1.05; color: var(--heading); letter-spacing: -.01em; }
+.stile span { display: block; margin-top: 3px; font-size: 8.5pt; font-weight: 600;
+  letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+
+/* ============ HORIZONTAL BARS (category distribution) ============ */
+/* label column | growing track | value. Fill width is data, set inline
+   (style="width:NN%") - the actual share, NOT normalized to the max (else a
+   minority value reads as a full bar); the only per-datum value, carries no hex. */
+.bars { margin: 10px 0 14px; break-inside: avoid; }
+.bar-row { display: flex; align-items: center; gap: 12px; padding: 5px 0; }
+.bar-label { flex: 0 0 46mm; font-size: 10pt; color: var(--text); line-height: 1.2; }
+.bar-track { flex: 1; height: 11px; border-radius: 999px; background: var(--box);
+  overflow: hidden; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+.bar-fill { height: 100%; border-radius: 999px; background: var(--green);
+  print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+.bar-val { flex: 0 0 auto; min-width: 52px; text-align: right; font-size: 9.5pt;
+  font-weight: 600; color: var(--heading); font-variant-numeric: tabular-nums; }
+
+/* ============ PROFILE CARDS (fellow spotlight, ~3 per page) ============ */
+/* Discipline group divider: an <h2 class="pgroup"> so it anchors a TOC entry and
+   an id while reading as a green-filled section band (add .er for the gold Early
+   Research variant). Groups flow continuously (no forced break between them) so
+   a small group doesn't strand a near-empty page; break-inside/after: avoid just
+   keeps the band from separating from its first card. Cards omit score chips;
+   hide the Publications stat + research line when a fellow has 0 publications. */
+main h2.pgroup { break-before: auto; break-after: avoid; break-inside: avoid;
+  margin: 14px 0 12px; padding: 7px 16px;
+  background: var(--green-100); border-left: 5px solid var(--green);
+  border-radius: var(--radius-sm); font-family: var(--font-display);
+  font-size: 12.5pt; font-weight: 700; color: var(--navy);
+  print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+main h2.pgroup:first-of-type { margin-top: 0; }
+/* Early Research section divider: gold accent to mark the distinct sophomore track */
+main h2.pgroup.er { background: var(--gold-soft); border-left-color: var(--gold); }
+
+.pcard { border: 1px solid var(--line); border-left: 3px solid var(--navy);
+  border-radius: var(--radius-sm); background: var(--surface); padding: 12px 15px;
+  margin: 0 0 14px; min-height: 72mm; display: flex; flex-direction: column;
+  break-inside: avoid; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+.pcard-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.pcard-name { font-family: var(--font-display); font-size: 12.5pt; font-weight: 700;
+  color: var(--heading); line-height: 1.15; margin: 0; }
+.pcard-sub { font-size: 9.5pt; color: var(--muted); margin: 2px 0 0; }
+.pcard-tags { margin: 8px 0 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { font-size: 8pt; font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
+  color: var(--green-deep); background: var(--green-100); border-radius: 999px;
+  padding: 2px 9px; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+.tag.tier { color: var(--navy-300); background: var(--box); }
+/* score chips, top-right of card */
+.pcard-scores { display: flex; gap: 8px; flex: 0 0 auto; }
+.pcard-scores div { text-align: center; background: var(--green-100); border-radius: var(--radius-sm);
+  padding: 5px 10px; min-width: 46px; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+.pcard-scores strong { display: block; font-family: var(--font-display); font-size: 14pt;
+  font-weight: 700; color: var(--green-deep); line-height: 1; }
+.pcard-scores span { display: block; margin-top: 2px; font-size: 7.5pt; font-weight: 600;
+  letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+/* metric chip strip, divider above */
+.pcard-stats { display: flex; flex-wrap: wrap; gap: 16px; margin: 9px 0 0;
+  padding-top: 9px; border-top: 1px solid var(--line); }
+.pcard-stats div { min-width: 0; }
+.pcard-stats strong { display: block; font-size: 11.5pt; font-weight: 600; color: var(--heading); line-height: 1.1; }
+.pcard-stats span { display: block; margin-top: 2px; font-size: 8pt; font-weight: 600;
+  letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+.pcard-hi { margin: 10px 0 0; font-size: 9.5pt; line-height: 1.5; color: var(--text); }
+.pcard-hi b { color: var(--heading); }
+.pcard-needs { margin: 9px 0 0; font-size: 8.5pt; line-height: 1.45; color: var(--text-2); }
+.pcard-needs b { color: var(--navy-300); font-weight: 600; }
+.pcard-meta { margin: 10px 0 0; padding-top: 8px; border-top: 1px dashed var(--line);
+  font-size: 8.5pt; color: var(--muted); }
+.pcard-meta b { color: var(--green-deep); font-weight: 600; }
+
+/* ============ COVER BACKGROUND LOGO (decorative, top-right corner) ============ */
+/* optional meta.cover_bg_logo: a small watermark image in the cover's top-right
+   corner. z-index:-1 (inside .cover's own stacking context, via
+   isolation:isolate above) keeps it behind every cover child regardless of
+   flex paint order. background-size:cover fills this box from the image's own
+   center, so shrinking the box (not just background-size) is what shrinks the
+   visible motif - the image itself carries its own tint/translucency; no
+   inline hex here, only the background-image url is data. */
+.cover-bg-logo { position: absolute; top: 0; right: 0; width: 95mm; height: 95mm;
+  background-repeat: no-repeat; background-position: center; background-size: cover;
+  z-index: -1; }
+
+/* ============ COVER EXTRAS (logo lockup, tagline, founders, credits) ============ */
+.cover-logos { display: flex; align-items: center; gap: 18px; margin-bottom: 26mm; }
+.cover-logos .cover-brand { margin-bottom: 0; }
+.cover-brand svg, .cover-brand img { height: 52px; width: auto; margin-bottom: 0; }
+.cover-logo-div { width: 1px; align-self: stretch; background: var(--line-strong); }
+.cover-partner img, .cover-partner svg { height: 48px; width: auto; display: block; }
+.cover-tagline { font-family: var(--font-display); font-size: 15pt; font-weight: 600;
+  color: var(--green-deep); margin: 0 0 18px; }
+.cover-founders { font-size: 10.5pt; color: var(--muted); margin: 0 0 16px; }
+.cover-credits { margin-top: 16px; display: flex; flex-direction: column; gap: 3px; }
+.cover-credits p { margin: 0; font-size: 10pt; color: var(--text); }
+.cover-credits span { font-size: 8pt; font-weight: 600; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--green-deep); margin-right: 8px; }
+
+/* lead content (before the TOC): its own page(s) right after the cover */
+.doc-lead { break-after: page; }
+
+/* ============ 100% STACKED COMPOSITION BAR + LEGEND ============ */
+/* for parts-of-a-whole (field, degree): one bar split by true share, plus a legend.
+   Segment/swatch colors are a categorical brand encoding, set by class (not inline). */
+.stackbar { display: flex; width: 100%; height: 24px; border-radius: 6px; overflow: hidden;
+  margin: 14px 0 10px; border: 1px solid var(--line);
+  print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+.stackbar .seg { height: 100%; min-width: 0; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 0 0 14px; }
+.legend span { display: flex; align-items: center; gap: 8px; font-size: 10pt; color: var(--text); }
+.legend i { width: 11px; height: 11px; border-radius: 3px; flex: 0 0 auto;
+  print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+.seg.c1, .legend i.c1, .pie-legend i.c1 { background: var(--navy); }
+.seg.c2, .legend i.c2, .pie-legend i.c2 { background: var(--green); }
+.seg.c3, .legend i.c3, .pie-legend i.c3 { background: var(--gold-fill); }
+.seg.c4, .legend i.c4, .pie-legend i.c4 { background: var(--navy-300); }
+.seg.c5, .legend i.c5, .pie-legend i.c5 { background: var(--green-300); }
+.seg.c6, .legend i.c6, .pie-legend i.c6 { background: var(--purple-300); }
+
+/* ============ COVER STAT BAND ============ */
+/* align-self:stretch overrides .cover-main's align-items:center (which would
+   otherwise shrink this grid to its content width); text-align:left resets
+   the inherited center so each tile's number stays flush with its rule. */
+.cover-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 30px 0 0;
+  align-self: stretch; text-align: left; }
+.cover-stats div { border-left: 3px solid var(--green); padding: 3px 0 3px 12px;
+  print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+.cover-stats strong { display: block; font-family: var(--font-display); font-size: 24pt;
+  font-weight: 700; color: var(--heading); line-height: 1; letter-spacing: -.01em; }
+.cover-stats span { display: block; margin-top: 5px; font-size: 8.5pt; font-weight: 600;
+  letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+/* secondary stat row (meta.cover_stats_2): a shorter, independent group (e.g.
+   program-scale numbers) that should read as its OWN centered row rather than
+   stretch/wrap across the primary grid's 4 fixed columns - flex + auto-width
+   items center as a group regardless of count, unlike a grid with empty cells. */
+.cover-stats-secondary { display: flex; justify-content: center; margin-top: 18px; }
+/* fixed width matches a primary-row column, so two-word labels wrap to two
+   lines the same way the primary tiles do (visual rhythm across both rows). */
+.cover-stats-secondary div { flex: 0 0 34mm; }
+
+/* ============ TWO-COLUMN BLOCK ============ */
+.twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin: 12px 0 14px;
+  break-inside: avoid; }
+.twocol h3 { margin-top: 0; }
+.twocol ul { margin: 6px 0 0; }
+.twocol li { font-size: 10pt; margin: 5px 0; }
+
+/* ============ PIE CHARTS (rubric weights) ============ */
+/* pure-CSS conic-gradient disc; the gradient (data) is set inline, colors via var() */
+.pie-card { text-align: center; }
+.pie-card h3 { text-align: center; margin: 0 0 4px; }
+.pie-disc { width: 132px; height: 132px; border-radius: 50%; margin: 10px auto 12px;
+  border: 1px solid var(--line); print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+.pie-legend { display: flex; flex-direction: column; gap: 5px; text-align: left;
+  max-width: 210px; margin: 0 auto; }
+.pie-legend span { display: flex; align-items: center; gap: 8px; font-size: 9pt; color: var(--text); }
+.pie-legend i { width: 11px; height: 11px; border-radius: 3px; flex: 0 0 auto;
+  print-color-adjust: exact; -webkit-print-color-adjust: exact; }

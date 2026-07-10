@@ -64,10 +64,25 @@ Body text. Use **bold** for emphasis; keep green to roughly 10-20% of a page.
 - `lang`: `en` (default) or `vi`. Full Vietnamese diacritics always.
 - Cover fields (`subtitle`, `date`, `audience`, `eyebrow`, `orgline`, and for
   handbooks `edition`) are optional; present ones render on the branded cover.
+  Report covers also accept `tagline` (a green positioning line), `founders` (a
+  "Founded by ..." line), `organizer`, `sponsors`, `cover_stats` (a list of
+  `"value|label"` strings shown as a stat band), `cover_stats_2` (an optional
+  second, shorter list of `"value|label"` strings shown as its own centered
+  row below `cover_stats` - for a distinct group of numbers, e.g. program-scale
+  stats vs. cohort stats), `partner_logos` (a list of logo paths shown beside
+  the VISEMI mark), and `cover_bg_logo` (a single image path rendered as a
+  decorative watermark in the cover's top-right corner; see Cover extras below).
 - Body Markdown supports (via `python-markdown` `extra` + `toc` + `admonition`):
   headings, paragraphs, **bold**/`links`, bullet and numbered lists, tables,
-  footnotes, blockquotes, fenced code, and callouts (see below). Do not hardcode a
-  color or inline style; styling comes from the tokens.
+  footnotes, blockquotes, fenced code, callouts, and the rich HTML components
+  below (stat tiles, bars, pies, profile cards). Do not hardcode a color hex or an
+  inline style that carries a brand/type value; styling comes from the tokens.
+  Data-carrying inline values (a bar's `width:NN%`, a pie's `conic-gradient` built
+  from `var()` colors) are the sanctioned exception.
+- **Content before the TOC.** A `<!-- TOC -->` marker in the body splits it:
+  everything before the marker renders right after the cover, ahead of the auto
+  table of contents (e.g. a one-page program summary); everything after follows the
+  TOC. The TOC is always built from the post-marker headings.
 
 ### Step 2 - Render
 
@@ -137,13 +152,112 @@ stay with figures, table headers repeat when a table splits).
 - **Blockquote**: `> Quoted text.` renders as a green-ruled pull quote. For a person
   quote, confirm consent and attribute in plain language; never expose private data.
 
+## Rich components (HTML blocks in the Markdown)
+
+`document.css` ships token-driven, print-safe components you drop into the Markdown
+as raw HTML blocks (surround with blank lines so `md_in_html` treats them as blocks).
+Colors come from token classes, never inline hex. Modeled on structures mined from
+`references/ui-component-libs/{tabler,gentelella}` and restyled to VISEMI.
+
+- **Stat tiles (`.statrow` / `.stile`)** - a KPI row, big number over label, auto-fits:
+  ```html
+  <div class="statrow">
+    <div class="stile"><strong>65</strong><span>Fellows</span></div>
+    <div class="stile"><strong>14</strong><span>Universities</span></div>
+  </div>
+  ```
+- **Proportional bars (`.bars`)** - a category distribution; the fill width is the
+  ACTUAL share, never normalized to the max (or a 40% value renders as a full bar):
+  ```html
+  <div class="bars">
+    <div class="bar-row"><span class="bar-label">US</span><div class="bar-track"><div class="bar-fill" style="width:65%"></div></div><span class="bar-val">39 (65%)</span></div>
+  </div>
+  ```
+- **100% stacked bar + legend (`.stackbar` / `.legend`)** - parts of a whole; segment
+  and swatch colors are the categorical set `c1`-`c6` (navy, green, gold, navy-300,
+  green-300, purple-300):
+  ```html
+  <div class="stackbar"><div class="seg c1" style="width:40%"></div><div class="seg c2" style="width:37%"></div></div>
+  <div class="legend"><span><i class="c1"></i>CS &amp; Maths: 24 (40%)</span></div>
+  ```
+- **Pie chart (`.pie-disc` / `.pie-legend`)** - weights that sum to 100% (e.g. a
+  rubric); pure-CSS `conic-gradient` with `var()` colors. Pair two with `.twocol`:
+  ```html
+  <div class="pie-disc" style="background:conic-gradient(var(--navy) 0 30%, var(--green) 30% 55%)"></div>
+  <div class="pie-legend"><span><i class="c1"></i>Research (30%)</span></div>
+  ```
+- **Profile card (`.pcard`)** - a person spotlight, ~3 per page. Precede each group
+  with a `## Field name ({n} fellows) {: .pgroup }` heading (a colored section band;
+  add `.er` for the gold "Early Research" variant). Metric-forward; omit the
+  Publications stat and research line when a fellow has 0 publications:
+  ```html
+  <div class="pcard">
+    <p class="pcard-name">Name</p>
+    <p class="pcard-sub">Institution &middot; Major</p>
+    <div class="pcard-stats"><div><strong>3.9</strong><span>GPA</span></div></div>
+    <p class="pcard-hi">One to three sentences naming awards in full.</p>
+    <p class="pcard-needs"><b>Support needs:</b> ...</p>
+  </div>
+  ```
+- **Two-column block (`.twocol`)** - `<div class="twocol"><div>..</div><div>..</div></div>`
+  for side-by-side lists or a pie pair.
+
+**Chart choice:** proportional `.bars` for multi-select / independent categories;
+`.stackbar` for one whole split into parts; `.pie-disc` for weights summing to 100%.
+The `c1`-`c6` order is fixed so every chart reads as one system.
+
+## Profile-heavy / per-fellow documents
+
+Reports that profile individuals (e.g. a cohort's fellows) carry real PII, so:
+
+- Never commit the generated Markdown or the rendered output when it holds real
+  fellow data. Keep the source `.md` in a scratchpad outside the repo; `output/` is
+  already git-ignored.
+- Per-fellow facts live in `cat-canh-program-management/data/fellow_info/<name>/`.
+  The `SUMMARY-EVALUATION-R1R2.md` is the reliable, correctly-matched source; some
+  folders hold MISFILED loose PDFs (another applicant's Resume/SOP), so verify a PDF
+  is the right person (name / md5) before trusting it. Tier-4 "Early Research"
+  fellows have only PDFs (no summary/application markdown).
+- Card highlights name awards in FULL (title + level + year), never a vague "First
+  Prize", and carry NO reviewer/interviewer names or internal evaluation terms
+  (R1/R2, composite, "the reviewer flagged"). State impressions as plain fact.
+
+## Cover extras (report)
+
+The report cover renders, when present in front-matter: a `partner_logos` lockup
+beside the VISEMI mark (each path `.svg` inlined or raster embedded as a base64
+data URI; repo-relative like `brand/logos/marvell-logo.webp` or absolute), a green
+`tagline`, a `founders` line, a `cover_stats` band (`"value|label"` items) plus an
+optional `cover_stats_2` second band shown as its own centered row, an
+`organizer` / `sponsors` credits line, and a `cover_bg_logo` (one image path,
+repo-relative or absolute, any raster or SVG format) rendered as a small
+decorative watermark in the cover's top-right corner, behind all other cover
+content. The whole hero block (logos, eyebrow, tagline, title, subtitle,
+founders, stats) is centered as a unit; date/audience and the org line sit in a
+separated footer strip at the bottom. Loading logic is `_load_partner_logos` /
+`_load_data_uri` in `visgen/html_render.py`.
+
+`cover_bg_logo` is embedded as an opaque base64 data URI for use as a plain CSS
+`background-image` - it is NOT inlined as manipulable markup, so an icon built
+on `stroke="currentColor"` (the `brand/icons/*` set) renders in whatever color
+the browser defaults `currentColor` to (black) rather than an on-brand tone,
+and a raster logo with a solid/white matte behind it paints as a visible hard
+edge, not a subtle watermark. Neither is caught by brand-lint (it does not
+decode embedded image bytes) or `doc_lint` (no overflow, so no failure) - only
+eyeballing the rendered PNG catches it. Use genuinely watermark-style art:
+pre-colored, with real alpha transparency around the shape (like a line/pattern
+motif), never a generic monochrome icon or an opaque logo file.
+
 ## Page-break behavior
 
 Headings use `break-after: avoid` (never orphaned at a page foot) and
 `break-inside: avoid`. Figures, blockquotes, callouts, and table rows avoid
-breaking mid-block. Handbook chapter headings force a page break before. If content
-overflows a page box, fix the content (trim or split a section), never off-brand
-sizing tricks; `doc_lint` fails on any overflow.
+breaking mid-block. Handbook chapter headings force a page break before; report
+`#` headings flow continuously by default (no forced break) - opt one into a
+fresh page with `# Section title {: .pagebreak }` (e.g. a closing/CTA section
+that should stand alone rather than share a page with what precedes it). If
+content overflows a page box, fix the content (trim or split a section), never
+off-brand sizing tricks; `doc_lint` fails on any overflow.
 
 ## Graders & exemplars
 
@@ -179,10 +293,24 @@ a reference's own palette):
   in a committed exemplar.
 - Any off-brand color or non-Be-Vietnam-Pro font; em dashes, en dashes, emojis;
   stripped Vietnamese diacritics.
-- Hardcoding a hex or inline style in the Markdown or in `document.css`; styling
-  lives in the tokens.
+- Hardcoding a color hex, or an inline style carrying a brand/type value, in the
+  Markdown or `document.css`; styling lives in the tokens. (Data-carrying inline
+  values - a bar's `width:NN%`, a pie's `conic-gradient` of `var()` colors - are
+  the sanctioned exception.)
+- Putting a reviewer/interviewer name or an internal evaluation term (R1/R2,
+  composite, "the reviewer flagged") in a fellow profile; naming an award vaguely
+  ("First Prize") instead of its full title.
+- Normalizing a `.bars` fill to the max value so a minority share reads as a full
+  bar; use the actual percentage as the width.
 - Using a status color (amber/red/green) as a decorative fill instead of a
   functional callout/status accent.
 - Declaring a document done without rendering it and checking `render_report.json`
   (overflow false, TOC resolved, no orphaned headings) and eyeballing the PNGs.
 - Committing anything under `output/`.
+- Using a `brand/icons/*` currentColor icon or an opaque/matte logo file as
+  `cover_bg_logo` - it bakes in the wrong color or a visible hard edge, and
+  neither brand-lint nor `doc_lint` will catch it; only the rendered PNG will.
+- Forcing a cover heading to one line with `white-space: nowrap` against
+  `.cover`'s `overflow: hidden` - a longer title/eyebrow than the one you
+  tested against will silently clip instead of wrapping. Size for the common
+  case and let it wrap; don't force single-line.

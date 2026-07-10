@@ -73,11 +73,14 @@
 <body class="doc {{ meta.template }} lang-{{ meta.lang | default('en') }}">
   <div class="brandmark">{{ logo | safe }}</div>
   {% include "partials/cover-" ~ meta.template ~ ".html.j2" %}
-  <nav class="toc-page">
-    <h2 class="toc-title">{{ 'Nội dung' if meta.lang == 'vi' else 'Contents' }}</h2>
-    {{ toc_html | safe }}
-  </nav>
-  <main class="{{ meta.template }}">{{ body_html | safe }}</main>
+  <main class="{{ meta.template }}">
+    {% if lead_html %}<div class="doc-lead">{{ lead_html | safe }}</div>{% endif %}
+    <nav class="toc-page">
+      <h2 class="toc-title">{{ 'Nội dung' if meta.lang == 'vi' else 'Contents' }}</h2>
+      {{ toc_html | safe }}
+    </nav>
+    {{ body_html | safe }}
+  </main>
   <script>{{ pagedjs_js | safe }}</script>
 </body>
 </html>

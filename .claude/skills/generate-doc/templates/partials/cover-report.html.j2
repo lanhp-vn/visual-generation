@@ -1,11 +1,37 @@
 <header class="cover cover-report">
-  <div class="cover-brand">{{ logo | safe }}</div>
-  <p class="cover-eyebrow">{{ meta.eyebrow | default('Cất Cánh (Takeoff) Fellowship') }}</p>
-  <h1 class="cover-title">{{ meta.title }}</h1>
-  {% if meta.subtitle %}<p class="cover-subtitle">{{ meta.subtitle }}</p>{% endif %}
-  <div class="cover-meta">
-    {% if meta.date %}<span>{{ meta.date }}</span>{% endif %}
-    {% if meta.audience %}<span>{{ meta.audience }}</span>{% endif %}
+  {% if bg_logo %}<div class="cover-bg-logo" style="background-image:url('{{ bg_logo }}')"></div>{% endif %}
+  <div class="cover-main">
+    <div class="cover-logos">
+      <div class="cover-brand">{{ logo | safe }}</div>
+      {% for pl in partner_logos %}<span class="cover-logo-div"></span><div class="cover-partner">{{ pl | safe }}</div>{% endfor %}
+    </div>
+    <p class="cover-eyebrow">{{ meta.eyebrow | default('Cất Cánh (Takeoff) Fellowship') }}</p>
+    {% if meta.tagline %}<p class="cover-tagline">{{ meta.tagline }}</p>{% endif %}
+    <h1 class="cover-title">{{ meta.title }}</h1>
+    {% if meta.subtitle %}<p class="cover-subtitle">{{ meta.subtitle }}</p>{% endif %}
+    {% if meta.founders %}<p class="cover-founders">{{ meta.founders }}</p>{% endif %}
+    {% if meta.cover_stats %}
+    <div class="cover-stats">
+      {% for s in meta.cover_stats %}<div><strong>{{ s.split('|')[0] }}</strong><span>{{ s.split('|')[1] }}</span></div>{% endfor %}
+    </div>
+    {% endif %}
+    {% if meta.cover_stats_2 %}
+    <div class="cover-stats cover-stats-secondary">
+      {% for s in meta.cover_stats_2 %}<div><strong>{{ s.split('|')[0] }}</strong><span>{{ s.split('|')[1] }}</span></div>{% endfor %}
+    </div>
+    {% endif %}
   </div>
-  <p class="cover-orgline">{{ meta.orgline | default('VISEMI Foundation | visemi.org') }}</p>
+  <div class="cover-footer">
+    <div class="cover-meta">
+      {% if meta.date %}<span>{{ meta.date }}</span>{% endif %}
+      {% if meta.audience %}<span>{{ meta.audience }}</span>{% endif %}
+    </div>
+    {% if meta.organizer or meta.sponsors %}
+    <div class="cover-credits">
+      {% if meta.organizer %}<p><span>Organizing Committee</span> {{ meta.organizer }}</p>{% endif %}
+      {% if meta.sponsors %}<p><span>Founding Sponsors</span> {{ meta.sponsors }}</p>{% endif %}
+    </div>
+    {% endif %}
+    <p class="cover-orgline">{{ meta.orgline | default('VISEMI Foundation | visemi.org') }}</p>
+  </div>
 </header>

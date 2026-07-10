@@ -93,18 +93,71 @@ def render_document(doc: dict, skill_dir: Path | None = None) -> str:
 
 
 def render_doc_html(meta: dict, body_html: str, toc_html: str,
-                    skill_dir: Path | None = None) -> str:
+                    lead_html: str = "", skill_dir: Path | None = None) -> str:
     """Assemble a document (front-matter + converted Markdown) into one
     self-contained HTML string: inlined brand CSS (light theme) + the skill's
     document.css + the vendored Paged.js polyfill, wrapped in the doc base
-    template with the template-specific cover. Docs are light-theme only."""
+    template with the template-specific cover. Docs are light-theme only.
+
+    lead_html (optional) is rendered inside <main> BEFORE the auto TOC - the doc's
+    content ahead of the `<!-- TOC -->` marker (see document.render_doc). Any
+    meta['partner_logos'] paths are inlined (SVG as markup, raster as a base64
+    data URI) and passed to the cover as `partner_logos`, keeping output
+    self-contained. meta['cover_bg_logo'] (optional, one path) is loaded the
+    same way but always as a base64 data URI (even for SVG), since it is used
+    as a single CSS background-image rather than inline markup. Other optional
+    cover fields (tagline, founders, organizer, sponsors, cover_stats) are read
+    straight from meta by the cover template."""
     skill_dir = skill_dir or DEFAULT_DOC_SKILL_DIR
     env = build_env(skill_dir / "templates")
     brand_css = _fonts_and_tokens("light")
     document_css = (skill_dir / "assets/document.css").read_text(encoding="utf-8")
     pagedjs_js = _PAGEDJS.read_text(encoding="utf-8")
     logo = (BRAND_DIR / "logos/visemi-logo-color.svg").read_text(encoding="utf-8")
+    partner_logos = _load_partner_logos(meta.get("partner_logos") or [])
+    bg_logo = _load_data_uri(meta.get("cover_bg_logo"))
     base = env.get_template("base.html.j2")
     return base.render(meta=meta, body_html=body_html, toc_html=toc_html,
-                       brand_css=brand_css, document_css=document_css,
-                       pagedjs_js=pagedjs_js, logo=logo)
+                       lead_html=lead_html, brand_css=brand_css, document_css=document_css,
+                       pagedjs_js=pagedjs_js, logo=logo, partner_logos=partner_logos,
+                       bg_logo=bg_logo)
+
+
+def _load_data_uri(rel: str | None) -> str | None:
+    """Load an optional single image path (meta.cover_bg_logo) as a base64 data
+    URI, for use as a CSS background-image - unlike _load_partner_logos (inline
+    markup), a background-image needs one URL, so SVGs are also base64-encoded
+    rather than inlined raw. Path is absolute or repo-root-relative; None if unset
+    or missing."""
+    import mimetypes
+    if not rel:
+        return None
+    p = Path(rel)
+    if not p.is_absolute():
+        p = REPO_ROOT / rel
+    if not p.exists():
+        return None
+    mime = "image/svg+xml" if p.suffix.lower() == ".svg" else (mimetypes.guess_type(p.name)[0] or "image/png")
+    b64 = base64.standard_b64encode(p.read_bytes()).decode("ascii")
+    return f"data:{mime};base64,{b64}"
+
+
+def _load_partner_logos(paths) -> list[str]:
+    """Inline each partner/sponsor logo path (from meta.partner_logos) as HTML:
+    .svg files inline as markup, raster files as a base64 data-URI <img>. Paths are
+    absolute or repo-root-relative. Keeps the rendered HTML self-contained."""
+    import mimetypes
+    out = []
+    for rel in paths:
+        p = Path(rel)
+        if not p.is_absolute():
+            p = REPO_ROOT / rel
+        if not p.exists():
+            continue
+        if p.suffix.lower() == ".svg":
+            out.append(p.read_text(encoding="utf-8"))
+        else:
+            mime = mimetypes.guess_type(p.name)[0] or "image/png"
+            b64 = base64.standard_b64encode(p.read_bytes()).decode("ascii")
+            out.append(f'<img src="data:{mime};base64,{b64}" alt="partner logo">')
+    return out

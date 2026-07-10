@@ -5,7 +5,12 @@ subtitle: Plan and progress to date
 lang: en
 date: July 2026
 audience: Partners and founders
-eyebrow: Cất Cánh (Takeoff) Fellowship
+eyebrow: Cất Cánh (Takeoff) Fellowship Program
+tagline: The launch pad for Viet talent
+founders: Founded by Dr. Loi Nguyen (Executive VP Emeritus, Marvell) & VISEMI Foundation
+partner_logos: ["brand/logos/marvell-logo.webp"]
+cover_stats: ["15|Fellows targeted", "14|Universities", "193|Applications received", "7x-20x|Program ROI"]
+cover_stats_2: ["6|Month accelerator", "60|Fellows funded", "$150K|Fundraising goal"]
 orgline: VISEMI Foundation | visemi.org | catcanh@visemi.org
 ---
 
@@ -97,7 +102,7 @@ Over five years, Cất Cánh aims to fund 150 fellows and build a global Vietnam
 tech talent network on a total budget under $2 million, sustained by the alumni
 flywheel in which every fellow mentors the next cohort.
 
-# Partner With Us
+# Partner With Us {: .pagebreak }
 
 The Cất Cánh Fellowship, founded by Dr. Loi Nguyen and the VISEMI Foundation, is
 administered by VISEMI Foundation, a registered 501(c)(3) nonprofit, ensuring
