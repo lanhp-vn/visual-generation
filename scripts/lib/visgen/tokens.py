@@ -19,7 +19,9 @@ def _load(brand_dir: str) -> dict:
 
 
 def load_tokens() -> dict:
-    return _load(str(active_brand_dir()))
+    # Cache key is the resolved absolute path so a relative VISGEN_BRAND (e.g.
+    # --brand brand) can't return a stale brand if cwd later changes in-process.
+    return _load(str(active_brand_dir().resolve()))
 
 
 def theme_css(theme: str) -> str:

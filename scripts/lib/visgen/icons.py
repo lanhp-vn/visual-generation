@@ -1,9 +1,10 @@
 """Brand icon set: semantic names mapped to vendored Lucide SVGs, recolored
-via currentColor so the surrounding CSS controls navy/green."""
+via currentColor so the surrounding CSS controls navy/green. Icons are part of
+the brand surface, so they load from the active (possibly injected) brand via
+active_brand_dir() at call time - same seam as fonts/logos/tokens."""
 import re
-from pathlib import Path
 
-ICONS_DIR = Path(__file__).resolve().parents[3] / "brand/icons"
+from visgen.brand import active_brand_dir
 
 ICONS = {
     "globe": "globe", "grad-cap": "graduation-cap", "alert": "triangle-alert",
@@ -21,7 +22,7 @@ _OPEN_SVG = re.compile(r"<svg\b[^>]*>")
 def render_icon(name: str, css_class: str = "icon") -> str:
     """Return the icon as an inline <svg> with the given class. KeyError if unknown."""
     stem = ICONS[name]  # raises KeyError on unknown name
-    raw = (ICONS_DIR / f"{stem}.svg").read_text(encoding="utf-8")
+    raw = (active_brand_dir() / "icons" / f"{stem}.svg").read_text(encoding="utf-8")
     # Force our class onto the root <svg>; strip width/height/fill/stroke so the
     # .icon CSS (1em, currentColor) governs sizing and color.
     new_open = f'<svg class="{css_class}" aria-hidden="true" focusable="false"'
