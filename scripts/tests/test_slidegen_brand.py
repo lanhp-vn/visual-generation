@@ -1,7 +1,8 @@
 from visgen.html_render import DEFAULT_SKILL_DIR, _theme_css
-from visgen.tokens import BRAND_DIR
+from visgen.brand import active_brand_dir
 
 ASSETS = DEFAULT_SKILL_DIR / "assets"
+BRAND_DIR = active_brand_dir()
 
 
 def test_package_imports():
