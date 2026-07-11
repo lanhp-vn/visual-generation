@@ -45,6 +45,6 @@ def test_components_css_has_no_literal_hex():
     """Brand values live only in tokens.json; component CSS must be all var() refs."""
     import re
     root = Path(__file__).resolve().parents[2]
-    css = (root / ".claude/skills/generate-slides/assets/components.css").read_text(encoding="utf-8")
+    css = (root / "skills/generate-slides/assets/components.css").read_text(encoding="utf-8")
     css = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
     assert re.findall(r"#[0-9a-fA-F]{3,6}\b", css) == []

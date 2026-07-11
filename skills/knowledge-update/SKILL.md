@@ -1,6 +1,6 @@
 ---
 name: knowledge-update
-description: End-of-session knowledge sweep for this visual-generation repo. Reviews git status/diff plus the conversation to find everything built, fixed, or learned this session, then propagates each durable piece of knowledge into its single correct home - the owning skill's SKILL.md (usage + Anti-patterns), inline code comments in document.css/templates/scripts, docstrings in scripts/lib/visgen/, agent definitions in .claude/agents/, eval reference exemplars in scripts/evals/references/ so new capabilities get regression coverage instead of only ever running against a private/uncommitted input, and CLAUDE.md only for genuine repo-wide conventions. Re-renders and re-grades any exemplar it touches so the repo is left in a verified-passing state, then reports a summary - never commits. Always use this at the end of a session that touched .claude/skills/, scripts/lib/visgen/, scripts/ops/, scripts/evals/, .claude/agents/, or brand/, or whenever the user says "update the docs with what we learned", "record this session's knowledge", "make sure this doesn't get lost", "knowledge-update", or invokes /knowledge-update - even if they don't spell out exactly what changed, since this skill figures that out from the repo diff and conversation itself.
+description: End-of-session knowledge sweep for this visual-generation repo. Reviews git status/diff plus the conversation to find everything built, fixed, or learned this session, then propagates each durable piece of knowledge into its single correct home - the owning skill's SKILL.md (usage + Anti-patterns), inline code comments in document.css/templates/scripts, docstrings in scripts/lib/visgen/, agent definitions in agents/, eval reference exemplars in scripts/evals/references/ so new capabilities get regression coverage instead of only ever running against a private/uncommitted input, and CLAUDE.md only for genuine repo-wide conventions. Re-renders and re-grades any exemplar it touches so the repo is left in a verified-passing state, then reports a summary - never commits. Always use this at the end of a session that touched skills/, scripts/lib/visgen/, scripts/ops/, scripts/evals/, agents/, or brand/, or whenever the user says "update the docs with what we learned", "record this session's knowledge", "make sure this doesn't get lost", "knowledge-update", or invokes /knowledge-update - even if they don't spell out exactly what changed, since this skill figures that out from the repo diff and conversation itself.
 ---
 
 # knowledge-update
@@ -12,8 +12,8 @@ instead of staying an aspiration that quietly lapses once the chat ends.
 
 ## When to run
 
-At the end of a session that touched `.claude/skills/`, `scripts/lib/visgen/`,
-`scripts/ops/`, `scripts/evals/`, `.claude/agents/`, `brand/`, or `CLAUDE.md` -
+At the end of a session that touched `skills/`, `scripts/lib/visgen/`,
+`scripts/ops/`, `scripts/evals/`, `agents/`, `brand/`, or `CLAUDE.md` -
 or whenever the user asks to record/update what was learned, or runs
 `/knowledge-update`. Optional scope argument (e.g. "just generate-doc",
 "everything since <commit>") - default is the whole current session.

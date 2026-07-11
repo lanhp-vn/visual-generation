@@ -1,7 +1,7 @@
 import re
 from pathlib import Path
 
-SKILL = Path(__file__).resolve().parents[2] / ".claude/skills/generate-doc/SKILL.md"
+SKILL = Path(__file__).resolve().parents[2] / "skills/generate-doc/SKILL.md"
 
 
 def test_skill_present_with_frontmatter():

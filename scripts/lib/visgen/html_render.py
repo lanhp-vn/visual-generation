@@ -15,8 +15,8 @@ from visgen.icons import render_icon
 from visgen.qr import qr_svg
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_SKILL_DIR = REPO_ROOT / ".claude/skills/generate-slides"
-DEFAULT_DOC_SKILL_DIR = REPO_ROOT / ".claude/skills/generate-doc"
+DEFAULT_SKILL_DIR = REPO_ROOT / "skills/generate-slides"
+DEFAULT_DOC_SKILL_DIR = REPO_ROOT / "skills/generate-doc"
 _PAGEDJS = Path(__file__).resolve().parent / "vendor/paged.polyfill.js"
 
 _FONT_URL = re.compile(r'url\(\s*["\']?(?:\.\./)?fonts/([^"\')]+)["\']?\s*\)')

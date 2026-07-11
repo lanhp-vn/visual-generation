@@ -8,7 +8,7 @@ description: Build brand-locked HTML slides and one-pagers for the Cất Cánh (
 Produces VISEMI / Cất Cánh slides and one-pagers in the house brand: navy `#001669`, green `#01B68B` accent, gold `#F5B433` (sparing), Be Vietnam Pro, on a fixed 1920x1080 stage. It separates three concerns - **content** (a JSON file), **layout** (Jinja2 templates), **brand** (the VISEMI theme, light or dark) - so output is repeatable, gradeable, and on-brand.
 
 > **Workspace note.** Templates are vendored under this skill
-> (`.claude/skills/generate-slides/templates/`). Brand assets - fonts, logos,
+> (`skills/generate-slides/templates/`). Brand assets - fonts, logos,
 > icons, tokens - are the single source of truth in `brand/` (`brand/tokens.json`
 > generates both theme CSS files and the brand-lint palette). The render/grade
 > machinery lives in `scripts/ops/` and `scripts/lib/visgen/`. The reference

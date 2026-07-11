@@ -38,6 +38,15 @@ tokens, and eval/grader stack. Design spec:
 
 - `brand/` — canonical machine-readable brand source (tokens, fonts, logos, icons)
 - `scripts/lib/visgen/` — shared engine; `scripts/ops/` — CLIs; `scripts/evals/` — runner/rubrics/tasks/references
-- `.claude/skills/generate-*` — thin skills; `.claude/agents/visual-designer.md`
+- `skills/generate-*` — thin skills; `agents/visual-designer.md`
+- `.claude-plugin/` — plugin + local marketplace manifests
 - `output/` — git-ignored rendered output; never commit it
 - `references/` — 20 read-only submodules + `visemi-internal/` design kit
+
+This repo is a Claude Code plugin (`skills/<name>/SKILL.md`, `agents/<name>.md`,
+manifests in `.claude-plugin/`). It is also consumed as a git submodule inside a
+working repo, pinned to a permanent per-project branch (never `master`/`main`).
+The working repo supplies its own theme via a `brand/` override resolved through
+`active_brand_dir()` (`VISGEN_BRAND` env / `--brand` flag / `<cwd>/brand` /
+studio default); rendered output lands in the working repo's git-ignored
+`output/`. Scripts anchor to `__file__`, so they run from any CWD.

@@ -8,7 +8,7 @@ description: Build brand-locked VISEMI / Cất Cánh reports and handbooks from 
 Produces VISEMI / Cất Cánh reports and handbooks in the house brand: navy `#001669`, green `#01B68B` accent, gold `#F5B433` (sparing), Be Vietnam Pro, on A4 pages with a branded cover, an auto table of contents with real page numbers, and running headers/footers. It separates three concerns: **content** (a Markdown file with YAML front-matter), **layout** (the report or handbook template family), **brand** (the tokens in `brand/tokens.json`), so output is repeatable, gradeable, and on-brand. It is the document counterpart to `generate-slides`: same engine, same brand, a second renderer.
 
 > **Workspace note.** Templates and `document.css` are vendored under this skill
-> (`.claude/skills/generate-doc/`). Brand assets (fonts, logos, icons, tokens) are
+> (`skills/generate-doc/`). Brand assets (fonts, logos, icons, tokens) are
 > the single source of truth in `brand/` (`brand/tokens.json` generates both the
 > theme CSS and the brand-lint palette). Render/grade machinery lives in
 > `scripts/ops/` and `scripts/lib/visgen/` (`document.py`, `doc_lint.py`). The

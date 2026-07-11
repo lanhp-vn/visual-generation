@@ -3,7 +3,7 @@ from pathlib import Path
 
 from visgen.html_render import build_env
 
-DOC_SKILL = Path(__file__).resolve().parents[2] / ".claude/skills/generate-doc"
+DOC_SKILL = Path(__file__).resolve().parents[2] / "skills/generate-doc"
 
 
 def test_document_css_has_no_literal_hex():
