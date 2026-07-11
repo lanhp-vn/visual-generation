@@ -5,7 +5,7 @@
 {% if c.photo %}
 <section class="slide evt social photo">
   <div class="social-photo" style="background-image:url('{{ c.photo }}');"></div>
-  {{ cm.logo(logo) }}
+  {{ cm.logo(logo_white) }}
   <div class="social-inner">
     {% if c.eyebrow %}<div class="eyebrow left">{{ c.eyebrow }}</div>{% endif %}
     <div class="social-quote" style="color:var(--white);">{{ c.quote | safe }}</div>

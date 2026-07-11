@@ -1,7 +1,7 @@
 {# social-announce - headline + supporting detail. Required: headline, detail.
    Optional: eyebrow, cta, qr ({url, caption?}), foot. Tokens only, no hex. #}
 {% import "components.html.j2" as cm %}
-<section class="slide evt center social">
+<section class="slide evt center social announce">
   {{ cm.slide_bg(decor) }}
   {{ cm.logo(logo) }}
   {% if c.eyebrow %}<div class="eyebrow">{{ c.eyebrow }}</div>{% endif %}

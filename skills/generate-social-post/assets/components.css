@@ -42,7 +42,7 @@ body{font-family:var(--font-sans);color:var(--body);}
    chrome (.logo / .pageno) is excluded so it keeps its own absolute positioning
    and stays out of the centred flex flow (its own z-index:5 already sits above
    the decor layer). */
-.slide.evt > :not(.slide-bg-dots):not(.slide-bg-glow):not(.sparkles):not(.logo):not(.pageno){position:relative;z-index:2;}
+.slide.evt > :not(.slide-bg-dots):not(.slide-bg-glow):not(.sparkles):not(.logo):not(.pageno):not(.social-photo){position:relative;z-index:2;}
 
 /* decorative 4-point sparkles (colour set by inline token via currentColor) */
 .spark{position:absolute;pointer-events:none;filter:var(--spark-glow);z-index:1;}
@@ -215,8 +215,17 @@ h2.title{font-weight:700;font-size:62px;line-height:1.1;color:var(--heading);let
  * type scale is pushed up for feed legibility, plus a photo-hero scrim.
  * One canvas, one message. Tokens only - no literal brand hex.
  * ===================================================================== */
-.slide.social{padding:96px 92px;gap:38px;}
-.social-headline{font-weight:700;font-size:104px;line-height:1.04;letter-spacing:-.015em;color:var(--heading);max-width:900px;}
+.slide.social{padding:96px 92px;gap:32px;}
+.social-headline{font-weight:700;font-size:92px;line-height:1.05;letter-spacing:-.015em;color:var(--heading);max-width:900px;}
+/* QR is sized for a 1920 deck by default; scale it down for the smaller social
+   canvas so an announce/cta with a QR stays in-bounds on a square. */
+.slide.social .qrbox{width:224px;height:224px;padding:10px;}
+.slide.social .qr-card{padding:24px 28px;gap:12px;}
+.slide.social .qr-cap{font-size:26px;line-height:1.3;}
+/* announce carries the most (headline + detail + optional cta + QR); tighten it
+   so the full field set stays in-bounds on a square. */
+.slide.social.announce{gap:26px;}
+.slide.social.announce .social-headline{font-size:76px;line-height:1.06;}
 .social-sub{font-size:44px;font-weight:600;line-height:1.3;color:var(--heading);max-width:860px;}
 .social-detail{font-size:40px;font-weight:500;line-height:1.42;color:var(--text);max-width:860px;}
 .social-statnum{font-weight:700;font-size:288px;line-height:.86;color:var(--green);letter-spacing:-.02em;}
@@ -230,8 +239,12 @@ h2.title{font-weight:700;font-size:62px;line-height:1.1;color:var(--heading);let
    scrim is derived from the brand navy token via color-mix (no literal hex). */
 .slide.social.photo{padding:0;text-align:left;align-items:stretch;}
 .social-photo{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;}
-.social-photo::after{content:"";position:absolute;inset:0;
-  background:linear-gradient(to top, color-mix(in srgb, var(--navy) 88%, transparent), color-mix(in srgb, var(--navy) 34%, transparent));}
+/* navy scrim so white text stays legible over any photo; a solid brand-navy
+   overlay at reduced opacity (token-based, renders everywhere - avoids color-mix
+   with a CSS var, which Chromium can drop). Slightly stronger at the bottom via
+   a second lower band where the message sits. */
+.social-photo::before{content:"";position:absolute;inset:0;background:var(--navy);opacity:.5;}
+.social-photo::after{content:"";position:absolute;left:0;right:0;bottom:0;height:62%;background:var(--navy);opacity:.4;}
 .slide.social.photo .social-inner{position:relative;z-index:2;padding:96px 92px;height:100%;box-sizing:border-box;
   display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:30px;}
 .slide.social.photo .social-headline,.slide.social.photo .social-sub{color:var(--white);}
