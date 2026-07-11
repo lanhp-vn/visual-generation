@@ -24,23 +24,37 @@ def metrics(per_trial_pass, k):
             "pass_caret_k": 1.0 if passes and all(passes) else 0.0}
 
 
-def _render(content_path, out_dir, renderer="canvas"):
+def _skill_dir_for(name: str):
+    """Map a content/reference filename to its non-default canvas skill dir, so
+    social/poster exemplars render with their own templates (the default is the
+    slides skill). Returns None for slides content."""
+    if name.startswith("social-"):
+        return "skills/generate-social-post"
+    if name.startswith(("poster-", "banner-", "email-")):
+        return "skills/generate-poster"
+    return None
+
+
+def _render(content_path, out_dir, renderer="canvas", skill_dir=None):
     if renderer == "doc":
         cmd = [sys.executable, str(ROOT / "scripts/ops/render_doc.py"),
                str(ROOT / content_path), "--out", str(out_dir)]
     else:
         cmd = [sys.executable, str(ROOT / "scripts/ops/render_canvas.py"),
                str(ROOT / content_path), "--format", "both", "--out", str(out_dir)]
+        if skill_dir:
+            cmd += ["--skill-dir", str(ROOT / skill_dir)]
     subprocess.run(cmd, check=True, cwd=str(ROOT))
 
 
 def run_task(task, k, out_root, judge=False):
     renderer = task.get("renderer", "canvas")
+    skill_dir = task.get("skill_dir") or _skill_dir_for(Path(task["content"]).name)
     trial_results = []
     for t in range(1, k + 1):
         trial_dir = out_root / task["id"] / f"trial-{t:02d}"
         trial_dir.mkdir(parents=True, exist_ok=True)
-        _render(task["content"], trial_dir, renderer=renderer)
+        _render(task["content"], trial_dir, renderer=renderer, skill_dir=skill_dir)
         html = (trial_dir / "index.html").read_text(encoding="utf-8")
         report = json.loads((trial_dir / "render_report.json").read_text(encoding="utf-8"))
         if renderer == "doc":
@@ -97,7 +111,8 @@ def main():
         # (event-*.json), excluding the _fixtures/ content used by the latter.
         tasks_dir = ROOT / "scripts/evals/tasks"
         task_files = sorted(
-            {p for p in (*tasks_dir.glob("*.task.json"), *tasks_dir.glob("event-*.json"))}
+            {p for p in (*tasks_dir.glob("*.task.json"), *tasks_dir.glob("event-*.json"),
+                         *tasks_dir.glob("social-*.json"), *tasks_dir.glob("poster-*.json"))}
         )
     out_root = Path(args.out) if args.out else ROOT / "scripts" / "evals" / "runs" / "latest"
     out_root.mkdir(parents=True, exist_ok=True)

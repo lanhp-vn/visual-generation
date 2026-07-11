@@ -1,0 +1,10 @@
+{
+  "id": "social-square",
+  "description": "Render the square social stat post faithfully: eyebrow, one hero number, a label, a supporting line, and the brand foot, on a 1080x1080 canvas.",
+  "content": "scripts/evals/references/social-square.content.json",
+  "skill_dir": "skills/generate-social-post",
+  "required_strings": ["Cất Cánh", "65", "Fellows", "Cohort 1"],
+  "forbidden_strings": ["Cat Canh"],
+  "expected_page_px": [1080, 1080],
+  "trials": 1
+}

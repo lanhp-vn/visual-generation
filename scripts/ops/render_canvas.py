@@ -22,6 +22,7 @@ def main():
     ap.add_argument("--format", choices=["png", "pdf", "both"], default="both")
     ap.add_argument("--out", help="Output directory (default: output/<stem>/).")
     ap.add_argument("--brand", help="Brand source dir (overrides VISGEN_BRAND / cwd brand/).")
+    ap.add_argument("--skill-dir", help="Template/skill dir (default: skills/generate-slides).")
     args = ap.parse_args()
     if args.brand:
         import os
@@ -36,7 +37,8 @@ def main():
     content_path = Path(args.content)
     doc = json.loads(content_path.read_text(encoding="utf-8"))
     out = Path(args.out) if args.out else Path("output") / content_path.stem
-    report = render_canvas(doc, out, fmt=args.format)
+    skill_dir = Path(args.skill_dir) if args.skill_dir else None
+    report = render_canvas(doc, out, fmt=args.format, skill_dir=skill_dir)
     print(f"Rendered {len(report['pages'])} page(s) to {out}")
 
 
