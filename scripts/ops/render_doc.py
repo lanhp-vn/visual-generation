@@ -24,7 +24,11 @@ def main():
                      help="Re-print an already-edited DIR/index.html to PDF+PNG "
                           "without regenerating it from Markdown (for docs with no "
                           "retained Markdown source).")
+    ap.add_argument("--brand", help="Brand source dir (overrides VISGEN_BRAND / cwd brand/).")
     args = ap.parse_args()
+    if args.brand:
+        import os
+        os.environ["VISGEN_BRAND"] = args.brand
 
     if args.print_only:
         out = Path(args.print_only)

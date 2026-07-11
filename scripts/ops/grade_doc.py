@@ -20,7 +20,11 @@ from visgen.doc_lint import lint_doc  # noqa: E402
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("outdir")
+    ap.add_argument("--brand", help="Brand source dir (overrides VISGEN_BRAND / cwd brand/).")
     args = ap.parse_args()
+    if args.brand:
+        import os
+        os.environ["VISGEN_BRAND"] = args.brand
     out = Path(args.outdir)
     html = (out / "index.html").read_text(encoding="utf-8")
     report = json.loads((out / "render_report.json").read_text(encoding="utf-8"))

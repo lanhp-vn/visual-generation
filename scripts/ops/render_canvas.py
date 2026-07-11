@@ -21,7 +21,11 @@ def main():
     ap.add_argument("content", help="Path to the content JSON.")
     ap.add_argument("--format", choices=["png", "pdf", "both"], default="both")
     ap.add_argument("--out", help="Output directory (default: output/<stem>/).")
+    ap.add_argument("--brand", help="Brand source dir (overrides VISGEN_BRAND / cwd brand/).")
     args = ap.parse_args()
+    if args.brand:
+        import os
+        os.environ["VISGEN_BRAND"] = args.brand
 
     content_path = Path(args.content)
     doc = json.loads(content_path.read_text(encoding="utf-8"))
