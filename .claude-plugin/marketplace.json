@@ -1,0 +1,14 @@
+{
+  "name": "visual-generation",
+  "description": "Local marketplace for the VISEMI visual-generation plugin.",
+  "owner": { "name": "VISEMI", "email": "lanph@visemi.org" },
+  "plugins": [
+    {
+      "name": "visual-generation",
+      "description": "VISEMI visual-generation studio (slides, docs, social, posters).",
+      "version": "0.1.0",
+      "source": "./",
+      "author": { "name": "VISEMI", "email": "lanph@visemi.org" }
+    }
+  ]
+}

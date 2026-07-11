@@ -1,0 +1,10 @@
+{
+  "name": "visual-generation",
+  "description": "VISEMI visual-generation studio: brand-locked slides, docs, social posts, and posters rendered to pixel-exact PNG/PDF, with a shared engine, brand tokens, and eval/grader stack.",
+  "version": "0.1.0",
+  "author": { "name": "VISEMI", "email": "lanph@visemi.org" },
+  "homepage": "https://github.com/lanhp-vn/visual-generation",
+  "repository": "https://github.com/lanhp-vn/visual-generation",
+  "license": "UNLICENSED",
+  "keywords": ["visemi", "cat-canh", "slides", "documents", "brand", "playwright"]
+}

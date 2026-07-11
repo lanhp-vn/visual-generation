@@ -1,0 +1,6 @@
+{
+  "extraKnownMarketplaces": {
+    "visual-generation": { "source": { "source": "directory", "path": "." } }
+  },
+  "enabledPlugins": { "visual-generation@visual-generation": true }
+}
