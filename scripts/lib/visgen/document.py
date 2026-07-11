@@ -111,9 +111,22 @@ def render_doc(md_path, out_dir, skill_dir=None) -> dict:
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "index.html").write_text(html, encoding="utf-8")
 
+    return print_doc(out_dir, template=meta["template"], title=meta["title"])
+
+
+def print_doc(out_dir, template=None, title=None) -> dict:
+    """Paginate+capture an already-written out_dir/index.html to PDF + PNGs.
+
+    Split out of render_doc so an index.html that was hand-edited after
+    rendering (no Markdown source retained) can be re-printed without
+    regenerating it from Markdown."""
+    out_dir = Path(out_dir)
+    if not (out_dir / "index.html").exists():
+        raise FileNotFoundError(f"{out_dir}/index.html not found; nothing to print")
+
     from playwright.sync_api import sync_playwright  # lazy: keeps this module import-safe
 
-    report = {"template": meta["template"], "title": meta["title"], "pages": []}
+    report = {"template": template, "title": title, "pages": []}
     with sync_playwright() as p:
         browser = p.chromium.launch()
         page = browser.new_page()
