@@ -1,0 +1,11 @@
+{# banner-headline - wide banner (banner-wide), one big centred headline.
+   Required: headline. Optional: eyebrow, sub, cta. Tokens only, no hex. #}
+{% import "components.html.j2" as cm %}
+<section class="slide evt center banner">
+  {{ cm.slide_bg(decor, c.sparkles) }}
+  {{ cm.logo(logo) }}
+  {% if c.eyebrow %}<div class="eyebrow">{{ c.eyebrow }}</div>{% endif %}
+  <h1 class="banner-headline">{{ c.headline | safe }}</h1>
+  {% if c.sub %}<div class="banner-sub">{{ c.sub | safe }}</div>{% endif %}
+  {% if c.cta %}<div class="poster-cta">{{ c.cta | safe }}</div>{% endif %}
+</section>

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="{{ meta.lang }}">
+<head>
+<meta charset="utf-8">
+<title>{{ meta.title }}</title>
+<style>{{ base_css | safe }}</style>
+<style>{{ theme_css | safe }}</style>
+<style>
+  @page { size: {{ page_w }}px {{ page_h }}px; margin: 0; }
+  html, body { background: var(--white); margin: 0; }
+  /* Override base.css runtime rules: stack every slide as a static, visible
+     1920x1080 canvas so the renderer can screenshot each one. runtime.js is
+     intentionally NOT loaded here (it governs interactive viewing only). */
+  .deck { position: static; width: auto; height: auto; overflow: visible;
+          background: var(--white); }
+  .slide { position: relative; inset: auto; display: block; padding: 0;
+           width: {{ page_w }}px; height: {{ page_h }}px; overflow: hidden;
+           opacity: 1; transform: none; pointer-events: auto;
+           page-break-after: always; background: var(--white); }
+  .slide:last-child { page-break-after: auto; }
+  .page-num { position: absolute; right: 28px; bottom: 18px;
+              color: var(--caption); font-size: 18px; }
+</style>
+</head>
+<body>
+<div class="deck">
+{% for slide_html in slides_html %}{{ slide_html | safe }}
+{% endfor %}
+</div>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{# email-header - short wide strip (email-header, 1200x400). Required: headline.
+   Optional: sub. Compact horizontal layout: text left, brand mark right.
+   Tokens only - no literal hex. #}
+{% import "components.html.j2" as cm %}
+<section class="slide evt email">
+  {{ cm.slide_bg(decor) }}
+  <div class="email-text">
+    <div class="email-headline">{{ c.headline | safe }}</div>
+    {% if c.sub %}<div class="email-sub">{{ c.sub | safe }}</div>{% endif %}
+  </div>
+  {% if logo %}<div class="email-logo">{{ logo | safe }}</div>{% endif %}
+</section>

@@ -1,0 +1,30 @@
+{# poster-event - vertical event poster (poster-a). Required: title, when, where.
+   Optional: eyebrow, photo (top cover band), details (list of lines), qr
+   ({url, caption?}). Tokens only - no literal hex. Title/lines allow inline
+   <span class="hl">/<span class="gold">/<b> emphasis. #}
+{% import "components.html.j2" as cm %}
+<section class="slide evt poster">
+  {{ cm.slide_bg(decor) }}
+  {{ cm.logo(logo) }}
+  {% if c.photo %}<div class="poster-photo" style="background-image:url('{{ c.photo }}');"></div>{% endif %}
+  {% if c.eyebrow %}<div class="eyebrow left">{{ c.eyebrow }}</div>{% endif %}
+  <h1 class="poster-title">{{ c.title | safe }}</h1>
+  <div class="poster-meta">
+    <div class="row"><span class="ic">{{ icon("calendar") | safe }}</span><span>{{ c.when | safe }}</span></div>
+    <div class="row"><span class="ic">{{ icon("compass") | safe }}</span><span>{{ c.where | safe }}</span></div>
+  </div>
+  {% if c.details %}
+  <ul class="poster-details">
+    {% for d in c.details %}<li>{{ d | safe }}</li>{% endfor %}
+  </ul>
+  {% endif %}
+  <div class="poster-foot">
+    {% if c.foot %}<div class="brand">{{ c.foot | safe }}</div>{% else %}<div class="brand">Cất Cánh (Takeoff) Fellowship</div>{% endif %}
+    {% if qr_svg_markup %}
+    <div class="qr-card">
+      <div class="qrbox">{{ qr_svg_markup | safe }}</div>
+      {% if c.qr.caption %}<div class="qr-cap">{{ c.qr.caption }}</div>{% endif %}
+    </div>
+    {% endif %}
+  </div>
+</section>
