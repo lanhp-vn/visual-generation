@@ -29,6 +29,12 @@ LAYOUTS = {
     "section-divider": ["title"],
     # Freeform escape hatch: a non-empty list of typed blocks.
     "freeform": ["blocks"],
+    # Social-post layouts (M3): one message per canvas, feed-legible.
+    "social-hero": ["headline"],          # optional sub, photo, qr, cta
+    "social-quote": ["quote"],            # optional attribution, photo
+    "social-stat": ["stat", "label"],
+    "social-announce": ["headline", "detail"],
+    "social-cta": ["headline", "cta"],    # optional qr
 }
 
 
