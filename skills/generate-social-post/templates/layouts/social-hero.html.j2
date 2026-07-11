@@ -1,0 +1,35 @@
+{# social-hero - one bold message per canvas. Required: headline.
+   Optional: eyebrow, sub, cta, qr ({url, caption?}), photo (cover image path),
+   foot (brand/handle line). photo renders a cover image + navy scrim (tokens
+   only) with the message bottom-left; otherwise the message is centred.
+   Styling is all CSS tokens via components.css - no literal hex here. #}
+{% import "components.html.j2" as cm %}
+{% if c.photo %}
+<section class="slide evt social photo">
+  <div class="social-photo" style="background-image:url('{{ c.photo }}');"></div>
+  {{ cm.logo(logo) }}
+  <div class="social-inner">
+    {% if c.eyebrow %}<div class="eyebrow left">{{ c.eyebrow }}</div>{% endif %}
+    <h1 class="social-headline">{{ c.headline | safe }}</h1>
+    {% if c.sub %}<div class="social-sub">{{ c.sub | safe }}</div>{% endif %}
+    {% if c.cta %}<div class="social-cta">{{ c.cta | safe }}</div>{% endif %}
+    {% if c.foot %}<div class="social-foot">{{ c.foot | safe }}</div>{% endif %}
+  </div>
+</section>
+{% else %}
+<section class="slide evt center social">
+  {{ cm.slide_bg(decor, c.sparkles) }}
+  {{ cm.logo(logo) }}
+  {% if c.eyebrow %}<div class="eyebrow">{{ c.eyebrow }}</div>{% endif %}
+  <h1 class="social-headline" style="text-align:center;">{{ c.headline | safe }}</h1>
+  {% if c.sub %}<div class="social-sub" style="text-align:center;">{{ c.sub | safe }}</div>{% endif %}
+  {% if c.cta %}<div class="social-cta">{{ c.cta | safe }}</div>{% endif %}
+  {% if qr_svg_markup %}
+  <div class="qr-card" style="margin-top:8px;">
+    <div class="qrbox">{{ qr_svg_markup | safe }}</div>
+    {% if c.qr.caption %}<div class="qr-cap">{{ c.qr.caption }}</div>{% endif %}
+  </div>
+  {% endif %}
+  {% if c.foot %}<div class="social-foot">{{ c.foot | safe }}</div>{% endif %}
+</section>
+{% endif %}

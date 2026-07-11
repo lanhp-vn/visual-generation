@@ -1,0 +1,23 @@
+{# social-quote - a single large pull quote. Required: quote.
+   Optional: eyebrow, attribution, photo (cover image + navy scrim).
+   Tokens only - no literal hex. Quote allows inline <span class="hl">/gold. #}
+{% import "components.html.j2" as cm %}
+{% if c.photo %}
+<section class="slide evt social photo">
+  <div class="social-photo" style="background-image:url('{{ c.photo }}');"></div>
+  {{ cm.logo(logo) }}
+  <div class="social-inner">
+    {% if c.eyebrow %}<div class="eyebrow left">{{ c.eyebrow }}</div>{% endif %}
+    <div class="social-quote" style="color:var(--white);">{{ c.quote | safe }}</div>
+    {% if c.attribution %}<div class="social-attr" style="color:var(--white);">{{ c.attribution | safe }}</div>{% endif %}
+  </div>
+</section>
+{% else %}
+<section class="slide evt center social">
+  {{ cm.slide_bg(decor) }}
+  {{ cm.logo(logo) }}
+  {% if c.eyebrow %}<div class="eyebrow">{{ c.eyebrow }}</div>{% endif %}
+  <div class="social-quote" style="text-align:center;">{{ c.quote | safe }}</div>
+  {% if c.attribution %}<div class="social-attr">{{ c.attribution | safe }}</div>{% endif %}
+</section>
+{% endif %}

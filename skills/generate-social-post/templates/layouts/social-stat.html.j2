@@ -1,0 +1,13 @@
+{# social-stat - one hero number. Required: stat, label.
+   Optional: eyebrow, sub (a line under the label), unit (small unit after stat),
+   foot. Tokens only - no literal hex. #}
+{% import "components.html.j2" as cm %}
+<section class="slide evt center social">
+  {{ cm.slide_bg(decor) }}
+  {{ cm.logo(logo) }}
+  {% if c.eyebrow %}<div class="eyebrow">{{ c.eyebrow }}</div>{% endif %}
+  <div class="social-statnum">{{ c.stat | safe }}{% if c.unit %}<span class="social-sub" style="color:var(--green-deep);">{{ c.unit }}</span>{% endif %}</div>
+  <div class="social-statlabel" style="text-align:center;">{{ c.label | safe }}</div>
+  {% if c.sub %}<div class="social-detail" style="text-align:center;">{{ c.sub | safe }}</div>{% endif %}
+  {% if c.foot %}<div class="social-foot">{{ c.foot | safe }}</div>{% endif %}
+</section>

@@ -1,0 +1,18 @@
+{# social-cta - closing call to action, optionally with a QR. Required: headline,
+   cta. Optional: sub, qr ({url, caption?}), foot. Tokens only, no hex. #}
+{% import "components.html.j2" as cm %}
+<section class="slide evt center social">
+  {{ cm.slide_bg(decor) }}
+  {{ cm.logo(logo) }}
+  {% if c.eyebrow %}<div class="eyebrow">{{ c.eyebrow }}</div>{% endif %}
+  <h1 class="social-headline" style="text-align:center;">{{ c.headline | safe }}</h1>
+  {% if c.sub %}<div class="social-sub" style="text-align:center;">{{ c.sub | safe }}</div>{% endif %}
+  {% if qr_svg_markup %}
+  <div class="qr-card">
+    <div class="qrbox">{{ qr_svg_markup | safe }}</div>
+    {% if c.qr.caption %}<div class="qr-cap">{{ c.qr.caption }}</div>{% endif %}
+  </div>
+  {% endif %}
+  <div class="social-cta">{{ c.cta | safe }}</div>
+  {% if c.foot %}<div class="social-foot">{{ c.foot | safe }}</div>{% endif %}
+</section>

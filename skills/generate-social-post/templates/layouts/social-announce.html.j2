@@ -1,0 +1,18 @@
+{# social-announce - headline + supporting detail. Required: headline, detail.
+   Optional: eyebrow, cta, qr ({url, caption?}), foot. Tokens only, no hex. #}
+{% import "components.html.j2" as cm %}
+<section class="slide evt center social">
+  {{ cm.slide_bg(decor) }}
+  {{ cm.logo(logo) }}
+  {% if c.eyebrow %}<div class="eyebrow">{{ c.eyebrow }}</div>{% endif %}
+  <h1 class="social-headline" style="text-align:center;">{{ c.headline | safe }}</h1>
+  <div class="social-detail" style="text-align:center;">{{ c.detail | safe }}</div>
+  {% if c.cta %}<div class="social-cta">{{ c.cta | safe }}</div>{% endif %}
+  {% if qr_svg_markup %}
+  <div class="qr-card" style="margin-top:8px;">
+    <div class="qrbox">{{ qr_svg_markup | safe }}</div>
+    {% if c.qr.caption %}<div class="qr-cap">{{ c.qr.caption }}</div>{% endif %}
+  </div>
+  {% endif %}
+  {% if c.foot %}<div class="social-foot">{{ c.foot | safe }}</div>{% endif %}
+</section>
