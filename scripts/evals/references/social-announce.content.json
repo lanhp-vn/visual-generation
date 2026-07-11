@@ -1,0 +1,24 @@
+{
+  "meta": {
+    "format": "square",
+    "theme": "light",
+    "lang": "vi",
+    "title": "Cất Cánh Pathway: Du học Đài Loan"
+  },
+  "pages": [
+    {
+      "layout": "social-announce",
+      "content": {
+        "eyebrow": "Workshop 1 · Cất Cánh Pathway",
+        "headline": "Tìm hiểu về Du học tại <span class=\"gold\">Đài Loan</span>",
+        "detail": "Chủ Nhật, 21/06/2026 · 19:00 to 21:00 (giờ Việt Nam)",
+        "cta": "Join us online",
+        "foot": "Cất Cánh (Takeoff) Fellowship 2026",
+        "qr": {
+          "url": "https://forms.gle/sGrc2sXojs4ZqydR6",
+          "caption": "Send your questions to the Ambassadors before the workshop"
+        }
+      }
+    }
+  ]
+}

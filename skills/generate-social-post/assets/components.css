@@ -215,17 +215,18 @@ h2.title{font-weight:700;font-size:62px;line-height:1.1;color:var(--heading);let
  * type scale is pushed up for feed legibility, plus a photo-hero scrim.
  * One canvas, one message. Tokens only - no literal brand hex.
  * ===================================================================== */
-.slide.social{padding:96px 92px;gap:32px;}
+.slide.social{padding:92px 92px;gap:30px;}
 .social-headline{font-weight:700;font-size:92px;line-height:1.05;letter-spacing:-.015em;color:var(--heading);max-width:900px;}
 /* QR is sized for a 1920 deck by default; scale it down for the smaller social
    canvas so an announce/cta with a QR stays in-bounds on a square. */
-.slide.social .qrbox{width:224px;height:224px;padding:10px;}
-.slide.social .qr-card{padding:24px 28px;gap:12px;}
-.slide.social .qr-cap{font-size:26px;line-height:1.3;}
-/* announce carries the most (headline + detail + optional cta + QR); tighten it
-   so the full field set stays in-bounds on a square. */
-.slide.social.announce{gap:26px;}
-.slide.social.announce .social-headline{font-size:76px;line-height:1.06;}
+.slide.social .qrbox{width:180px;height:180px;padding:9px;}
+.slide.social .qr-card{padding:16px 20px;gap:8px;}
+.slide.social .qr-cap{font-size:24px;line-height:1.26;}
+/* announce and cta carry the most (headline + supporting line + cta + QR);
+   tighten headline + gaps so the full field set stays in-bounds on a square. */
+.slide.social.announce,.slide.social.cta{gap:20px;padding-top:76px;padding-bottom:76px;}
+.slide.social.announce .social-headline,.slide.social.cta .social-headline{font-size:72px;line-height:1.05;}
+.slide.social.announce .social-detail,.slide.social.cta .social-sub{font-size:36px;}
 .social-sub{font-size:44px;font-weight:600;line-height:1.3;color:var(--heading);max-width:860px;}
 .social-detail{font-size:40px;font-weight:500;line-height:1.42;color:var(--text);max-width:860px;}
 .social-statnum{font-weight:700;font-size:288px;line-height:.86;color:var(--green);letter-spacing:-.02em;}
@@ -235,8 +236,7 @@ h2.title{font-weight:700;font-size:62px;line-height:1.1;color:var(--heading);let
 .social-cta{display:inline-block;font-size:44px;font-weight:700;color:var(--white);background:var(--green);
   padding:26px 56px;border-radius:999px;}
 .social-foot{font-size:32px;font-weight:600;color:var(--green-deep);}
-/* photo hero: cover image with a navy scrim so white text stays legible; the
-   scrim is derived from the brand navy token via color-mix (no literal hex). */
+/* photo hero: full-bleed cover image, message overlaid bottom-left. */
 .slide.social.photo{padding:0;text-align:left;align-items:stretch;}
 .social-photo{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;}
 /* navy scrim so white text stays legible over any photo; a solid brand-navy

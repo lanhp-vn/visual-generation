@@ -1,0 +1,17 @@
+{
+  "meta": {
+    "format": "email-header",
+    "theme": "light",
+    "lang": "vi",
+    "title": "Cất Cánh Pathway Workshop 1"
+  },
+  "pages": [
+    {
+      "layout": "email-header",
+      "content": {
+        "headline": "Cất Cánh <span class=\"hl\">Pathway</span>",
+        "sub": "Workshop 1 · Tìm hiểu về Du học tại Đài Loan · 21/06/2026"
+      }
+    }
+  ]
+}

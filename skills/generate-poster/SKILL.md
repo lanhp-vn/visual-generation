@@ -50,7 +50,7 @@ separates content (a JSON file), layout (the poster templates), and brand
 
 | Layout | Required | Optional | Use it for |
 | --- | --- | --- | --- |
-| `poster-event` | `title`, `when`, `where` | `eyebrow`, `photo` (top cover band), `details` (list of lines), `qr {url, caption?}`, `foot` | A full event poster (`poster-a`). |
+| `poster-event` | `title`, `when`, `where` | `eyebrow`, `details` (list of lines), `qr {url, caption?}`, `foot` | A full event poster (`poster-a`). |
 | `banner-headline` | `headline` | `eyebrow`, `sub`, `cta`, `sparkles` | A wide banner / cover (`banner-wide`). |
 | `email-header` | `headline` | `sub` | A short wide email header (`email-header`); text left, brand mark right. |
 

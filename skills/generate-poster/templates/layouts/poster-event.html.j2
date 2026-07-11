@@ -1,12 +1,11 @@
 {# poster-event - vertical event poster (poster-a). Required: title, when, where.
-   Optional: eyebrow, photo (top cover band), details (list of lines), qr
-   ({url, caption?}). Tokens only - no literal hex. Title/lines allow inline
+   Optional: eyebrow, details (list of lines), qr ({url, caption?}), foot.
+   Tokens only - no literal hex. Title/lines allow inline
    <span class="hl">/<span class="gold">/<b> emphasis. #}
 {% import "components.html.j2" as cm %}
 <section class="slide evt poster">
   {{ cm.slide_bg(decor) }}
   {{ cm.logo(logo) }}
-  {% if c.photo %}<div class="poster-photo" style="background-image:url('{{ c.photo }}');"></div>{% endif %}
   {% if c.eyebrow %}<div class="eyebrow left">{{ c.eyebrow }}</div>{% endif %}
   <h1 class="poster-title">{{ c.title | safe }}</h1>
   <div class="poster-meta">

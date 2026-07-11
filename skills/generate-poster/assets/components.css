@@ -214,9 +214,13 @@ h2.title{font-weight:700;font-size:62px;line-height:1.1;color:var(--heading);let
  * shared chrome/tokens; denser hierarchy than social. Tokens only, no hex.
  * ===================================================================== */
 /* Vertical event poster (poster-a): title, when/where, details, QR foot. */
-.slide.poster{padding:108px 100px;justify-content:flex-start;gap:32px;text-align:left;align-items:stretch;}
-.poster-photo{width:100%;height:520px;border-radius:20px;background-size:cover;background-position:center;flex:0 0 auto;}
-.poster-title{font-weight:700;font-size:112px;line-height:1.02;letter-spacing:-.015em;color:var(--heading);}
+.slide.poster{padding:104px 100px;justify-content:flex-start;gap:28px;text-align:left;align-items:stretch;}
+.poster-title{font-weight:700;font-size:104px;line-height:1.03;letter-spacing:-.015em;color:var(--heading);}
+/* QR is sized for a 1920 deck by default; scale it down for the poster canvas
+   so the foot (brand + QR) leaves headroom above the bottom edge. */
+.slide.poster .qrbox{width:232px;height:232px;padding:10px;}
+.slide.poster .qr-card{padding:22px 26px;gap:12px;}
+.slide.poster .qr-cap{font-size:24px;line-height:1.3;}
 .poster-meta{display:flex;flex-direction:column;gap:20px;}
 .poster-meta .row{display:flex;align-items:center;gap:22px;font-size:44px;font-weight:600;color:var(--heading);}
 .poster-meta .row .ic{color:var(--green);flex:0 0 auto;display:flex;}

@@ -1,0 +1,24 @@
+{
+  "meta": {
+    "format": "square",
+    "theme": "light",
+    "lang": "en",
+    "title": "Join the Cất Cánh Community"
+  },
+  "pages": [
+    {
+      "layout": "social-cta",
+      "content": {
+        "eyebrow": "Cất Cánh Community",
+        "headline": "Join the Cất Cánh <span class=\"hl\">Facebook Group</span>",
+        "sub": "Get workshop reminders, resources, and updates from the Ambassadors.",
+        "cta": "Scan to join",
+        "foot": "Cất Cánh (Takeoff) Fellowship 2026",
+        "qr": {
+          "url": "https://forms.gle/sGrc2sXojs4ZqydR6",
+          "caption": "Send your questions to the Ambassadors before the workshop"
+        }
+      }
+    }
+  ]
+}

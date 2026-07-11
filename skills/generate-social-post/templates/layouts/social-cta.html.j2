@@ -1,7 +1,7 @@
 {# social-cta - closing call to action, optionally with a QR. Required: headline,
    cta. Optional: sub, qr ({url, caption?}), foot. Tokens only, no hex. #}
 {% import "components.html.j2" as cm %}
-<section class="slide evt center social">
+<section class="slide evt center social cta">
   {{ cm.slide_bg(decor) }}
   {{ cm.logo(logo) }}
   {% if c.eyebrow %}<div class="eyebrow">{{ c.eyebrow }}</div>{% endif %}

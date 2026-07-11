@@ -1,0 +1,20 @@
+{
+  "meta": {
+    "format": "square",
+    "theme": "light",
+    "lang": "en",
+    "title": "Cất Cánh Cohort 1 Kickoff"
+  },
+  "pages": [
+    {
+      "layout": "social-hero",
+      "content": {
+        "eyebrow": "Cohort 1 Kickoff",
+        "headline": "We are taking off, <span class=\"hl\">together</span>",
+        "sub": "The whole Cất Cánh Community, together for the first time.",
+        "cta": "June 20, 2026",
+        "foot": "Cất Cánh (Takeoff) Fellowship 2026"
+      }
+    }
+  ]
+}
