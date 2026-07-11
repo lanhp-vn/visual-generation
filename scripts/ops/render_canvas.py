@@ -27,6 +27,12 @@ def main():
         import os
         os.environ["VISGEN_BRAND"] = args.brand
 
+    from visgen.preflight import check_branch
+    msg = check_branch()
+    if msg:
+        print(msg, file=sys.stderr)
+        sys.exit(2)
+
     content_path = Path(args.content)
     doc = json.loads(content_path.read_text(encoding="utf-8"))
     out = Path(args.out) if args.out else Path("output") / content_path.stem

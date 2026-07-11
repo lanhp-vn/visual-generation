@@ -30,6 +30,12 @@ def main():
         import os
         os.environ["VISGEN_BRAND"] = args.brand
 
+    from visgen.preflight import check_branch
+    msg = check_branch()
+    if msg:
+        print(msg, file=sys.stderr)
+        sys.exit(2)
+
     if args.print_only:
         out = Path(args.print_only)
         prior_path = out / "render_report.json"
