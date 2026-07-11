@@ -35,6 +35,10 @@ LAYOUTS = {
     "social-stat": ["stat", "label"],
     "social-announce": ["headline", "detail"],
     "social-cta": ["headline", "cta"],    # optional qr
+    # Poster / banner / email-header layouts (M4): denser hierarchy than social.
+    "poster-event": ["title", "when", "where"],   # optional qr, photo, details
+    "banner-headline": ["headline"],              # optional sub, cta
+    "email-header": ["headline"],                 # optional sub
 }
 
 
