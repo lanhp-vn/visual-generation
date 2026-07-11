@@ -1,0 +1,10 @@
+{
+  "id": "poster-event",
+  "description": "Render the vertical event poster faithfully: eyebrow, title, when/where with icons, detail lines, and a QR foot, on a 1240x1748 canvas.",
+  "content": "scripts/evals/references/poster-event.content.json",
+  "skill_dir": "skills/generate-poster",
+  "required_strings": ["Cất Cánh", "Đài Loan", "21/06/2026"],
+  "forbidden_strings": ["Cat Canh"],
+  "expected_page_px": [1240, 1748],
+  "trials": 1
+}
