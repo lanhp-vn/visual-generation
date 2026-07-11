@@ -10,7 +10,8 @@ import jinja2
 
 from visgen.schema import validate_document, document_pages
 from visgen.formats import page_px
-from visgen.tokens import BRAND_DIR, theme_css as tokens_css
+from visgen.tokens import theme_css as tokens_css
+from visgen.brand import active_brand_dir
 from visgen.icons import render_icon
 from visgen.qr import qr_svg
 
@@ -36,7 +37,7 @@ def _embed_fonts(css: str) -> str:
     """Replace url("fonts/x.woff2") with a base64 data URI so the inlined CSS is
     self-contained — renders deterministically offline, wherever the file lives."""
     def repl(m):
-        data = (BRAND_DIR / "fonts" / m.group(1)).read_bytes()
+        data = (active_brand_dir() / "fonts" / m.group(1)).read_bytes()
         b64 = base64.standard_b64encode(data).decode("ascii")
         return f'url("data:font/woff2;base64,{b64}")'
     return _FONT_URL.sub(repl, css)
@@ -45,7 +46,7 @@ def _embed_fonts(css: str) -> str:
 def _fonts_and_tokens(theme: str) -> str:
     """Shared brand CSS both renderers build on: base64-embedded Be Vietnam Pro
     (offline-deterministic) + the generated :root token block for `theme`."""
-    fonts = _embed_fonts((BRAND_DIR / "fonts.css").read_text(encoding="utf-8"))
+    fonts = _embed_fonts((active_brand_dir() / "fonts.css").read_text(encoding="utf-8"))
     return "\n".join([fonts, tokens_css(theme)])
 
 
@@ -65,8 +66,9 @@ def render_document(doc: dict, skill_dir: Path | None = None) -> str:
     theme = meta.get("theme", "light")
     theme_css = _theme_css(theme, skill_dir)
 
-    logo_color = (BRAND_DIR / "logos/visemi-logo-color.svg").read_text(encoding="utf-8")
-    logo_white = (BRAND_DIR / "logos/visemi-logo-white.svg").read_text(encoding="utf-8")
+    brand = active_brand_dir()
+    logo_color = (brand / "logos/visemi-logo-color.svg").read_text(encoding="utf-8")
+    logo_white = (brand / "logos/visemi-logo-white.svg").read_text(encoding="utf-8")
     active_logo = logo_white if theme == "dark" else logo_color
 
     decor = meta.get("decor", True)
@@ -113,7 +115,7 @@ def render_doc_html(meta: dict, body_html: str, toc_html: str,
     brand_css = _fonts_and_tokens("light")
     document_css = (skill_dir / "assets/document.css").read_text(encoding="utf-8")
     pagedjs_js = _PAGEDJS.read_text(encoding="utf-8")
-    logo = (BRAND_DIR / "logos/visemi-logo-color.svg").read_text(encoding="utf-8")
+    logo = (active_brand_dir() / "logos/visemi-logo-color.svg").read_text(encoding="utf-8")
     partner_logos = _load_partner_logos(meta.get("partner_logos") or [])
     bg_logo = _load_data_uri(meta.get("cover_bg_logo"))
     base = env.get_template("base.html.j2")
