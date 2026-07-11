@@ -91,3 +91,25 @@ dashes, no emojis, correct page size, no overflow, full diacritics. Then open
 `output/<name>/png/page-01.png` and confirm it matches the intent before
 declaring it done. For the full regression suite: `uv run python
 scripts/evals/run_evals.py`.
+
+## Anti-patterns
+
+- **Cramming a square.** `social-announce` and `social-cta` on a `square`
+  (1080x1080) sit near the height ceiling once they carry a headline, a
+  supporting line, a CTA, and a QR. Grow any of those (a long QR caption, a
+  three-line sub) and the grader flags `overflow`. For a QR-forward post prefer
+  `portrait` or `story` (taller), and keep the QR caption to one short line. One
+  message per canvas is a size constraint, not just a style preference.
+- **Reintroducing the deck-sized QR.** The shared `.qrbox` is sized for a 1920
+  deck; the social CSS scales it down (`.slide.social .qrbox`). Do not hardcode
+  a larger QR or a bigger caption back in - it will overflow the square.
+- **Photo scrim via `color-mix()` with a CSS var.** The photo-hero scrim is a
+  solid `var(--navy)` overlay at reduced `opacity`, on purpose: Chromium
+  silently drops `color-mix(in srgb, var(--token) N%, transparent)`, which left
+  white text on a bright photo. Also, `.social-photo` is deliberately excluded
+  from the `.slide.evt >` child rule - that rule forces every child to
+  `position:relative; z-index:2`, which collapses the full-bleed cover layer.
+  Photo variants use the white logo for contrast on the navy scrim.
+- **Off-brand content.** No hex or inline styles in the content JSON; no emojis;
+  no em/en dashes; full diacritics ("Cất Cánh", never "Cat Canh"). The
+  brand-lint enforces all of these - do not hand-wave it.

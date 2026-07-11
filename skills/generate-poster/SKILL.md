@@ -85,3 +85,21 @@ dashes, no emojis, correct page size, no overflow, full diacritics. Then open
 `output/<name>/png/page-01.png` and confirm it matches the intent before
 declaring it done. For the full regression suite: `uv run python
 scripts/evals/run_evals.py`.
+
+## Anti-patterns
+
+- **No photo band on `poster-event`.** A `poster-a` (1240x1748) cannot stack a
+  cover photo on top of a title, when/where, details, and a QR foot without
+  overflowing (a photo band alone pushed it ~430px over). A photo poster needs
+  an overlay design (text over the image), which this layout does not do, so
+  `poster-event` intentionally has no `photo` field. Do not add one back.
+- **Long titles/details.** The poster foot (brand line + QR) is anchored to the
+  bottom, so an over-long title or too many detail lines push into it and
+  overflow. Keep the title tight and details to a few short lines; the grader
+  flags overflow.
+- **Reintroducing the deck-sized QR.** The shared `.qrbox` is sized for a 1920
+  deck; the poster CSS scales it down (`.slide.poster .qrbox`) to leave foot
+  headroom. Do not hardcode it larger.
+- **Off-brand content.** No hex or inline styles in the content JSON; no emojis;
+  no em/en dashes; full diacritics ("Cất Cánh", never "Cat Canh"). The
+  brand-lint enforces all of these.
