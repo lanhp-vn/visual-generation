@@ -83,11 +83,13 @@ def test_en_dash_still_flagged():
     assert "en-dash" in _codes("<p>2024 – 2025</p>")  # U+2013 en dash
 
 
-def test_lint_palette_is_tokens_palette():
-    """Lint allowlist and theme tokens cannot drift: same function, same set."""
-    from visgen.brand_lint import BRAND_HEX
+def test_lint_uses_tokens_palette():
+    """An on-brand hex passes and an off-brand hex is flagged, proving lint reads
+    the tokens palette (not a frozen copy)."""
     from visgen.tokens import palette
-    assert BRAND_HEX == palette()
+    on = next(iter(palette()))
+    assert _offbrand_hexes(f'<span style="color:{on}">x</span>') == []
+    assert "#ff00aa" in [h.lower() for h in _offbrand_hexes('<span style="color:#FF00AA">x</span>')]
 
 def test_gold_and_house_hexes_allowed():
     from visgen.brand_lint import lint_html

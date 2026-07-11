@@ -19,7 +19,6 @@ import re
 
 from visgen.tokens import palette
 
-BRAND_HEX = palette()
 ALLOWED_FONTS = {"be vietnam pro", "inter", "sans-serif"}
 _STYLE = re.compile(r"<style\b[^>]*>.*?</style>", re.S | re.I)
 # Inlined <script> (vendored Paged.js polyfill in M2 doc HTML) is trusted like
@@ -39,13 +38,14 @@ _TAGS = re.compile(r"<[^>]+>")
 
 def lint_html(html, required_strings=(), forbidden_strings=()):
     violations = []
+    brand_hex = palette()  # resolved per call so an injected working-repo brand is honored
     # Drop trusted, non-authored markup before the palette/font scan:
     # vendored CSS (<style>), inlined <script> (vendored Paged.js polyfill),
     # all SVG artwork (logos/icons/sparkles/QR), and the .qrbox QR container
     # (decoration sparkles and the QR module SVG explicitly).
     authored = _QRBOX.sub("", _SPARK_SVG.sub("", _SVG.sub("", _SCRIPT.sub("", _STYLE.sub("", html)))))
     for hx in set(_HEX.findall(authored)):
-        if hx.lower() not in BRAND_HEX:
+        if hx.lower() not in brand_hex:
             violations.append({"code": "offbrand-hex", "detail": hx})
     for decl in _FONT.findall(authored):
         families = [f.strip().strip("\"'").lower() for f in decl.split(",")]
