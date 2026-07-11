@@ -54,16 +54,25 @@ Write a content file (see `scripts/evals/references/*.content.json` for full exa
 ### Step 2 - Render
 
 ```bash
-PYTHONIOENCODING=utf-8 uv run python scripts/ops/render_canvas.py CONTENT.json --format both --out output/<name>
+# VG = plugin root; works standalone (CWD = studio) or from a working repo.
+VG="${CLAUDE_SKILL_DIR}/../.."
+PYTHONIOENCODING=utf-8 uv run --project "$VG" python "$VG/scripts/ops/render_canvas.py" \
+  CONTENT.json --format both --out output/<name> --brand brand
 ```
+
+`CONTENT.json`, `--out output/<name>`, and `--brand brand` all resolve against the
+CALLER's current directory. `--brand brand` uses the working repo's `brand/`; omit
+it to use the studio's default VISEMI theme. Output lands in the working repo's
+`output/`, which must be git-ignored.
 
 Writes `output/<name>/{index.html, png/page-NN.png, pdf/<name>.pdf, render_report.json}`. The renderer reads `meta.theme` and inlines the matching theme CSS (light or dark), picks the theme-appropriate logo (color on light, white on dark), and pre-renders any `cta-qr` QR from its `url`. Check `render_report.json` shows `overflow: false` for every slide. `output/` is git-ignored; never commit rendered output.
 
 ### Step 3 - Grade
 
 ```bash
-PYTHONIOENCODING=utf-8 uv run python scripts/ops/grade_brand.py output/<name>          # deterministic
-PYTHONIOENCODING=utf-8 uv run python scripts/ops/grade_rubric.py output/<name> --task TASK.json   # LLM judge (needs ANTHROPIC_API_KEY)
+VG="${CLAUDE_SKILL_DIR}/../.."
+PYTHONIOENCODING=utf-8 uv run --project "$VG" python "$VG/scripts/ops/grade_brand.py" output/<name> --brand brand   # deterministic
+PYTHONIOENCODING=utf-8 uv run --project "$VG" python "$VG/scripts/ops/grade_rubric.py" output/<name> --task TASK.json   # LLM judge (needs ANTHROPIC_API_KEY)
 ```
 
 Brand-lint must pass (`"passed": true`). The rubric grader scores **brand / layout / content / polish** 0-5 per dimension with justifications (model `claude-opus-4-8`; "Unknown" allowed) - read them, don't trust the score blindly. For a full suite over the seed tasks plus every reference exemplar: `uv run python scripts/evals/run_evals.py` (reports pass@k / pass^k).

@@ -87,8 +87,16 @@ Body text. Use **bold** for emphasis; keep green to roughly 10-20% of a page.
 ### Step 2 - Render
 
 ```bash
-PYTHONIOENCODING=utf-8 uv run python scripts/ops/render_doc.py CONTENT.md --out output/<name>
+# VG = plugin root; works standalone (CWD = studio) or from a working repo.
+VG="${CLAUDE_SKILL_DIR}/../.."
+PYTHONIOENCODING=utf-8 uv run --project "$VG" python "$VG/scripts/ops/render_doc.py" \
+  CONTENT.md --out output/<name> --brand brand
 ```
+
+`CONTENT.md`, `--out output/<name>`, and `--brand brand` all resolve against the
+CALLER's current directory. `--brand brand` uses the working repo's `brand/`; omit
+it to use the studio's default VISEMI theme. Output lands in the working repo's
+`output/`, which must be git-ignored.
 
 Writes `output/<name>/{index.html, png/page-NN.png, pdf/<name>.pdf, render_report.json}`.
 The renderer converts Markdown to HTML, pours it into the `template` family, runs
@@ -100,8 +108,9 @@ empty. `output/` is git-ignored; never commit rendered output.
 ### Step 3 - Grade
 
 ```bash
-PYTHONIOENCODING=utf-8 uv run python scripts/ops/grade_doc.py output/<name>                     # deterministic
-PYTHONIOENCODING=utf-8 uv run python scripts/ops/grade_rubric.py output/<name> --task TASK.json  # LLM judge (needs ANTHROPIC_API_KEY)
+VG="${CLAUDE_SKILL_DIR}/../.."
+PYTHONIOENCODING=utf-8 uv run --project "$VG" python "$VG/scripts/ops/grade_doc.py" output/<name> --brand brand   # deterministic
+PYTHONIOENCODING=utf-8 uv run --project "$VG" python "$VG/scripts/ops/grade_rubric.py" output/<name> --task TASK.json  # LLM judge (needs ANTHROPIC_API_KEY)
 ```
 
 `grade_doc` must pass (`"passed": true`): brand surface (palette, fonts, dashes,
