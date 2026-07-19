@@ -58,3 +58,9 @@
 [submodule "references/visemi-internal/visemi-website"]
 	path = references/visemi-internal/visemi-website
 	url = https://github.com/visemi-website-team/visemi-website
+[submodule "references/hugo-theme/hugoplate"]
+	path = references/hugo-theme/hugoplate
+	url = https://github.com/zeon-studio/hugoplate
+[submodule "references/design-systems/ui-ux-pro-max-skill"]
+	path = references/design-systems/ui-ux-pro-max-skill
+	url = https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git
