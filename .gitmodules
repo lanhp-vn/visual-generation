@@ -31,3 +31,15 @@
 [submodule "references/doc-visualization-tools/visual-explainer"]
 	path = references/doc-visualization-tools/visual-explainer
 	url = https://github.com/nicobailon/visual-explainer
+[submodule "references/icon-libraries/simple-icons"]
+	path = references/icon-libraries/simple-icons
+	url = https://github.com/simple-icons/simple-icons.git
+[submodule "references/icon-libraries/tabler-icons"]
+	path = references/icon-libraries/tabler-icons
+	url = https://github.com/tabler/tabler-icons.git
+[submodule "references/doc-visualization-tools/pypdfium2"]
+	path = references/doc-visualization-tools/pypdfium2
+	url = https://github.com/pypdfium2-team/pypdfium2.git
+[submodule "references/claude-design-galleries/ui-ux-pro-max-skill"]
+	path = references/claude-design-galleries/ui-ux-pro-max-skill
+	url = https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git

@@ -41,7 +41,7 @@ tokens, and eval/grader stack. Design spec:
 - `skills/generate-*` — thin skills; `agents/visual-designer.md`
 - `.claude-plugin/` — plugin + local marketplace manifests
 - `output/` — git-ignored rendered output; never commit it
-- `references/` — 11 read-only submodules + `visemi-internal/` design kit
+- `references/` — 15 read-only submodules + `sample-design-kit/` design kit
 
 This repo is a Claude Code plugin (`skills/<name>/SKILL.md`, `agents/<name>.md`,
 manifests in `.claude-plugin/`). It is also consumed as a git submodule inside a

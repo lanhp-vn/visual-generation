@@ -155,6 +155,11 @@ For decks the layout library does not cover, reuse the vendored MIT toolkits rat
 
 - **Layouts/themes:** `references/presentation-frameworks/html-ppt-skill` (31 layouts,
   animations) and `references/presentation-frameworks/beautiful-html-templates` (35 branded   templates) - apply the VISEMI theme (`brand/fonts.css` plus `brand/tokens.json` via   `visgen.tokens`, plus this skill's `assets/components.css`); `brand/tokens.json` is written   in html-ppt's token format, so it drops in directly.
+- **New semantic icons:** the icon set in `scripts/lib/visgen/icons.py` is a closed,
+  vendored list (brand-owned, recolored via `currentColor`) - do not add a new
+  library at render time. If a brief needs a glyph outside the current set, browse
+  `references/icon-libraries/{simple-icons,tabler-icons}` for a matching SVG, vendor
+  it under `brand/icons/` (attribute in `THIRD_PARTY_LICENSES`), and add it to `ICONS`.
 
 Vendored MIT assets are attributed in `assets/THIRD_PARTY_LICENSES`.
 
