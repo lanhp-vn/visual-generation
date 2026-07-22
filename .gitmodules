@@ -64,3 +64,9 @@
 [submodule "references/design-systems/ui-ux-pro-max-skill"]
 	path = references/design-systems/ui-ux-pro-max-skill
 	url = https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git
+[submodule "references/icons/font-awesome"]
+	path = references/icons/font-awesome
+	url = https://github.com/FortAwesome/Font-Awesome.git
+[submodule "references/icons/flaticon-uicons"]
+	path = references/icons/flaticon-uicons
+	url = https://github.com/freepik-company/flaticon-uicons.git
