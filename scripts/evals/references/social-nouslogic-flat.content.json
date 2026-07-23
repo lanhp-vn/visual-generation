@@ -1,0 +1,19 @@
+{
+  "meta": {
+    "format": "square",
+    "theme": "light",
+    "lang": "en",
+    "title": "Nouslogic Telehealth: flat brand exemplar (social)"
+  },
+  "pages": [
+    {
+      "layout": "social-hero",
+      "content": {
+        "eyebrow": "For families",
+        "headline": "Home is where your care is.",
+        "sub": "Care around the clock, comfort at home.",
+        "foot": "Nouslogic Telehealth"
+      }
+    }
+  ]
+}

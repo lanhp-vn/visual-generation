@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "format": "deck-16x9",
+    "theme": "light",
+    "lang": "en",
+    "audience": "partners",
+    "title": "Nouslogic Telehealth: flat brand exemplar (deck)"
+  },
+  "slides": [
+    {
+      "layout": "hero",
+      "content": {
+        "eyebrow": "Nouslogic Telehealth",
+        "title": "Care that stays with you.",
+        "date": "Brand exemplar",
+        "tagline": "Continuous, closed-loop care that keeps care at home."
+      }
+    },
+    {
+      "layout": "section-divider",
+      "content": {
+        "eyebrow": "Physician-facing",
+        "title": "Between visits, we're there."
+      }
+    }
+  ]
+}
