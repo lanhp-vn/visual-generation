@@ -49,3 +49,6 @@
 [submodule "references/design-inspiration/design-resources-for-developers"]
 	path = references/design-inspiration/design-resources-for-developers
 	url = https://github.com/bradtraversy/design-resources-for-developers
+[submodule "references/claude-design-galleries/taste-skill"]
+	path = references/claude-design-galleries/taste-skill
+	url = https://github.com/leonxlnx/taste-skill
