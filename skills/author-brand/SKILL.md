@@ -95,7 +95,12 @@ Into the working repo's `brand/`:
 
 - `fonts/` - woff2, one file per weight, per subset (latin plus any language
   subset), and wire them in `fonts.css`
-- `logos/` - a color mark, a white/reversed mark, and a square mark for tight slots
+- `logos/` - a color mark, a white/reversed mark, and a square mark for tight
+  slots. The engine resolves the color and reversed marks through the top-level
+  `logos` group in `tokens.json`. It defaults to
+  `logos/visemi-logo-color.svg` and `logos/visemi-logo-white.svg`; a brand using
+  its own filenames declares them there:
+  `"logos": { "color": "logos/acme-logo.svg", "white": "logos/acme-logo-white.svg" }`
 - `icons/` - monoline SVG, one concept per file, matching the set of names already
   in the studio's `brand/icons/` that templates reference
 

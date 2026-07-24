@@ -20,8 +20,8 @@ body{font-family:var(--font-sans);color:var(--body);}
 
 /* =====================================================================
  * Event-deck component primitives (ported from the approved Cohort 1
- * kickoff deck, fully tokenised). Class rules are IDENTICAL in
- * visemi-dark.css; only the :root token values above differ, so one
+ * kickoff deck, fully tokenised). Class rules are IDENTICAL across the
+ * light and dark themes; only the :root token values above differ, so one
  * layout/component renders under either theme by swapping this file.
  * Every colour here is a var(--token) - no literal brand hex.
  * ===================================================================== */
