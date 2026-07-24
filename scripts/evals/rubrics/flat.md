@@ -13,3 +13,10 @@ Score how strictly the image follows a flat-design system. This dimension is opt
 5 = strictly flat throughout, depth used only as sanctioned above. 3 = flat overall with one or two slips (a stray gradient, one heavy or black shadow). 0 = gradients, outlines, texture, or heavy shadows dominate the composition.
 
 Return "Unknown" if the image is unreadable or missing.
+
+Provenance: this dimension encodes the flat-design system itself rather than any
+one kit. For a concrete gradient-free component reference, see the vendored
+`references/ui-component-libs/flat-ui` (`dist/css/flat-ui.css` and
+`docs/components.html`). It is a Bootstrap-era kit, so read it for construction
+patterns only, never for palette, type, or markup idiom - those come from
+`brand/tokens.json` and the studio templates.

@@ -68,6 +68,23 @@ Step 1 checks all of this mechanically. Copy voice (word choice, hype, plain
 language) is not checked here: it belongs to `brand/voice-and-tone.md` in the
 working repo and to the `copy-reviewer` agent.
 
+**Scope, since the lint has two halves.** `grade_variety.py` reports both:
+
+- **Repetition** (adjacent layout repeats, layout monotony, eyebrow overuse) is
+  `social-` only, and the `·` cap is too. Those are feed-legibility rules: a deck
+  legitimately repeats `stat-grid`, and a 3-part dotted strip that is noise on a
+  small social overlay is a correct compact idiom on a wide email header.
+- **Copy checks** (word caps, numbered eyebrows, version labels, placeholder text,
+  filler verbs, coy social proof, poetic labels, verbless all-caps strips,
+  fake-precise numbers) now cover **every** layout, decks and posters included,
+  and scan nested content too. `eyebrow` renders on 9 slide layouts and both
+  document covers, so those tells were never social-only in practice.
+
+The whole report is **advisory**. A nonzero exit means "read these findings", not
+"rejected"; `brand_lint` stays the only blocking gate. Vietnamese phrase patterns
+are intentionally not implemented (the hook is empty in `variety_lint.VI_VOCAB`),
+so do not assume Vietnamese copy has been screened for slop.
+
 ## Content shape
 
 ```json

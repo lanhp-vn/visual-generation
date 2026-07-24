@@ -16,6 +16,14 @@ tokens, and eval/grader stack. Design spec:
   future task could plausibly need again, create or improve the shared one
   instead of writing a throwaway. The repo should get more capable with every
   task done in it.
+- **Keep recorded knowledge portable.** This plugin is consumed as a submodule by
+  repos that know nothing about any one project. Docs, code comments, rubrics, and
+  test fixtures must therefore describe the *shape* of a thing, never a specific
+  project's content: "a three-part event metadata strip", not the actual event
+  name, topic, and date from an exemplar. Real content belongs only in
+  `scripts/evals/references/` exemplars, which are data, not knowledge. Generic
+  fixtures also stay honest about the brand rules (a placeholder must not ship
+  stripped diacritics just because it is a test).
 
 ## Brand (non-negotiable)
 
@@ -41,7 +49,12 @@ tokens, and eval/grader stack. Design spec:
 - `skills/generate-*` — thin skills; `agents/visual-designer.md`
 - `.claude-plugin/` — plugin + local marketplace manifests
 - `output/` — git-ignored rendered output; never commit it
-- `references/` — 15 read-only submodules + `sample-design-kit/` design kit
+- `references/` — 18 read-only submodules + `sample-design-kit/` design kit. Before
+  harvesting one, read the ledger in
+  `docs/superpowers/specs/2026-07-24-reference-harvest-design.md`: several of them
+  instruct things that contradict this repo's non-negotiables (add noise to flat
+  design, swap the font, collapse to one accent), and it records what was
+  deliberately rejected and why.
 
 This repo is a Claude Code plugin (`skills/<name>/SKILL.md`, `agents/<name>.md`,
 manifests in `.claude-plugin/`). It is also consumed as a git submodule inside a

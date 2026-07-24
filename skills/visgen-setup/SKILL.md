@@ -37,18 +37,18 @@ If it is already on a project branch, leave it and continue.
 ## Step 2 - Brand override (optional; only for a non-VISEMI theme)
 
 The studio ships the VISEMI theme as its default, resolved automatically. A
-working repo only needs its own `brand/` if it wants a DIFFERENT theme. To start
-from the VISEMI brand as an editable base:
+working repo only needs its own `brand/` if it wants a DIFFERENT theme.
 
-```bash
-# Only if this working repo needs a non-VISEMI theme and has no brand/ yet:
-mkdir -p brand && cp -r "$SUB"/brand/* brand/
-# then edit brand/tokens.json (palette), brand/logos/, brand/fonts/ as needed.
-```
+For a VISEMI repo (e.g. cat-canh) skip this step entirely: omit `--brand` on
+renders and the studio default is used. When a working-repo `brand/` exists, pass
+`--brand brand` (or set `VISGEN_BRAND`); the engine and brand-lint both resolve
+the same root.
 
-For a VISEMI repo (e.g. cat-canh) skip this: omit `--brand` on renders and the
-studio default is used. When a working-repo `brand/` exists, pass `--brand brand`
-(or set `VISGEN_BRAND`); the engine and brand-lint both resolve the same root.
+For a non-VISEMI theme, **run the `author-brand` skill** rather than doing it
+here. Deciding a theme is a design task with real footguns (token key names are
+the template contract, so keys are re-valued and never renamed or dropped), and
+`author-brand` owns that method end to end: strategy inference, palette as named
+roles, type, assets, and verification by rendering.
 
 ## Step 3 - Git-ignore rendered output
 
@@ -102,5 +102,5 @@ PYTHONIOENCODING=utf-8 uv run --project "$VG" python "$VG/scripts/ops/grade_bran
 ```
 
 Now the `generate-slides`, `generate-doc`, `generate-social-post`,
-`generate-poster`, and `knowledge-update` skills plus the `visual-designer`
-agent are ready to use from this working repo.
+`generate-poster`, `author-brand`, and `knowledge-update` skills plus the
+`visual-designer` agent are ready to use from this working repo.
