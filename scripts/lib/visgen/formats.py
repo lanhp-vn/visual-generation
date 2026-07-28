@@ -1,5 +1,5 @@
 """Canvas formats registry — the sizes from the design kit's output specs
-(references/visemi-internal/design-kit-visemi/04-output-specs.md). Every canvas
+(references/sample-design-kit/04-output-specs.md). Every canvas
 render resolves its stage size here; nothing else hardcodes pixel dimensions."""
 
 FORMATS = {

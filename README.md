@@ -10,8 +10,8 @@ stack. It is three things at once:
 - a **git submodule** you drop into any working repo and drive from there.
 
 Skills: `/generate-slides`, `/generate-doc`, `/generate-social-post`,
-`/generate-poster`, plus `/visgen-setup` (bootstrap) and `/knowledge-update`
-(end-of-session doc sweep). Agent: `visual-designer` (brief to rendered visual,
+`/generate-poster`, plus `/visgen-setup` (bootstrap), `/author-brand` (derive a
+non-VISEMI `brand/` override) and `/knowledge-update` (end-of-session doc sweep). Agent: `visual-designer` (brief to rendered visual,
 end to end). Facts always come from your brief, never invented; a visual is done
 only when it renders with no overflow, brand-lint passes, and the PNG was
 eyeballed.
@@ -63,7 +63,7 @@ then verify it. Do this end to end:
 5. Report: the project branch now in use, whether a brand/ override was created,
    and the sample render result. Remind me to RELOAD Claude Code so the plugin's
    skills (/generate-slides, /generate-doc, /generate-social-post,
-   /generate-poster, /visgen-setup, /knowledge-update) and the visual-designer
+   /generate-poster, /visgen-setup, /author-brand, /knowledge-update) and the visual-designer
    agent register in this workspace.
 
 Ask me anything you need (branch name, VISEMI vs custom brand) before changing files.
@@ -132,11 +132,11 @@ uv run python scripts/evals/run_evals.py  # render + grade every reference exemp
 
 ```
 .claude-plugin/   plugin + local marketplace manifests
-skills/           generate-slides | generate-doc | generate-social-post | generate-poster | visgen-setup | knowledge-update
+skills/           generate-slides | generate-doc | generate-social-post | generate-poster | visgen-setup | author-brand | knowledge-update
 agents/           visual-designer.md
 brand/            canonical brand source (tokens.json, fonts, logos, icons) - the default VISEMI theme
 scripts/lib/visgen/   shared engine (render, brand resolver, lint, schema, formats)
-scripts/ops/          CLIs (render_canvas, render_doc, grade_brand, grade_doc, grade_rubric)
+scripts/ops/          CLIs (render_canvas, render_doc, grade_brand, grade_doc, grade_rubric, grade_variety)
 scripts/evals/        runner, tasks, rubrics, reference exemplars
 output/           git-ignored rendered output
 ```

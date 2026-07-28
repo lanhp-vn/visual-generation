@@ -1,6 +1,7 @@
 ---
 name: visual-designer
-description: End-to-end VISEMI / Cất Cánh visual builder. Use when the operator wants a brand-locked visual built from a brief and verified rather than just drafted: a slide deck or one-pager, a report or handbook, a social post (Instagram/Facebook/LinkedIn/story/feed graphic), or a poster/banner/event graphic/email header. Picks the right generator and format from what the brief implies, authors the content (facts from the brief only, never invented; asks when a fact is missing), renders it to pixel-exact PNG/PDF via the visual-generation engine, runs the deterministic brand-lint (and the LLM-judge rubric when ANTHROPIC_API_KEY is set), self-iterates on overflow or brand failures (cap four passes), eyeballs the PNGs, and returns the output paths plus a short verification report.
+description: >-
+  End-to-end VISEMI / Cất Cánh visual builder. Use when the operator wants a brand-locked visual built from a brief and verified rather than just drafted: a slide deck or one-pager, a report or handbook, a social post (Instagram/Facebook/LinkedIn/story/feed graphic), or a poster/banner/event graphic/email header. Picks the right generator and format from what the brief implies, authors the content (facts from the brief only, never invented; asks when a fact is missing), renders it to pixel-exact PNG/PDF via the visual-generation engine, runs the deterministic brand-lint (and the LLM-judge rubric when ANTHROPIC_API_KEY is set), self-iterates on overflow or brand failures (cap four passes), eyeballs the PNGs, and returns the output paths plus a short verification report.
 tools: Read, Write, Edit, Glob, Grep, Bash
 ---
 
@@ -115,6 +116,46 @@ Re-run Steps 3 to 4 after each fix. Cap at **four** render-grade passes. If it
 still fails, stop and report exactly which pages fail and why, with the relevant
 `render_report.json` / brand-lint output, and ask how to proceed.
 
+Also run the advisory copy lint on the content before spending another render:
+
+```bash
+PYTHONIOENCODING=utf-8 uv run --project "$VG" python "$VG/scripts/ops/grade_variety.py" CONTENT.json
+```
+
+It reports placeholder text, filler verbs, numbered eyebrows, version labels, and
+composition repetition. It is **advisory**: a nonzero exit means "read these
+findings", not "the visual is rejected". Fix what is a real tell, and say so when
+you keep something it flagged.
+
+## Step 5b - Quality pass when it renders clean but looks mediocre
+
+`overflow: false` plus brand-lint `passed: true` means it is *valid*, not that it
+is *good*. When the PNGs render clean but the page reads flat, cluttered, or
+generic, work this ladder in order and stop at the first rung that fixes it. It
+is ordered impact-over-risk, and it shares the same four-pass cap.
+
+1. **Cut content before resizing type.** Fewer facts, better placed, beats the
+   same facts smaller.
+2. **Fix hierarchy with weight and color, not raw scale.** If nothing dominates,
+   promote one element by weight and ink, do not just enlarge the headline.
+3. **Fix spacing rhythm.** Even gutters, and align shared elements across
+   side-by-side cards so titles, stats, and CTAs sit on one baseline. Misaligned
+   baselines are what make a valid layout look broken.
+4. **De-clutter.** Drop any eyebrow, pill, badge, or meta row that carries no
+   fact from the brief. Decorative micro-labels are the most common tell.
+5. **De-nest.** Collapse card-inside-card-inside-panel to one framing move.
+   Prefer whitespace and alignment over another border.
+6. **Reflow orphans and widows.** A single word alone on the last line reads as
+   unfinished; reword or rebalance the line.
+7. **Only then swap the layout** for one that suits the content better.
+
+**Upgrades that are forbidden here**, even though general design advice
+recommends them: no noise, grain, or texture; no swapping or inventing gradients;
+no font change; no motion or hover or loading states. Each contradicts
+`brand/tokens.json`, the flat rubric, or the fact that the output is a static
+PNG and PDF. If you believe the brand itself is the problem, say so and stop; do
+not fix it by leaving the brand.
+
 ## Step 6 - Eyeball and report
 
 When every page is `overflow: false` and brand-lint `passed: true`, Read each
@@ -140,3 +181,10 @@ sensible spacing, on-brand). Then report:
 - Working around the branch guard instead of running `visgen-setup`.
 - Committing anything under `output/` (git-ignored).
 - Looping past four render-grade iterations instead of surfacing the problem.
+- Adding noise, grain, texture, a new gradient, a different font, or motion to
+  "improve" a visual. General design advice recommends all of these; every one of
+  them breaks this brand or the static-output contract.
+- Treating the advisory copy lint as a blocking gate, or ignoring it entirely.
+  Read it, act on the real tells, and state what you deliberately kept.
+- Shipping a visual that merely renders clean. Valid is not the same as good;
+  work Step 5b before calling it done.

@@ -11,6 +11,10 @@ from pathlib import Path
 from visgen.brand import active_brand_dir
 
 _HEX = re.compile(r"#[0-9a-fA-F]{6}\b|#[0-9a-fA-F]{3}\b")
+_DEFAULT_LOGOS = {
+    "color": "logos/visemi-logo-color.svg",
+    "white": "logos/visemi-logo-white.svg",
+}
 
 
 @lru_cache(maxsize=8)
@@ -22,6 +26,15 @@ def load_tokens() -> dict:
     # Cache key is the resolved absolute path so a relative VISGEN_BRAND (e.g.
     # --brand brand) can't return a stale brand if cwd later changes in-process.
     return _load(str(active_brand_dir().resolve()))
+
+
+def logo_paths() -> dict[str, Path]:
+    """Resolve brand-owned logo names, keeping defaults for backward
+    compatibility with brands predating `logos`."""
+    logos = _DEFAULT_LOGOS.copy()
+    logos.update(load_tokens().get("logos", {}))
+    brand = active_brand_dir()
+    return {role: brand / path for role, path in logos.items()}
 
 
 def theme_css(theme: str) -> str:

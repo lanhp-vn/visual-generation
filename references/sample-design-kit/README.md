@@ -21,6 +21,7 @@ Year-1 target is*. That keeps it from baking in stale figures.
 | `03-voice-and-copy.md` | Bilingual voice/tone, diacritics, naming, the `{LANG} \| {AUDIENCE} \| {TYPE}` convention, glossary, on-slide copy patterns. | Upload as Project knowledge. |
 | `04-output-specs.md` | Exact dimensions per channel, mapped to the existing Canva canon to clone. | Upload as Project knowledge. |
 | `05-canva-and-drive-workflow.md` | How to drive the Canva + Drive connectors: which brand kit, clone-don't-autofill, "layout from canon, numbers from the brief." | Upload as Project knowledge. |
+| `06-web-design-system.md` | The **web-implementation** chapter: CSS tokens, page skeleton, component recipes with class names, motion system, the bilingual mechanism, and engineering conventions - synthesized from the two live Hugo codebases (visemi.org + the Cất Cánh info-hub). For building website pages. | Dev / web reference (not a Canva-Project upload). |
 | `assets/` | Logos (color + white, SVG + PNG), partner logos + `Sponsor List.csv`, the official Colors/Typography reference images. | Upload the files you need as attachments. |
 | `Visemi - Cat Canh - Pitch Deck.pdf` | Canonical donor pitch deck — the gold-standard layout reference. | Upload as Project knowledge. |
 | `Official Cat Canh Webinar slide.pdf` | Canonical webinar slide deck — second layout reference. | Upload as Project knowledge. |

@@ -4,24 +4,6 @@
 [submodule "references/ui-component-libs/gentelella"]
 	path = references/ui-component-libs/gentelella
 	url = https://github.com/ColorlibHQ/gentelella
-[submodule "references/ui-component-libs/TerminalGuiDesigner"]
-	path = references/ui-component-libs/TerminalGuiDesigner
-	url = https://github.com/tui-cs/TerminalGuiDesigner
-[submodule "references/ui-component-libs/GUIslice"]
-	path = references/ui-component-libs/GUIslice
-	url = https://github.com/ImpulseAdventure/GUIslice
-[submodule "references/ui-component-libs/raygui"]
-	path = references/ui-component-libs/raygui
-	url = https://github.com/raysan5/raygui
-[submodule "references/ui-component-libs/RmlUi"]
-	path = references/ui-component-libs/RmlUi
-	url = https://github.com/mikke89/RmlUi
-[submodule "references/presentation-frameworks/reveal.js"]
-	path = references/presentation-frameworks/reveal.js
-	url = https://github.com/hakimel/reveal.js.git
-[submodule "references/presentation-frameworks/slidev"]
-	path = references/presentation-frameworks/slidev
-	url = https://github.com/slidevjs/slidev.git
 [submodule "references/presentation-frameworks/beautiful-html-templates"]
 	path = references/presentation-frameworks/beautiful-html-templates
 	url = https://github.com/zarazhangrui/beautiful-html-templates.git
@@ -31,12 +13,6 @@
 [submodule "references/presentation-frameworks/html-ppt-skill"]
 	path = references/presentation-frameworks/html-ppt-skill
 	url = https://github.com/lewislulu/html-ppt-skill.git
-[submodule "references/css-frameworks/tailwindcss"]
-	path = references/css-frameworks/tailwindcss
-	url = https://github.com/tailwindlabs/tailwindcss
-[submodule "references/css-frameworks/tailwindcss-animate"]
-	path = references/css-frameworks/tailwindcss-animate
-	url = https://github.com/jamiebuilds/tailwindcss-animate
 [submodule "references/design-inspiration/web-design"]
 	path = references/design-inspiration/web-design
 	url = https://github.com/xiaopu-ai/web-design
@@ -55,18 +31,33 @@
 [submodule "references/doc-visualization-tools/visual-explainer"]
 	path = references/doc-visualization-tools/visual-explainer
 	url = https://github.com/nicobailon/visual-explainer
-[submodule "references/visemi-internal/visemi-website"]
-	path = references/visemi-internal/visemi-website
-	url = https://github.com/visemi-website-team/visemi-website
 [submodule "references/hugo-theme/hugoplate"]
 	path = references/hugo-theme/hugoplate
 	url = https://github.com/zeon-studio/hugoplate
 [submodule "references/design-systems/ui-ux-pro-max-skill"]
-	path = references/design-systems/ui-ux-pro-max-skill
+	path = references/claude-design-galleries/ui-ux-pro-max-skill
 	url = https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git
 [submodule "references/icons/font-awesome"]
-	path = references/icons/font-awesome
+	path = references/icon-libraries/font-awesome
 	url = https://github.com/FortAwesome/Font-Awesome.git
 [submodule "references/icons/flaticon-uicons"]
-	path = references/icons/flaticon-uicons
+	path = references/icon-libraries/flaticon-uicons
 	url = https://github.com/freepik-company/flaticon-uicons.git
+[submodule "references/claude-design-galleries/taste-skill"]
+	path = references/claude-design-galleries/taste-skill
+	url = https://github.com/leonxlnx/taste-skill
+[submodule "references/design-inspiration/design-resources-for-developers"]
+	path = references/design-inspiration/design-resources-for-developers
+	url = https://github.com/bradtraversy/design-resources-for-developers
+[submodule "references/doc-visualization-tools/pypdfium2"]
+	path = references/doc-visualization-tools/pypdfium2
+	url = https://github.com/pypdfium2-team/pypdfium2.git
+[submodule "references/icon-libraries/simple-icons"]
+	path = references/icon-libraries/simple-icons
+	url = https://github.com/simple-icons/simple-icons.git
+[submodule "references/icon-libraries/tabler-icons"]
+	path = references/icon-libraries/tabler-icons
+	url = https://github.com/tabler/tabler-icons.git
+[submodule "references/ui-component-libs/flat-ui"]
+	path = references/ui-component-libs/flat-ui
+	url = https://github.com/designmodo/Flat-UI

@@ -294,7 +294,14 @@ a reference's own palette):
   structural inspiration.
 - **Layout / typographic inspiration:** `references/design-inspiration/`
   (`open-design`, `web-design`) and `references/claude-design-galleries/`
-  (`awesome-claude-design-rohitg00`, `awesome-claude-design-voltagent`).
+  (`awesome-claude-design-rohitg00`, `awesome-claude-design-voltagent`,
+  `ui-ux-pro-max-skill`). For a web-page handbook (as opposed to the A4 PDF),
+  `references/hugo-theme/hugoplate` is the closest thing to a full page-level
+  design system on disk: read its section/card/typography scale, never its palette
+  or its Tailwind idiom.
+- **PDF rendering/inspection:** `references/doc-visualization-tools/pypdfium2` -
+  a PDFium binding for rasterizing and introspecting PDF pages; consult if
+  `doc_lint.py`'s `pypdf`-based checks ever need lower-level page rendering.
 
 ## Anti-patterns
 

@@ -41,6 +41,50 @@ and on-brand.
 - Inline emphasis in text fields: `<span class="hl">` (green),
   `<span class="gold">` (sparingly), `<b>`. Nothing else.
 
+## Campaign batches (variety)
+
+A post is read in a feed next to the last one you published. Compliance with the
+brand is not the same as looking like a different post, and the five layouts will
+read as one post repeated if you let them. When authoring more than one post, and
+especially a whole campaign:
+
+- **Never two in a row on the same layout.** Pick the layout from what the post
+  says, then check the post before it.
+- **Spread the layouts.** Across `n` posts, use at least `min(5, ceil(n/2))`
+  distinct layouts. Eight posts need four.
+- **Eyebrows are rationed** to `ceil(n/3)` of the posts. The headline is usually
+  enough on its own; an eyebrow on every post is the templated rhythm every
+  AI-built feed has.
+- **Eyebrows name the topic, never enumerate it.** No `01 / Launch`, `Phase 2`,
+  `Step 3`, `No. 4`, and no version or status stamps (`v1.2`, `BETA`, `ALPHA`,
+  `EARLY ACCESS`, `INVITE-ONLY`) unless the post is literally about a launch
+  status.
+- **One `·` per field at most.** It is not the default separator; use a line
+  break or a separate field.
+- **Word caps:** `headline` 8, `sub` and `detail` 20, `quote` 25. Over the cap,
+  cut words; never shrink type.
+
+Step 1 checks all of this mechanically. Copy voice (word choice, hype, plain
+language) is not checked here: it belongs to `brand/voice-and-tone.md` in the
+working repo and to the `copy-reviewer` agent.
+
+**Scope, since the lint has two halves.** `grade_variety.py` reports both:
+
+- **Repetition** (adjacent layout repeats, layout monotony, eyebrow overuse) is
+  `social-` only, and the `·` cap is too. Those are feed-legibility rules: a deck
+  legitimately repeats `stat-grid`, and a 3-part dotted strip that is noise on a
+  small social overlay is a correct compact idiom on a wide email header.
+- **Copy checks** (word caps, numbered eyebrows, version labels, placeholder text,
+  filler verbs, coy social proof, poetic labels, verbless all-caps strips,
+  fake-precise numbers) now cover **every** layout, decks and posters included,
+  and scan nested content too. `eyebrow` renders on 9 slide layouts and both
+  document covers, so those tells were never social-only in practice.
+
+The whole report is **advisory**. A nonzero exit means "read these findings", not
+"rejected"; `brand_lint` stays the only blocking gate. Vietnamese phrase patterns
+are intentionally not implemented (the hook is empty in `variety_lint.VI_VOCAB`),
+so do not assume Vietnamese copy has been screened for slop.
+
 ## Content shape
 
 ```json
@@ -64,7 +108,21 @@ background, default `true`.
 Required `content` fields are enforced by `scripts/lib/visgen/schema.py`
 (`LAYOUTS`); a QR SVG is generated from `content.qr.url` when present.
 
-## Step 1 - Render
+## Step 1 - Variety check (content, before rendering)
+
+```bash
+VG="${CLAUDE_SKILL_DIR}/../.."
+PYTHONIOENCODING=utf-8 uv run --project "$VG" python "$VG/scripts/ops/grade_variety.py" \
+  CONTENT.json [CONTENT2.json ...]
+```
+
+Grades the authored content, so it costs no render. Pass every post of a campaign
+in publish order (one JSON with N pages, or N JSONs, same result) and fix the
+violations before rendering. Only `social-*` layouts are checked; decks and
+posters pass untouched. Skip this step only for a genuine one-off post, and even
+then it still catches long headlines and numbered eyebrows.
+
+## Step 2 - Render
 
 ```bash
 # VG = plugin root; works standalone (CWD = studio) or from a working repo.
@@ -79,7 +137,7 @@ directory; `--brand brand` uses the working repo's `brand/` (omit for the studio
 default VISEMI theme). Output lands in the working repo's git-ignored `output/`.
 Check `render_report.json` shows `overflow: false`.
 
-## Step 2 - Grade
+## Step 3 - Grade
 
 ```bash
 PYTHONIOENCODING=utf-8 uv run --project "$VG" python "$VG/scripts/ops/grade_brand.py" \
@@ -94,6 +152,10 @@ scripts/evals/run_evals.py`.
 
 ## Anti-patterns
 
+- **One layout for the whole campaign.** `social-hero` fits almost any message,
+  which is exactly why a twelve-post campaign ends up as twelve of them. It will
+  be brand-lint clean and still read as one post. Author the batch, then run
+  Step 1 on all of it at once.
 - **Cramming a square.** `social-announce` and `social-cta` on a `square`
   (1080x1080) sit near the height ceiling once they carry a headline, a
   supporting line, a CTA, and a QR. Grow any of those (a long QR caption, a

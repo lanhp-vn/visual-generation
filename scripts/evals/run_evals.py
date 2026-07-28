@@ -16,6 +16,7 @@ sys.path.insert(0, str(ROOT / "scripts" / "lib"))
 from visgen.brand_lint import lint  # noqa: E402
 from visgen.doc_lint import lint_doc  # noqa: E402
 from visgen.formats import page_px  # noqa: E402
+from visgen.variety_lint import lint_pages  # noqa: E402
 
 
 def metrics(per_trial_pass, k):
@@ -47,9 +48,24 @@ def _render(content_path, out_dir, renderer="canvas", skill_dir=None):
     subprocess.run(cmd, check=True, cwd=str(ROOT))
 
 
+def _copy_lint(task, renderer):
+    """Advisory copy-lint of the authored content JSON, or None when N/A.
+
+    Recorded in the transcript and surfaced in the aggregate but deliberately NOT
+    folded into brand_pass: these are judgment calls, and brand_lint stays the
+    only blocking gate. Doc tasks are skipped because they are Markdown, and
+    variety_lint reads content JSON.
+    """
+    if renderer == "doc":
+        return None
+    doc = json.loads((ROOT / task["content"]).read_text(encoding="utf-8"))
+    return lint_pages([doc])
+
+
 def run_task(task, k, out_root, judge=False):
     renderer = task.get("renderer", "canvas")
     skill_dir = task.get("skill_dir") or _skill_dir_for(Path(task["content"]).name)
+    copy = _copy_lint(task, renderer)
     trial_results = []
     for t in range(1, k + 1):
         trial_dir = out_root / task["id"] / f"trial-{t:02d}"
@@ -66,13 +82,18 @@ def run_task(task, k, out_root, judge=False):
                          forbidden_strings=task.get("forbidden_strings", []),
                          expected_page_px=task.get("expected_page_px"))
         transcript = {"task": task["id"], "trial": t, "brand": brand}
+        if copy is not None:
+            transcript["copy"] = copy
         if judge:
             transcript["rubric"] = _judge(task, trial_dir)
         (trial_dir / "transcript.json").write_text(
             json.dumps(transcript, indent=2, ensure_ascii=False), encoding="utf-8")
         trial_results.append(brand["passed"])
-    return {"task": task["id"], "trials": k, "brand_pass": trial_results,
-            **metrics(trial_results, k)}
+    result = {"task": task["id"], "trials": k, "brand_pass": trial_results,
+              **metrics(trial_results, k)}
+    if copy is not None and not copy["passed"]:
+        result["copy_violations"] = sorted({v["code"] for v in copy["violations"]})
+    return result
 
 
 def _judge(task, trial_dir):
