@@ -245,3 +245,70 @@ h2.title{font-weight:700;font-size:62px;line-height:1.1;color:var(--heading);let
 .ff-image-row-media > img,.ff-image-row-media > svg{display:block;width:auto;height:auto;
   max-width:100%;max-height:100%;}
 .ff-image-row-item figcaption{color:var(--muted);font-size:24px;line-height:1.3;text-align:center;}
+
+/* ---- freeform dense density modifier ---- */
+.slide.evt.dense{padding-top:84px;padding-bottom:84px;}
+.slide.evt.dense .ff-stack{gap:10px!important;}
+.slide.evt.dense .section-head{gap:10px!important;}
+.slide.evt.dense .eyebrow{gap:10px;font-size:22px;line-height:1.15;}
+.slide.evt.dense .eyebrow::before,.slide.evt.dense .eyebrow::after{width:34px;}
+.slide.evt.dense .ff-heading-level-1 h1.headline{font-size:64px!important;line-height:1.02;}
+.slide.evt.dense .ff-heading-level-2 h2.title{font-size:48px;line-height:1.05;}
+.slide.evt.dense .ff-heading-level-3 h2.title{font-size:32px!important;line-height:1.1;}
+
+.slide.evt.dense .ff-stack > p{font-size:22px!important;line-height:1.25!important;}
+.slide.evt.dense .block{padding:22px 28px;}
+.slide.evt.dense .block ul{gap:10px;}
+.slide.evt.dense .block li{font-size:22px;line-height:1.25;padding-left:30px;}
+.slide.evt.dense .block li::before{left:4px;top:8px;width:13px;height:13px;}
+.slide.evt.dense .block li .when{font-size:22px;line-height:1.25;margin-top:5px;}
+
+.slide.evt.dense .why-grid{gap:18px;}
+.slide.evt.dense .why-card{padding:20px 26px;}
+.slide.evt.dense .why-card .ic{width:54px;height:54px;border-radius:14px;margin-bottom:14px;}
+.slide.evt.dense .why-card .ic svg{width:28px;height:28px;}
+.slide.evt.dense .why-card h3{font-size:26px;line-height:1.12;margin-bottom:6px;}
+.slide.evt.dense .why-card p{font-size:22px;line-height:1.25;}
+
+.slide.evt.dense .stats{gap:16px;}
+.slide.evt.dense .statcard{padding:18px;}
+.slide.evt.dense .statcard .num{font-size:64px;line-height:.94;}
+.slide.evt.dense .statcard .unit{font-size:24px;line-height:1.08;margin-top:2px;}
+.slide.evt.dense .statcard .lab{font-size:22px;line-height:1.18;margin-top:6px;}
+
+.slide.evt.dense .people{gap:26px;}
+.slide.evt.dense .person{padding:26px 32px;}
+.slide.evt.dense .avatar{width:112px;height:112px;margin-bottom:18px;font-size:48px;
+  box-shadow:0 0 0 6px var(--avatar-ring);}
+.slide.evt.dense .avatar-gold,
+.slide.evt.dense .person:nth-child(even) .avatar{box-shadow:0 0 0 6px var(--avatar-ring-gold);}
+.slide.evt.dense .person .name{font-size:32px;line-height:1.15;}
+.slide.evt.dense .person .role{font-size:24px;line-height:1.25;margin-top:8px;}
+.slide.evt.dense .person .creds{margin-top:16px;gap:8px;}
+.slide.evt.dense .person .creds li{font-size:22px;line-height:1.25;padding-left:26px;}
+.slide.evt.dense .person .creds li::before{left:4px;top:9px;width:10px;height:10px;}
+.slide.evt.dense .people.compact{gap:8px;}
+.slide.evt.dense .people.compact .person{padding:8px;}
+.slide.evt.dense .people.compact .avatar{width:56px;height:56px;margin-bottom:6px;font-size:26px;
+  box-shadow:0 0 0 3px var(--avatar-ring);}
+.slide.evt.dense .people.compact .avatar-gold,
+.slide.evt.dense .people.compact .person:nth-child(even) .avatar{box-shadow:0 0 0 3px var(--avatar-ring-gold);}
+.slide.evt.dense .people.compact .person .name{font-size:26px;line-height:1.1;}
+.slide.evt.dense .people.compact .person .role{font-size:22px;line-height:1.08;margin-top:4px;padding:2px 4px;}
+.slide.evt.dense .people.compact .person .creds{margin-top:6px;gap:3px;}
+.slide.evt.dense .people.compact .person .creds li{font-size:22px;line-height:1.12;padding-left:16px;}
+.slide.evt.dense .people.compact .person .creds li::before{left:1px;top:7px;width:7px;height:7px;}
+
+.slide.evt.dense .ff-table{font-size:22px;line-height:1.2;}
+.slide.evt.dense .ff-table caption{padding-bottom:8px;font-size:22px;line-height:1.2;}
+.slide.evt.dense .ff-table th,.slide.evt.dense .ff-table td{padding:11px 15px;}
+.slide.evt.dense .ff-table.compact th,.slide.evt.dense .ff-table.compact td{padding:7px 14px;}
+
+.slide.evt.dense .ff-stack > figure{gap:10px!important;}
+.slide.evt.dense .ff-stack > figure > img{border-radius:14px!important;}
+.slide.evt.dense .ff-stack > figure > figcaption{font-size:22px!important;line-height:1.25;}
+.slide.evt.dense .ff-image-media > img,.slide.evt.dense .ff-image-media > svg{border-radius:14px;}
+.slide.evt.dense .ff-image-row{gap:14px;}
+.slide.evt.dense .ff-image-row-item{gap:6px;}
+.slide.evt.dense .ff-image-row-media{padding:12px;border-radius:14px;}
+.slide.evt.dense .ff-image-row-item figcaption{font-size:22px;line-height:1.2;}

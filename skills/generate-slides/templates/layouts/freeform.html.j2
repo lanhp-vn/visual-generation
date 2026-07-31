@@ -9,6 +9,9 @@
    (stacking, grid columns, sizing, centring) is set inline; NO literal brand hex
    appears here - colours always come from the named classes' tokens.
 
+   Content options:
+     density?   "comfortable" | "dense" (default "comfortable")
+
    Block vocabulary (block.type):
      heading     {text, level?(1|2|3), eyebrow?, align?(left|center)}
      paragraph   {text, align?(left|center), muted?(bool)}
@@ -40,7 +43,7 @@
 {%- macro ff_heading(b) -%}
   {%- set lvl = b.level | default(2) -%}
   {%- set centered = (b.align == "center") -%}
-  <div class="section-head{% if centered %} center{% endif %}" style="margin-bottom:0;gap:16px;">
+  <div class="section-head ff-heading-level-{{ lvl }}{% if centered %} center{% endif %}" style="margin-bottom:0;gap:16px;">
     {% if b.eyebrow %}<div class="eyebrow{% if not centered %} left{% endif %}">{{ b.eyebrow }}</div>{% endif %}
     {% if lvl == 1 %}<h1 class="headline" style="font-size:88px;">{{ b.text | safe }}</h1>
     {% elif lvl == 3 %}<h2 class="title" style="font-size:40px;">{{ b.text | safe }}</h2>
@@ -166,11 +169,11 @@
   <div aria-hidden="true" style="flex:0 0 auto;height:{{ b.size | default(32) }}px;"></div>
 {%- endmacro -%}
 
-<section class="slide evt{% if c.align == 'center' %} center{% endif %}">
+<section class="slide evt{% if c.align == 'center' %} center{% endif %}{% if c.density == 'dense' %} dense{% endif %}">
   {{ cm.slide_bg(decor, c.sparkles) }}
   {{ cm.logo(logo) }}
 
-  <div style="display:flex;flex-direction:column;gap:34px;width:100%;
+  <div class="ff-stack" style="display:flex;flex-direction:column;gap:34px;width:100%;
        {% if c.align == 'center' %}align-items:center;text-align:center;{% endif %}">
     {% for b in c.blocks %}
       {% if b.type == "heading" %}{{ ff_heading(b) }}

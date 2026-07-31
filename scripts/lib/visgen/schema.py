@@ -11,6 +11,7 @@ FREEFORM_BLOCK_TYPES = {
     "heading", "paragraph", "bullets", "card-grid", "stat-row", "person-row",
     "table", "image", "image-row", "qr-card", "spacer",
 }
+FREEFORM_DENSITIES = {"comfortable", "dense"}
 
 # layout name -> required keys in its `content` object
 LAYOUTS = {
@@ -87,6 +88,11 @@ def validate_document(doc: dict) -> None:
             blocks = content.get("blocks")
             if not isinstance(blocks, list) or not blocks:
                 raise SchemaError(f"slide {i} (freeform): 'blocks' must be a non-empty list")
+            density = content.get("density", "comfortable")
+            if not isinstance(density, str) or density not in FREEFORM_DENSITIES:
+                raise SchemaError(
+                    f"slide {i} (freeform): 'density' must be one of "
+                    f"{sorted(FREEFORM_DENSITIES)}, got {density!r}")
             for block in blocks:
                 block_type = block.get("type") if isinstance(block, dict) else None
                 if block_type not in FREEFORM_BLOCK_TYPES:

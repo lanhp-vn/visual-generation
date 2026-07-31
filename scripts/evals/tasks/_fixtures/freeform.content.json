@@ -257,6 +257,58 @@
           }
         ]
       }
+    },
+    {
+      "layout": "freeform",
+      "content": {
+        "density": "dense",
+        "blocks": [
+          {
+            "type": "heading",
+            "level": 2,
+            "eyebrow": "Mẫu mật độ dày",
+            "text": "Tổng quan một <span class=\"hl\">chương trình mẫu</span>"
+          },
+          {
+            "type": "card-grid",
+            "cols": 3,
+            "cards": [
+              {
+                "heading": "Mục tiêu",
+                "body": "Trình bày một mục tiêu rõ ràng, có phạm vi cụ thể và có thể theo dõi."
+              },
+              {
+                "heading": "Hoạt động",
+                "body": "Mô tả các hoạt động chính bằng nội dung ngắn gọn, dễ đọc ở khoảng cách trình chiếu."
+              },
+              {
+                "heading": "Kết quả",
+                "body": "Tóm tắt kết quả dự kiến bằng ngôn ngữ trung lập và có thể kiểm chứng."
+              }
+            ]
+          },
+          {
+            "type": "stat-row",
+            "stats": [
+              {
+                "num": "12",
+                "unit": "tháng",
+                "label": "thời gian thực hiện"
+              },
+              {
+                "num": "4",
+                "unit": "nhóm",
+                "label": "nhóm hoạt động"
+              },
+              {
+                "num": "85%",
+                "unit": "mục tiêu",
+                "label": "mức hoàn thành dự kiến"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }
