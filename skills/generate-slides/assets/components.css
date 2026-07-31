@@ -153,6 +153,18 @@ h2.title{font-weight:700;font-size:62px;line-height:1.1;color:var(--heading);let
   padding-left:34px;position:relative;text-align:left;}
 .person .creds li::before{content:"";position:absolute;left:6px;top:13px;width:12px;height:12px;border-radius:50%;background:var(--green);}
 .person:nth-child(even) .creds li::before{background:var(--gold-fill);}
+.people.compact{gap:16px;}
+.people.compact .person{min-width:0;border-radius:18px;padding:20px 14px;}
+.people.compact .avatar{width:104px;height:104px;margin-bottom:18px;font-size:38px;border-width:2px;
+  box-shadow:0 0 0 5px var(--avatar-ring);}
+.people.compact .avatar-gold,
+.people.compact .person:nth-child(even) .avatar{box-shadow:0 0 0 5px var(--avatar-ring-gold);}
+.people.compact .person .name{font-size:28px;line-height:1.15;}
+.people.compact .person .role{width:100%;margin-top:10px;padding:7px 10px;border-radius:14px;
+  font-size:20px;line-height:1.25;}
+.people.compact .person .creds{margin-top:14px;gap:8px;}
+.people.compact .person .creds li{font-size:19px;line-height:1.3;padding-left:18px;}
+.people.compact .person .creds li::before{left:2px;top:8px;width:8px;height:8px;}
 
 /* ---- timeline phases (journey) ---- */
 .journey{display:flex;flex-direction:column;gap:26px;width:100%;}
@@ -208,3 +220,28 @@ h2.title{font-weight:700;font-size:62px;line-height:1.1;color:var(--heading);let
 .thanks-strip .hl{color:var(--green-deep);}
 .thanks-strip .gold{color:var(--gold);}
 .closing-line{margin-top:26px;align-self:center;text-align:center;font-size:34px;font-style:italic;font-weight:600;color:var(--heading);}
+
+/* ---- freeform table + image primitives ---- */
+.ff-table{width:100%;border-collapse:collapse;table-layout:fixed;background:var(--box);
+  color:var(--navy);font-size:27px;line-height:1.3;}
+.ff-table caption{caption-side:top;text-align:left;padding:0 0 14px;
+  color:var(--muted);font-size:24px;font-weight:600;}
+.ff-table th,.ff-table td{border:1px solid var(--line);padding:17px 24px;vertical-align:middle;}
+.ff-table th{background:var(--navy);color:var(--white);font-weight:700;text-align:left;}
+.ff-table tbody tr:nth-child(odd){background:var(--white);}
+.ff-table tbody tr:nth-child(even){background:var(--surface-2);}
+.ff-table.compact th,.ff-table.compact td{padding:11px 20px;}
+
+.ff-image-media{display:flex;align-items:center;justify-content:center;width:100%;max-width:100%;}
+.ff-image-media > img,.ff-image-media > svg{display:block;width:auto;height:auto;max-width:100%;
+  max-height:var(--ff-media-max-h,none);border:1px solid var(--line);border-radius:18px;
+  box-shadow:var(--card-shadow);}
+.ff-image-row{display:flex;align-items:flex-start;gap:30px;width:100%;}
+.ff-image-row-item{display:flex;flex:1 1 0;min-width:0;flex-direction:column;align-items:center;
+  gap:14px;margin:0;}
+.ff-image-row-media{display:flex;align-items:center;justify-content:center;width:100%;
+  height:var(--ff-image-row-max-h);padding:24px;background:var(--box);
+  border:1px solid var(--line);border-radius:18px;}
+.ff-image-row-media > img,.ff-image-row-media > svg{display:block;width:auto;height:auto;
+  max-width:100%;max-height:100%;}
+.ff-image-row-item figcaption{color:var(--muted);font-size:24px;line-height:1.3;text-align:center;}

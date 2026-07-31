@@ -226,7 +226,8 @@
    (green default; pass "gold" for an alternating accent). #}
 {% macro avatar(person, tone="green") %}
 {% if person.photo %}
-<div class="avatar avatar-{{ tone }}" style="background-image:url('{{ person.photo }}');background-size:cover;background-position:center;"></div>
+{% set photo_uri = data_uri(person.photo) %}
+<div class="avatar avatar-{{ tone }}" style="background-image:url('{{ photo_uri if photo_uri else person.photo }}');background-size:cover;background-position:center;"></div>
 {% else %}
 <div class="avatar avatar-{{ tone }}">{{ person.initials if person.initials else initials(person.name) }}</div>
 {% endif %}

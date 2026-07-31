@@ -7,6 +7,11 @@ VALID_FORMATS = set(FORMATS)
 
 VALID_THEMES = {"light", "dark"}
 
+FREEFORM_BLOCK_TYPES = {
+    "heading", "paragraph", "bullets", "card-grid", "stat-row", "person-row",
+    "table", "image", "image-row", "qr-card", "spacer",
+}
+
 # layout name -> required keys in its `content` object
 LAYOUTS = {
     # Donor deck layouts (original set; kept untouched).
@@ -82,6 +87,19 @@ def validate_document(doc: dict) -> None:
             blocks = content.get("blocks")
             if not isinstance(blocks, list) or not blocks:
                 raise SchemaError(f"slide {i} (freeform): 'blocks' must be a non-empty list")
+            for block in blocks:
+                block_type = block.get("type") if isinstance(block, dict) else None
+                if block_type not in FREEFORM_BLOCK_TYPES:
+                    raise SchemaError(
+                        f"slide {i} (freeform): unknown block type {block_type!r}")
+                if block_type == "table":
+                    for key in ("columns", "rows"):
+                        if key not in block:
+                            raise SchemaError(
+                                f"slide {i} (freeform table): missing required field {key!r}")
+                elif block_type == "image-row" and "images" not in block:
+                    raise SchemaError(
+                        f"slide {i} (freeform image-row): missing required field 'images'")
 
 
 # --- Document front-matter (generate-doc) -------------------------------------

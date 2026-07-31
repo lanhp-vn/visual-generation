@@ -159,6 +159,104 @@
           }
         ]
       }
+    },
+    {
+      "layout": "freeform",
+      "content": {
+        "blocks": [
+          {
+            "type": "heading",
+            "level": 2,
+            "eyebrow": "Structured content",
+            "text": "A compact table with <span class=\"hl\">two image formats</span>"
+          },
+          {
+            "type": "table",
+            "caption": "Example anatomy of a generic content record",
+            "compact": true,
+            "columns": ["Field", "Content shape", "Treatment"],
+            "rows": [
+              ["Label", "Short identifier", "<b>Required</b>"],
+              ["Summary", "One concise sentence", "Plain text"],
+              ["Category", "Single grouped value", "Optional"],
+              ["Status", "Short state label", "Optional"],
+              ["Owner", "Role or team placeholder", "Optional"],
+              ["Notes", "One supporting detail", "Optional"]
+            ]
+          },
+          {
+            "type": "image-row",
+            "max_h": 150,
+            "images": [
+              {
+                "src": "brand/logos/visemi-logo-color.svg",
+                "alt": "Wide identity asset",
+                "caption": "Wide identity asset"
+              },
+              {
+                "src": "brand/logos/visemi-mark-320.png",
+                "alt": "Square identity asset",
+                "caption": "Square identity asset"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "layout": "freeform",
+      "content": {
+        "blocks": [
+          {
+            "type": "heading",
+            "level": 2,
+            "eyebrow": "Compact people row",
+            "text": "Six profiles in a single <span class=\"hl\">team strip</span>"
+          },
+          {
+            "type": "person-row",
+            "compact": true,
+            "people": [
+              {
+                "name": "Avery Chen",
+                "role": "Research Lead",
+                "creds": ["Research lab"],
+                "photo": "brand/logos/visemi-mark-320.png"
+              },
+              {
+                "name": "Jordan Lee",
+                "role": "Design Lead",
+                "creds": ["Design studio"],
+                "photo": "brand/logos/visemi-mark-320.png"
+              },
+              {
+                "name": "Morgan Patel",
+                "role": "Product Lead",
+                "creds": ["Product group"],
+                "photo": "brand/logos/visemi-mark-320.png"
+              },
+              {
+                "name": "Taylor Nguyen",
+                "role": "Program Lead",
+                "creds": ["Learning network"],
+                "photo": "brand/logos/visemi-mark-320.png"
+              },
+              {
+                "name": "Casey Kim",
+                "role": "Operations Lead",
+                "creds": ["Operations team"],
+                "photo": "brand/logos/visemi-mark-320.png"
+              },
+              {
+                "name": "Riley Garcia",
+                "role": "Community Lead",
+                "creds": ["Community hub"],
+                "photo": "brand/logos/visemi-mark-320.png"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

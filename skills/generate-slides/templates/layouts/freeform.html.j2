@@ -15,8 +15,10 @@
      bullets     {items:[str | {text, sub?}]}
      card-grid   {cols?(2|3|4), accent?(bool), cards:[{icon?, tone?, heading?, body?}]}
      stat-row    {stats:[{num, unit?, label}]}            (1-6; ported .statcard)
-     person-row  {people:[{name, role?, creds?[], photo?, tone?}]}  (2-3)
+     person-row  {people:[{name, role?, creds?[], photo?, tone?}], compact?(bool)}  (2-3; compact fits 6-8)
+     table       {columns:[str], rows:[[str]], caption?, compact?(bool)}
      image       {src, alt?, max_h?(px), caption?}
+     image-row   {images:[{src, alt?, caption?}], max_h?(px)}       (2-3)
      qr-card     {url, caption?, label?}                  (uses .qrbox -> brand-lint exempt)
      spacer      {size?(px, default 32)}
 
@@ -29,6 +31,8 @@
      card-grid       -> .why-grid / .why-card
      stat-row        -> .stats / .statcard
      person-row      -> .people / .person + avatar()
+     table           -> .ff-table
+     image/image-row -> .ff-image-media / .ff-image-row
      qr-card         -> .qr-card / .qrbox / .qr-cap / .qr-url
 ============================================================================ #}
 {% import "components.html.j2" as cm %}
@@ -89,7 +93,7 @@
 {%- endmacro -%}
 
 {%- macro ff_person_row(b) -%}
-  <div class="people" style="grid-template-columns:repeat({{ b.people | length }},1fr);">
+  <div class="people{% if b.compact %} compact{% endif %}" style="grid-template-columns:repeat({{ b.people | length }},1fr);">
     {% for pn in b.people %}
     <div class="person">
       {{ cm.avatar(pn, pn.tone | default("gold" if loop.index is even else "green")) }}
@@ -105,13 +109,49 @@
   </div>
 {%- endmacro -%}
 
+{%- macro ff_table(b) -%}
+  <table class="ff-table{% if b.compact %} compact{% endif %}">
+    {% if b.caption %}<caption>{{ b.caption | safe }}</caption>{% endif %}
+    <thead>
+      <tr>{% for col in b.columns %}<th scope="col">{{ col | safe }}</th>{% endfor %}</tr>
+    </thead>
+    <tbody>
+      {% for row in b.rows %}
+      <tr>{% for cell in row %}<td>{{ cell | safe }}</td>{% endfor %}</tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{%- endmacro -%}
+
 {%- macro ff_image(b) -%}
   <figure style="display:flex;flex-direction:column;align-items:center;gap:16px;width:100%;margin:0;">
+    {% set image_markup = inline_asset(b.src, b.alt | default('')) %}
+    {% if image_markup %}
+    <div class="ff-image-media"{% if b.max_h %} style="--ff-media-max-h:{{ b.max_h }}px;"{% endif %}>
+      {{ image_markup | safe }}
+    </div>
+    {% else %}
     <img src="{{ b.src }}" alt="{{ b.alt | default('') }}"
          style="max-width:100%;{% if b.max_h %}max-height:{{ b.max_h }}px;{% endif %}border-radius:18px;
          border:1px solid var(--line);box-shadow:var(--card-shadow);display:block;">
+    {% endif %}
     {% if b.caption %}<figcaption class="muted" style="font-size:24px;text-align:center;">{{ b.caption | safe }}</figcaption>{% endif %}
   </figure>
+{%- endmacro -%}
+
+{%- macro ff_image_row(b) -%}
+  <div class="ff-image-row" style="--ff-image-row-max-h:{{ b.max_h | default(400) }}px;">
+    {% for im in b.images %}
+    <figure class="ff-image-row-item">
+      {% set image_markup = inline_asset(im.src, im.alt | default('')) %}
+      <div class="ff-image-row-media">
+        {% if image_markup %}{{ image_markup | safe }}
+        {% else %}<img src="{{ im.src }}" alt="{{ im.alt | default('') }}">{% endif %}
+      </div>
+      {% if im.caption %}<figcaption>{{ im.caption | safe }}</figcaption>{% endif %}
+    </figure>
+    {% endfor %}
+  </div>
 {%- endmacro -%}
 
 {%- macro ff_qr_card(b) -%}
@@ -139,7 +179,9 @@
       {% elif b.type == "card-grid" %}{{ ff_card_grid(b) }}
       {% elif b.type == "stat-row" %}{{ ff_stat_row(b) }}
       {% elif b.type == "person-row" %}{{ ff_person_row(b) }}
+      {% elif b.type == "table" %}{{ ff_table(b) }}
       {% elif b.type == "image" %}{{ ff_image(b) }}
+      {% elif b.type == "image-row" %}{{ ff_image_row(b) }}
       {% elif b.type == "qr-card" %}{{ ff_qr_card(b) }}
       {% elif b.type == "spacer" %}{{ ff_spacer(b) }}
       {% endif %}

@@ -4,7 +4,9 @@ Theme CSS is assembled from brand/ (single source of truth): embedded fonts +
 generated tokens for meta.theme + the skill's tokenised components.css.
 Output is html-ppt-compatible (<div class="deck"> wrapping <section class="slide">)."""
 import base64
+import mimetypes
 import re
+from html import escape
 from pathlib import Path
 import jinja2
 
@@ -30,6 +32,8 @@ def build_env(templates_dir: Path) -> jinja2.Environment:
     )
     env.globals["icon"] = render_icon
     env.globals["qr_svg"] = qr_svg
+    env.globals["inline_asset"] = _load_inline_asset
+    env.globals["data_uri"] = _load_data_uri
     return env
 
 
@@ -126,41 +130,49 @@ def render_doc_html(meta: dict, body_html: str, toc_html: str,
                        bg_logo=bg_logo)
 
 
-def _load_data_uri(rel: str | None) -> str | None:
+def _resolve_asset_path(path: str | Path | None) -> Path | None:
+    """Resolve an asset path as absolute, cwd-relative, then repo-root-relative."""
+    if not path:
+        return None
+    p = Path(path)
+    candidates = [p] if p.is_absolute() else [Path.cwd() / p, REPO_ROOT / p]
+    for candidate in candidates:
+        if candidate.is_file():
+            return candidate
+    return None
+
+
+def _path_data_uri(path: Path) -> str:
+    mime = "image/svg+xml" if path.suffix.lower() == ".svg" else (
+        mimetypes.guess_type(path.name)[0] or "image/png")
+    b64 = base64.standard_b64encode(path.read_bytes()).decode("ascii")
+    return f"data:{mime};base64,{b64}"
+
+
+def _load_data_uri(rel: str | Path | None) -> str | None:
     """Load an optional single image path (meta.cover_bg_logo) as a base64 data
     URI, for use as a CSS background-image - unlike _load_partner_logos (inline
     markup), a background-image needs one URL, so SVGs are also base64-encoded
-    rather than inlined raw. Path is absolute or repo-root-relative; None if unset
-    or missing."""
-    import mimetypes
-    if not rel:
+    rather than inlined raw. None if unset or missing."""
+    path = _resolve_asset_path(rel)
+    return _path_data_uri(path) if path else None
+
+
+def _load_inline_asset(rel: str | Path | None, alt: str = "") -> str | None:
+    """Inline one SVG as markup or one raster image as a data-URI <img>."""
+    path = _resolve_asset_path(rel)
+    if not path:
         return None
-    p = Path(rel)
-    if not p.is_absolute():
-        p = REPO_ROOT / rel
-    if not p.exists():
-        return None
-    mime = "image/svg+xml" if p.suffix.lower() == ".svg" else (mimetypes.guess_type(p.name)[0] or "image/png")
-    b64 = base64.standard_b64encode(p.read_bytes()).decode("ascii")
-    return f"data:{mime};base64,{b64}"
+    if path.suffix.lower() == ".svg":
+        return path.read_text(encoding="utf-8")
+    return f'<img src="{_path_data_uri(path)}" alt="{escape(alt or "", quote=True)}">'
 
 
 def _load_partner_logos(paths) -> list[str]:
     """Inline each partner/sponsor logo path (from meta.partner_logos) as HTML:
     .svg files inline as markup, raster files as a base64 data-URI <img>. Paths are
-    absolute or repo-root-relative. Keeps the rendered HTML self-contained."""
-    import mimetypes
-    out = []
-    for rel in paths:
-        p = Path(rel)
-        if not p.is_absolute():
-            p = REPO_ROOT / rel
-        if not p.exists():
-            continue
-        if p.suffix.lower() == ".svg":
-            out.append(p.read_text(encoding="utf-8"))
-        else:
-            mime = mimetypes.guess_type(p.name)[0] or "image/png"
-            b64 = base64.standard_b64encode(p.read_bytes()).decode("ascii")
-            out.append(f'<img src="data:{mime};base64,{b64}" alt="partner logo">')
-    return out
+    resolved by _load_inline_asset. Keeps the rendered HTML self-contained."""
+    return [
+        markup for rel in paths
+        if (markup := _load_inline_asset(rel, "partner logo")) is not None
+    ]
