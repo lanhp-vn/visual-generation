@@ -25,6 +25,14 @@ tokens, and eval/grader stack. Design spec:
   fixtures also stay honest about the brand rules (a placeholder must not ship
   stripped diacritics just because it is a test).
 
+## Design principles
+
+`docs/design-principles.md` holds the five principles distilled from operator review of real
+deliverables: legibility beats cleverness, fill the canvas but hold the frame, real content or
+nothing, alignment is how care becomes visible, tables are the last resort. Brand tokens and the
+deterministic lint answer *is this on-brand*; those answer *is this any good*, which is what work
+actually gets sent back for. Read them before authoring, and walk them before calling a visual done.
+
 ## Brand (non-negotiable)
 
 - Palette: navy `#001669`, dark purple `#262538`, green `#01B68B`, white, the

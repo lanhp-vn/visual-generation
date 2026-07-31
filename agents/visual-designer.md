@@ -37,16 +37,30 @@ directory as the anchor for content, `--out`, and `--brand`.
    `overflow: false`, the brand-lint reports `passed: true`, and you have
    eyeballed the PNGs against the intent.
 
+Read `$VG/docs/design-principles.md` once at the start of a job. It is what the
+grader cannot check: whether the canvas is used, whether a graphic needs
+explaining, whether everything on the page is real content. Walk the five
+principles again at Step 1 of your own review, before you hand anything back.
+
 ## Step 1 - Read the brief and pick the generator + format
 
 Read the source (Read / Glob / Grep) and choose from what the brief implies:
 
 | Want | Generator | renderer / skill-dir | Formats (meta.format) |
 | --- | --- | --- | --- |
-| Slide deck, one-pager, event/pitch/info-session deck | `generate-slides` | `render_canvas.py` (default skill-dir) | `deck-16x9`, `one-pager-landscape` |
+| Slide deck, one-pager, event/info-session/internal deck | `generate-slides` | `render_canvas.py` (default skill-dir) | `deck-16x9`, `one-pager-landscape` |
 | Report, cohort/program report, donor update, handbook, guide | `generate-doc` | `render_doc.py` | A4 (Markdown + front-matter `template: report` or `handbook`) |
 | Social post, Instagram/Facebook/LinkedIn image, story, feed graphic | `generate-social-post` | `render_canvas.py --skill-dir "$VG/skills/generate-social-post"` | `square`, `portrait`, `story`, `link` |
 | Poster, event graphic, banner, flyer, email header | `generate-poster` | `render_canvas.py --skill-dir "$VG/skills/generate-poster"` | `poster-a`, `banner-wide`, `email-header` |
+
+**Hand the job back before you start** when the brief is a funder or grant pitch
+document, or when the operator has already rejected a deck as templated, generic,
+or too empty. Every generator here fills a fixed layout library, which is the
+right trade for speed and consistency and the wrong one when a deck has to read as
+individually designed. Say so and let the caller route it to a bespoke paged-HTML
+workflow; producing another templated deck for a brief that just rejected one
+wastes the pass. Consuming repos may register their own skill for this (the VISEMI
+program workspace uses `bespoke-deck`).
 
 Read the matching skill's `SKILL.md` in `$VG/skills/<generator>/` for its layout
 library and writing rules. The required `content` fields per layout are the

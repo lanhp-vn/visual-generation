@@ -1,6 +1,6 @@
 ---
 name: generate-slides
-description: Build brand-locked HTML slides and one-pagers for the Cất Cánh (Takeoff) Fellowship from a structured content JSON, render them to pixel-exact 1920x1080 PNG and PDF via headless Chromium (Playwright), then grade them (deterministic brand-lint + optional LLM-judge rubric). Use whenever the operator wants a Cất Cánh / VISEMI slide deck, pitch deck, one-pager, info-session deck, event deck, or any "make slides / make a one-pager" task, even if they do not say "HTML". Content lives in JSON (facts from the brief, never invented); layout lives in a fixed Jinja2 template library; brand lives in one VISEMI theme (light or dark). Output is html-ppt-compatible. Local only - no Gmail, Drive, or Zoom.
+description: Build brand-locked HTML slides and one-pagers for the Cất Cánh (Takeoff) Fellowship from a structured content JSON, render them to pixel-exact 1920x1080 PNG and PDF via headless Chromium (Playwright), then grade them (deterministic brand-lint + optional LLM-judge rubric). Use whenever the operator wants a Cất Cánh / VISEMI slide deck, one-pager, info-session deck, event deck, internal or team deck, or any "make slides / make a one-pager" task, even if they do not say "HTML". Content lives in JSON (facts from the brief, never invented); layout lives in a fixed Jinja2 template library; brand lives in one VISEMI theme (light or dark). Output is html-ppt-compatible. Local only - no Gmail, Drive, or Zoom. NOT the right skill when the deck has to read as individually designed rather than generated - a funder or grant pitch document, or any deck the operator has already rejected as templated, generic, or too empty - because this skill fills fixed layouts by design; hand that to a bespoke paged-HTML workflow instead.
 ---
 
 # generate-slides
@@ -14,6 +14,11 @@ Produces VISEMI / Cất Cánh slides and one-pagers in the house brand: navy `#0
 > machinery lives in `scripts/ops/` and `scripts/lib/visgen/`. The reference
 > exemplars in `scripts/evals/references/` are the canonical examples - open their
 > rendered output as visual references.
+
+> **Before authoring, read `docs/design-principles.md`.** Brand-lint and the layout
+> schema cannot tell you that a page is two thirds empty, that a chart needs
+> explaining, or that a row of stat boxes reads as generated. Those five
+> principles are what the operator actually reviews against.
 
 ## Three rules that define this skill
 
@@ -174,6 +179,21 @@ Vendored MIT assets are attributed in `assets/THIRD_PARTY_LICENSES`.
   component macro; styling lives in the theme tokens.
 - Overusing gold as a fill instead of a sparing accent.
 - Declaring a slide done without rendering it and checking `overflow: false`.
+- **Treating `overflow: false` as proof the page is finished.** Overflow is only
+  half the failure mode: a page whose content stops two thirds of the way down
+  passes every check and still reads as unfinished. Underfill is the more common
+  complaint in practice, and it is invisible to the grader, so look at the PNG and
+  ask whether the canvas is actually used before calling a page done.
+- **A row of identical boxes each holding one big number.** This is the most
+  template-looking device available, and a deck built mostly from it will read as
+  generated no matter how good the figures are. Bind a number to the graphic that
+  explains it, or set the row as a typographic band on hairline rules. Reach for
+  boxes last, not first.
+- Repeating the full programme name on every page of an English funder-facing
+  deck. Give it once as "Cất Cánh (Takeoff) Fellowship", then "Takeoff Fellowship"
+  after that; a reviewer who cannot pronounce the Vietnamese name has to re-parse
+  it each time. Diacritics stay intact wherever the full form does appear, and
+  Vietnamese-language decks keep Cất Cánh throughout.
 - Hand-editing `scripts/evals/references/*.content.json` figures (they are reference
   solutions / the regression suite) without re-verifying against the source.
 - Committing anything under `output/` (git-ignored output).
