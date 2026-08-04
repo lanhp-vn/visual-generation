@@ -194,6 +194,14 @@ Vendored MIT assets are attributed in `assets/THIRD_PARTY_LICENSES`.
   after that; a reviewer who cannot pronounce the Vietnamese name has to re-parse
   it each time. Diacritics stay intact wherever the full form does appear, and
   Vietnamese-language decks keep Cất Cánh throughout.
+- **Relying on a soft fade in a deck that will be printed rather than screened.**
+  A `mask-image`, or a gradient running to `transparent`, becomes a PDF soft mask,
+  and viewers disagree on whether to honour one. Such a page renders correctly in
+  Chromium AND in pypdfium2 and can still lose the fade completely in the viewer
+  the recipient opens - the artwork appears un-faded, with a hard edge. Flat
+  `rgba()` is safe (constant alpha, plain ExtGState). Trust the PNGs, and for a
+  print master composite the fade into the pixels. `templates/layouts/title.html.j2`
+  carries the repo's one instance, annotated.
 - Hand-editing `scripts/evals/references/*.content.json` figures (they are reference
   solutions / the regression suite) without re-verifying against the source.
 - Committing anything under `output/` (git-ignored output).

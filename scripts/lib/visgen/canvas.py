@@ -1,5 +1,17 @@
 """Render a canvas content dict to pixel-exact PNGs + a combined PDF via headless
-Chromium (Playwright). Local-only: no outward action, no credentials."""
+Chromium (Playwright). Local-only: no outward action, no credentials.
+
+PDF fidelity caveat, and the reason the PNGs are the trustworthy artifact: Chromium
+emits a **varying-alpha** gradient or mask as a PDF soft mask, and PDF viewers
+differ on whether they honour one. A page whose design depends on something fading
+out - `mask-image`, or a `linear-gradient` running to `transparent` - can therefore
+render correctly here, correctly in pypdfium2, and still lose the fade entirely in
+a viewer that ignores soft masks, showing the un-faded artwork with a hard edge. A
+flat `rgba()` fill is safe, because a constant alpha becomes a plain ExtGState.
+So: soft fades are fine for screen and for the PNGs, but for a PDF that goes to a
+printer, composite the fade into the pixels instead of asking the PDF to do it.
+See skills/generate-slides/templates/layouts/title.html.j2 for the one place in
+this repo that currently relies on a soft mask."""
 import json
 from pathlib import Path
 

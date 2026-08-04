@@ -330,3 +330,26 @@ a reference's own palette):
   `.cover`'s `overflow: hidden` - a longer title/eyebrow than the one you
   tested against will silently clip instead of wrapping. Size for the common
   case and let it wrap; don't force single-line.
+- **Relying on a soft fade in a PDF that leaves the building.** A `mask-image`, or a
+  gradient running to `transparent`, becomes a PDF soft mask, and viewers disagree
+  on whether to honour one. Such a page renders correctly in Chromium AND in
+  pypdfium2 and can still lose the fade entirely in the viewer the recipient opens,
+  showing the un-faded artwork with a hard edge. Flat `rgba()` is safe: a constant
+  alpha becomes a plain ExtGState. For a print master, composite the fade into the
+  pixels instead of asking the PDF to do it.
+- **`text-align: justify` with `text-wrap: balance` or `pretty`.** Balance shortens
+  the lines to equalise them, justify stretches them straight back to full measure,
+  and the difference lands in the word gaps as rivers. Justify already removes the
+  ragged edge those hints exist to fix, so use one or the other, never both.
+- **`hyphens: auto` to fix justified word gaps.** It does nothing in headless
+  Chromium, which ships no hyphenation dictionary - and it *would* work wherever one
+  is installed, so the same source sets differently for different renderers, which
+  is disqualifying for a master. Use `hyphens: manual` with `&shy;` inside the long
+  words: no dictionary needed, and it breaks only when a line needs it. Note
+  `hyphenate-limit-chars` applies to `auto` only, so it is inert here. If a grader
+  or check compares copy, strip U+00AD first or every assertion fails on a word
+  that in fact renders whole.
+- **Justifying a narrow measure at all.** A line's slack equals the first word that
+  did *not* fit, shared between only that line's few spaces, so below roughly 45
+  characters even hyphenation cannot always save it. Widen the measure or leave the
+  column ragged-right; justify is not a free upgrade.

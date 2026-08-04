@@ -168,6 +168,15 @@ def print_doc(out_dir, template=None, title=None) -> dict:
         # Paged.js already produced print-ready A4 page boxes; print WITHOUT
         # emulating print media (mirrors pagedjs-cli). prefer_css_page_size honors
         # @page { size: A4 }; print_background keeps cover/table fills.
+        #
+        # Chromium emits a VARYING-alpha gradient or mask as a PDF soft mask, and
+        # viewers differ on whether they honour one. Anything in the document that
+        # depends on a fade (mask-image, or a gradient running to transparent) can
+        # render correctly here, correctly in pypdfium2, and still lose the fade in
+        # a viewer that ignores soft masks - showing the un-faded artwork with a
+        # hard edge. Flat rgba() is safe: a constant alpha becomes a plain
+        # ExtGState. For anything going to a printer, composite the fade into the
+        # pixels rather than asking the PDF to do it.
         page.pdf(path=str(out_dir / "pdf" / f"{out_dir.name}.pdf"),
                  prefer_css_page_size=True, print_background=True)
         browser.close()

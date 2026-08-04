@@ -1,5 +1,15 @@
 <section class="slide title-slide" style="background:linear-gradient(135deg,#F6F6F6 0%, #CCF2E7 100%);">
-  {# faint tech-grid / diamond watermark on the right #}
+  {# Faint tech-grid / diamond watermark on the right.
+
+     KNOWN PDF RISK, deliberately left as is: the mask-image below carries varying
+     alpha, and Chromium emits that as a PDF soft mask. A viewer that ignores soft
+     masks drops it, so the crosshatch would print at an even .06 across the WHOLE
+     slide instead of fading out to the left - a wash, not a watermark. It is safe
+     in the PNGs and in every renderer checked so far (Chromium, pypdfium2), and at
+     .06 opacity the failure is mild, which is why this is a note and not a fix.
+     If a title slide ever has to be a print master, check it in the target viewer
+     first, or bake the fade into a raster. Same hazard, worse consequence, is
+     documented at the page.pdf() call in scripts/lib/visgen/canvas.py. #}
   <div style="position:absolute;inset:0;opacity:.06;pointer-events:none;
        background-image:repeating-linear-gradient(45deg,var(--navy) 0 2px,transparent 2px 64px),
                         repeating-linear-gradient(-45deg,var(--navy) 0 2px,transparent 2px 64px);

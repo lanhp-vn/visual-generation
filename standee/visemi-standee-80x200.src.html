@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VISEMI Foundation Roll-up Standee 80 x 200 cm</title>
+<style>
+/* 80 x 200 cm sibling of visemi-standee.src.html. Same design, same copy, same
+   assets; only the page box and the vertical rhythm differ.
+
+   HOW THE SIZE IS REACHED. The body is authored in the SAME 36in-wide coordinate
+   system as the 36 x 72in master and scaled down by `zoom` to 80cm wide. That is
+   deliberate:
+     - every horizontal value, every font size and every line break is byte
+       identical to the reviewed master, so no text rewraps and the &shy; tuning,
+       the nowrap headline and the justified measures all still hold;
+     - `zoom` is a LAYOUT scale, not a paint transform, so type stays type and the
+       chart stays vector in the PDF. A `transform:scale()` here would risk
+       rasterisation on Chrome's print path.
+   36in * .875 = 31.5in = 80.01cm, so the body overflows the page by 0.1mm and
+   html's overflow:hidden clips it. Erring 0.1mm LARGE is on purpose: erring small
+   would leave a white hairline down the edge of a print master.
+   The authoring canvas is therefore 36 x 90in (90 * .875 = 78.75in = 200.03cm).
+
+   WHAT CHANGED FROM THE MASTER. 80 x 200 is a taller, narrower aspect (0.40 vs
+   0.50), so 18 authoring inches of extra height had to go somewhere. It was NOT
+   distributed proportionally: at this scale a proportional stretch nearly triples
+   the physical gap between the headline and its own lead line, which detaches
+   them. On operator review it went, in order of priority:
+     1. INTO THE LEADING of every multi-line block, not the gaps between them.
+        A taller banner earns looser lines; wider gaps just push the blocks apart.
+        Headline 1.08 -> 1.16, lead 1.55 -> 1.72, program copy 1.72 -> 1.9,
+        why-statement 1.14 -> 1.24, explainer 1.75 -> 1.95. Line-height does not
+        affect line BREAKING, so every block still sets to the same line count and
+        the &shy; tuning is untouched.
+     2. INTO THE CHIP BAND, which is 24in here against the master's 19.2in and so
+        starts 4.8in higher up the banner. A band has to reach the bottom edge, so
+        growing it is the only way to move the chip up; it wires its own
+        `assets/chip-band-baked-24in.jpg` from the same source and the same
+        rasterisation (see make_chip_band.py BANDS).
+     3. Into the section breaks, the top margin, the scan card, and the gap
+        between the four program rows, in that order and last.
+   Two type sizes were also raised beyond simple parity, because at .875 zoom the
+   master's values land 12.5% smaller in print than they read at: the section
+   heads (.5in -> .64in) and the eyebrow badge (.52/.36in -> .64/.46in).
+
+   Reading heights follow from a roll-up base sitting ~2in off the floor, so the
+   banner's top edge is at 205cm. The headline lands 158 - 178cm above the floor
+   and the QR centre at 107cm, both in the same places the master puts them. */
+@page{size:80cm 200cm;margin:0}
+@font-face{font-family:"Be Vietnam Pro";font-style:normal;font-weight:400;font-display:block;src:url(__A(visual-generation/brand/fonts/be-vietnam-pro-latin-400.woff2)__) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Be Vietnam Pro";font-style:normal;font-weight:400;font-display:block;src:url(__A(visual-generation/brand/fonts/be-vietnam-pro-vietnamese-400.woff2)__) format("woff2");unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+1EA0-1EF9,U+20AB}
+@font-face{font-family:"Be Vietnam Pro";font-style:normal;font-weight:500;font-display:block;src:url(__A(visual-generation/brand/fonts/be-vietnam-pro-latin-500.woff2)__) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Be Vietnam Pro";font-style:normal;font-weight:500;font-display:block;src:url(__A(visual-generation/brand/fonts/be-vietnam-pro-vietnamese-500.woff2)__) format("woff2");unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+1EA0-1EF9,U+20AB}
+@font-face{font-family:"Be Vietnam Pro";font-style:normal;font-weight:600;font-display:block;src:url(__A(visual-generation/brand/fonts/be-vietnam-pro-latin-600.woff2)__) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Be Vietnam Pro";font-style:normal;font-weight:600;font-display:block;src:url(__A(visual-generation/brand/fonts/be-vietnam-pro-vietnamese-600.woff2)__) format("woff2");unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+1EA0-1EF9,U+20AB}
+@font-face{font-family:"Be Vietnam Pro";font-style:normal;font-weight:700;font-display:block;src:url(__A(visual-generation/brand/fonts/be-vietnam-pro-latin-700.woff2)__) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Be Vietnam Pro";font-style:normal;font-weight:700;font-display:block;src:url(__A(visual-generation/brand/fonts/be-vietnam-pro-vietnamese-700.woff2)__) format("woff2");unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+1EA0-1EF9,U+20AB}
+
+*{box-sizing:border-box}
+/* html is the real page box in real units; body is the authoring canvas. Keep
+   print-color-adjust on both, or Chrome drops every background fill. */
+html{width:80cm;height:200cm;margin:0;padding:0;overflow:hidden;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact}
+body{width:36in;height:90in;margin:0;padding:0;zoom:.875;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+  font-family:"Be Vietnam Pro",sans-serif}
+
+/* Field. Ends on a held flat #000B2A so the chip band's vignette has one
+   single colour to dissolve into instead of a moving gradient value. The stops
+   stay percentages, so 72% is 64.8in here and the flat run still starts above
+   the band at 66in. Narrow that margin and a moving gradient value meets the
+   band's fixed fade colour, which is a seam. */
+.banner{position:relative;width:36in;height:90in;overflow:hidden;color:#fff;
+  background:linear-gradient(180deg,#001C52 0%,#001240 42%,#000B2A 72%,#000B2A 100%)}
+
+/* Ambient depth: two very low-opacity blooms, no blur filter (Chrome's print
+   path rasterises filters and softens everything downstream of them). */
+.bloom{position:absolute;border-radius:50%;z-index:0;pointer-events:none}
+.bloom-a{top:-10in;left:14in;width:34in;height:34in;
+  background:radial-gradient(circle,rgba(0,229,255,.13) 0%,rgba(0,229,255,0) 68%)}
+.bloom-b{top:31in;left:-13in;width:32in;height:32in;
+  background:radial-gradient(circle,rgba(1,182,139,.12) 0%,rgba(1,182,139,0) 66%)}
+/* Runs to where the chip band starts, the same relationship the master has.
+   preserveAspectRatio none stretches the 36x54 viewBox 1.22x vertically; at 5.5%
+   opacity on schematic right-angle traces that is not visible, and it beats
+   leaving 12in of bare field. */
+.circuit{position:absolute;top:0;left:0;width:36in;height:66in;z-index:0}
+
+/* Top edge: the site's accent stripe (primary / cyan / primary). */
+.stripe{position:absolute;top:0;left:0;width:36in;height:.18in;z-index:4;
+  background:linear-gradient(90deg,#01B68B 0%,#00E5FF 50%,#01B68B 100%)}
+
+.logo{position:absolute;top:3.4in;left:2.6in;width:12in;height:3.915in;
+  object-fit:contain;object-position:left center;z-index:2}
+/* Badge type is .64/.46in, not the master's .52/.36in. Parity after the .875 zoom
+   would be .59/.41in; these clear that, because the badge was reading small in
+   proof. Set right-aligned in a 14in box ending at x 33.4in, so the longer line
+   sets to ~12.5in and still starts well clear of the logo, which ends at 14.6in.
+   Push much past .66in and the two collide. */
+.badge{position:absolute;top:3.65in;left:19.4in;width:14in;z-index:2;text-align:right}
+.badge b{display:block;color:#01B68B;font-size:.64in;font-weight:700;
+  line-height:1.2;letter-spacing:.13em}
+.badge span{display:block;margin-top:.2in;color:rgba(255,255,255,.6);
+  font-size:.46in;font-weight:500;line-height:1.2;letter-spacing:.2em}
+
+/* Hairline bus. Reads as a trace, and separates identity from message. */
+.bus{position:absolute;top:9.05in;left:2.6in;width:30.8in;height:.16in;z-index:2}
+
+/* line-height 1.16 against the master's 1.08. The master was already raised twice
+   from .92 on review because tight leading looks purposeful at thumbnail size and
+   cramped at 2.6in of cap height; the extra canvas here buys the rest. Raising it
+   grows the block, so the lead's top moved down with it rather than being run
+   into. */
+.headline{position:absolute;top:10.05in;left:2.6in;width:30.8in;margin:0;z-index:2;
+  font-size:2.62in;font-weight:700;line-height:1.16;letter-spacing:-.015em;
+  text-transform:uppercase}
+.headline span{display:block;white-space:nowrap}
+.headline .accent{color:#01B68B}
+/* .76in, not .84in, and set two lines deliberately. At .84in this paragraph runs
+   to three lines whose middle one is only ~87% full, so justification stretched
+   its word gaps; hyphenating to fill it then left "tion." alone on line three,
+   which on a printed banner reads as a defect. Two full lines need neither.
+   line-height 1.72, not the master's 1.55: the extra canvas goes between the
+   lines, which is what makes a block read as airy. The gap ABOVE it stays close
+   to the master's, so the lead does not detach from the headline it supports. */
+.lead{position:absolute;top:20.85in;left:2.6in;width:30.8in;margin:0;z-index:2;
+  color:rgba(255,255,255,.86);font-size:.76in;font-weight:500;line-height:1.72}
+
+/* The three things the work is for, as nodes on one line rather than a
+   paragraph: they are peers, not a sequence. .64in, not the master's .5in: after
+   the .875 zoom the master's value prints at .44in, which is below where a
+   section head still holds its own against the block it labels. */
+.shead{position:absolute;left:2.6in;width:16.4in;z-index:2;
+  display:flex;align-items:center;gap:.5in;
+  color:#01B68B;font-size:.64in;font-weight:700;letter-spacing:.2em;text-transform:uppercase}
+.shead u{flex:1 1 auto;height:.02in;background:rgba(1,182,139,.42);text-decoration:none}
+.shead-wide{width:30.8in}
+
+/* --- what we do: four programs, one per row ------------------------------ */
+/* Rows are flex:1 1 0, so all four take the tallest row's height. Height is
+   therefore set by the longest description (three lines at this column width),
+   not by the average. Shorten the stack and that row alone overflows.
+   The extra height over the master went first into the description's leading
+   (1.9), then to the GAP between rows (1in, up from .52in) and each row's
+   vertical padding: growing only the rows leaves the tallest row's text floating
+   in dead space. At 26.6in a row is 5.9in and the tallest needs 5.4in, so there
+   is half an inch in hand. Shrink this stack and that one row overflows. */
+.progs{position:absolute;top:28.3in;left:2.6in;width:16.4in;height:26.6in;z-index:2;
+  display:flex;flex-direction:column;gap:1in}
+.prog{flex:1 1 0;display:flex;align-items:center;gap:.7in;
+  padding:.7in .62in .7in .78in;position:relative;
+  border:.022in solid rgba(255,255,255,.13);border-radius:.36in;
+  background:rgba(255,255,255,.045)}
+.prog::before{content:"";position:absolute;top:.8in;bottom:.8in;left:0;width:.07in;
+  border-radius:0 .04in .04in 0;background:#01B68B}
+/* The tile stays 2.3in even though there is room. It is the only thing between
+   the card's left padding and the text, so growing it narrows the description
+   measure, and the measure is what the &shy; hyphenation and the three-line row
+   height were both tuned against. */
+.tile{flex:0 0 auto;width:2.3in;height:2.3in;border-radius:.38in;
+  display:flex;align-items:center;justify-content:center;
+  border:.022in solid rgba(1,182,139,.4);background:rgba(1,182,139,.13)}
+.tile svg{width:1.26in;height:1.26in;color:#01B68B;stroke-width:1.8}
+/* Air goes BETWEEN the lines of a paragraph, not between a heading and the
+   paragraph it introduces. Widening the heading margin instead just detaches the
+   two and reads as a mistake. */
+.prog h3{margin:0 0 .15in;font-size:.74in;font-weight:600;line-height:1.2;color:#fff}
+.prog p{margin:0;font-size:.52in;font-weight:400;line-height:1.9;
+  color:rgba(255,255,255,.76)}
+
+/* --- scan block ---------------------------------------------------------- */
+/* Card top is pinned so the QR centre lands 105cm above the floor, the same
+   height the master puts it at. Below about 90cm nobody crouches to scan.
+   The card is 13in wide, so the QR is WIDTH limited, not height limited: the
+   card's extra 5.2in over the master cannot buy a bigger code. It went into the
+   two navy bands instead, which are content (a bigger SCAN and a bigger URL both
+   read further), leaving the white body slack at .7in a side, exactly the
+   master's proportion. Spending it as white space around the code instead is the
+   dead-band failure an earlier revision was sent back for. */
+.scan{position:absolute;top:28.3in;left:20.4in;width:13in;height:26.6in;z-index:2;
+  background:#fff;border-radius:.6in;overflow:hidden;
+  display:flex;flex-direction:column}
+/* The instruction block IS the arrow: a full-bleed navy band whose bottom edge
+   comes to a point over the code. That beats setting a separate arrow graphic
+   beside the text, which has to stay small to avoid crowding the QR and then
+   reads as an afterthought. The clip-path corners at 46% are where the band's
+   left and right edges stop, so over 8.8in the taper runs 4.75in deep. Shallower
+   than about 2.5in over this width and it stops reading as an arrow and starts
+   reading as a banner with a notch. Text is padded to sit in the straight part
+   above the taper, not in the box as a whole. */
+/* Navy bands, white text. Green was tried here and rejected by the operator; the
+   card separates from the banner field on its white body and its hard edge, not
+   on hue. Keep the pair navy-on-white text and white-on-navy bands: white on the
+   brand green is only 2.3:1 and fails even the large-text floor, so a green band
+   would have to carry navy text and cannot simply swap back. */
+.scanhead{flex:0 0 auto;height:8.8in;background:#001669;padding-top:1.6in;position:relative;
+  clip-path:polygon(0 0,100% 0,100% 46%,50% 100%,0 46%);
+  display:flex;align-items:flex-start;justify-content:center}
+/* Chevron inside the taper, echoing the band's own point and sitting close to it.
+   Placed with an explicit left, not translateX(-50%): the card is a fixed 13in, so
+   the centre is known, and no transform has to survive the print path. It sits
+   43% of the way down the taper, the same place the master puts it; the taper is
+   still 4.2in wide there, so it is nowhere near clipping. */
+.chev{position:absolute;top:6.1in;left:5.65in;width:1.7in;height:1.15in}
+/* Two tiers, not one flat line: the verb carries at expo distance, the qualifier
+   is tracked out underneath it. */
+.scan .k{margin:0;color:#fff;text-align:center;text-transform:uppercase}
+.scan .k b{display:block;font-size:1.45in;font-weight:700;line-height:1.05;
+  letter-spacing:.03em;margin-right:-.03em}
+.scan .k span{display:block;margin:.21in -.22em 0 0;font-size:.52in;font-weight:600;
+  line-height:1.3;letter-spacing:.22em}
+.scanbody{flex:1 1 auto;display:flex;align-items:center;justify-content:center}
+.scan img{display:block;width:12.2in;height:12.2in}
+/* The footer bar is load-bearing, not decoration: the QR image carries its own
+   4-module quiet zone, so ~.9in of the white a viewer sees is inside the image
+   and cannot be recovered. Distributing the card's leftover height as flex gaps
+   instead reads as a dead band under the code. "visemi.org" sets to ~9.8in at
+   2.1in, so it still clears the 13in card with room on both sides. */
+.scanfoot{flex:0 0 auto;margin:0;height:4in;background:#001669;color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.1in;font-weight:700;line-height:1;letter-spacing:-.015em}
+
+/* --- why we exist -------------------------------------------------------- */
+/* Statement and explainer both left, in one 16.4in column at a comfortable
+   reading measure (~45 characters); the device takes the right column and lines
+   up with the scan card above it. Putting the explainer in the narrow right
+   column instead drops it to 34 characters a line and it reads as fine print. */
+/* 1.28in is the ceiling: the longer sentence is nowrap at 17.4in, and the
+   device card starts at x 20.4in. Any larger and it runs under the card. */
+.why{position:absolute;top:60.5in;left:2.6in;width:16.4in;margin:0;z-index:2;
+  font-size:1.28in;font-weight:700;line-height:1.24;letter-spacing:-.01em}
+/* nowrap: each sentence is one line by design. Let either wrap and the block
+   grows into the explainer below it. */
+.why b{display:block;font-weight:700;white-space:nowrap}
+.why .dim{color:#01B68B}
+.note{position:absolute;top:64.3in;left:2.6in;width:16.4in;margin:0;z-index:2;
+  color:rgba(255,255,255,.8);font-size:.6in;font-weight:400;line-height:1.95}
+/* Every justified block, in one place. What makes justification behave here:
+   - Word gaps blow out because a line's slack equals the first word that did NOT
+     fit, shared between only a few spaces. On the program descriptions' ~40
+     character measure an 11-letter word leaves a quarter of the line as slack.
+     Breaking long words is the only real fix.
+   - hyphens:MANUAL with &shy; in the copy, never hyphens:auto. Headless Chrome
+     ships no hyphenation dictionary, so auto silently does nothing here - and
+     worse, it WOULD work on a machine that has one, so the same source would set
+     differently for whoever renders it. A print master has to be deterministic.
+     &shy; needs no dictionary and breaks only when the line needs it.
+   - NO text-wrap:balance or pretty. Balance shortens lines to equalise them,
+     justify stretches them straight back to full measure, and the difference
+     lands in the word gaps. Justify already removes the ragged edge those hints
+     were there to fix. */
+.lead,.prog p,.note{text-align:justify;hyphens:manual}
+/* The card is taller than the SVG's own 130:69 aspect. preserveAspectRatio
+   "meet" fits the chart by width and centres it, so the extra height becomes
+   even padding instead of a stretched curve. 8.5in bottoms the card out level
+   with the explainer beside it; no redraw is needed to retune this. */
+.gapcard{position:absolute;top:60.5in;left:20.4in;width:13in;height:8.5in;z-index:1;
+  border:.022in solid rgba(255,255,255,.13);border-radius:.42in;
+  background:rgba(255,255,255,.045)}
+.gap{position:absolute;top:60.5in;left:20.4in;width:13in;height:8.5in;z-index:2}
+
+/* --- chip band ----------------------------------------------------------- */
+/* 24in here against the master's 19.2in, its own bake from the same source (see
+   BANDS in make_chip_band.py). A band has to reach the bottom edge, so growing it
+   is the ONLY way to move the chip up the banner: opening the crop higher in the
+   source instead just adds empty field above the apex. This puts the chip's apex
+   about 3in higher than the 19.2in band did and shows more of its base above the
+   roller cassette. Still entirely in the low and dead zones, so it carries no
+   reading load. Prints at 31.5 x 21in, so its effective resolution is higher than
+   the master's. */
+/* Fully opaque, and NOT feathered here. The fade is baked into the pixels by
+   make_chip_band.py, because Chrome emits a varying-alpha CSS gradient as a PDF
+   soft mask and viewers that ignore soft masks drop it, leaving a hard seam right
+   across the banner. It rendered correctly in the browser and in pypdfium2, so
+   the bug only showed up in the operator's PDF viewer. Do not reintroduce an
+   overlay or a mask-image here; re-run make_chip_band.py instead. The baked
+   fade resolves to #000B2A, so the banner's bottom stop must stay that value. */
+/* z-index 0, not 1: the band starts above where the why-block ends, so its first
+   3in run behind the chart card. At 0 it paints over the background layers but
+   under the glass card and all text, which is the correct order - the card reads
+   as glass over the artwork. At 1 it would paint OVER the card (same layer, later
+   in source) and wash out its bottom border. The explainer's last line sits 48%
+   into the band's 6.24in top fade, the same depth the master puts it at. */
+.chip{position:absolute;top:66in;left:0;width:36in;height:24in;z-index:0}
+.chip img{display:block;width:36in;height:24in}
+</style>
+</head>
+<body>
+<main class="banner">
+
+  <div class="bloom bloom-a" aria-hidden="true"></div>
+  <div class="bloom bloom-b" aria-hidden="true"></div>
+
+  <svg class="circuit" viewBox="0 0 36 54" preserveAspectRatio="none" aria-hidden="true">
+    <g fill="none" stroke="#FFFFFF" stroke-width=".035" opacity=".055">
+      <path d="M0 3 H4 L5 4 H9 V7 H13"/>
+      <path d="M36 5 H31 L29.5 6.5 H25 V10 H21"/>
+      <path d="M0 12 H7 V10 H11 L13 12 H18 V15 H23"/>
+      <path d="M36 14 H32 V17 H28 L26 19 H20 V22"/>
+      <path d="M0 24 H5 L7 26 H12 V29 H17"/>
+      <path d="M36 27 H30 L28 29 H24 V33 H18"/>
+      <path d="M0 36 H4 V33 H8 L10 35 H15 V39 H20"/>
+      <path d="M36 39 H32 L30 41 H25 V45 H21"/>
+      <path d="M0 48 H6 V45 H10 L12 47 H16"/>
+      <path d="M36 50 H30 L28 48 H24"/>
+      <path d="M15 0 V4 L17 6 V10"/>
+      <path d="M24 0 V3 L22 5 V8"/>
+      <path d="M13 54 V50 L15 48 V44"/>
+      <path d="M28 54 V49 L26 47 V43"/>
+    </g>
+    <g fill="none" stroke="#01B68B" stroke-width=".03" opacity=".085">
+      <path d="M1 17 H6 L8 19 H14 V22 H18"/>
+      <path d="M35 21 H31 L29 23 H25 V26 H22"/>
+      <path d="M3 43 H7 L9 41 H13"/>
+      <path d="M33 46 H28 L26 44 H22"/>
+    </g>
+    <g fill="#FFFFFF" opacity=".075">
+      <rect x="12.9" y="6.9" width=".18" height=".18"/>
+      <rect x="22.9" y="14.9" width=".18" height=".18"/>
+      <rect x="16.9" y="28.9" width=".18" height=".18"/>
+      <rect x="19.9" y="38.9" width=".18" height=".18"/>
+      <circle cx="21" cy="10" r=".09"/>
+      <circle cx="20" cy="22" r=".09"/>
+      <circle cx="18" cy="33" r=".09"/>
+      <circle cx="16" cy="47" r=".09"/>
+    </g>
+  </svg>
+
+  <div class="stripe" aria-hidden="true"></div>
+
+  <img class="logo" src="__A(visual-generation/brand/logos/visemi-logo-white.svg)__" alt="VISEMI Foundation">
+  <div class="badge">
+    <b>A U.S. 501(C)(3) NONPROFIT</b>
+    <span>SILICON VALLEY, CALIFORNIA</span>
+  </div>
+
+  <svg class="bus" viewBox="0 0 308 1.6" preserveAspectRatio="none" aria-hidden="true">
+    <line x1="0" y1=".8" x2="308" y2=".8" stroke="#FFFFFF" stroke-opacity=".18" stroke-width=".22"/>
+    <g fill="#01B68B"><circle cx="0" cy=".8" r=".7"/><circle cx="96" cy=".8" r=".55"/><circle cx="222" cy=".8" r=".55"/></g>
+  </svg>
+
+  <h1 class="headline">
+    <span>Unlock</span>
+    <span>Vietnam's Talents</span>
+    <span class="accent">in Semiconductors</span>
+  </h1>
+
+  <!-- &shy; on every word of 9+ letters in the justified blocks. Breaks are at
+       English syllable boundaries and are inert until a line actually needs one.
+       When editing this copy, carry the &shy; across or the word gaps come back. -->
+  <p class="lead">VISEMI Foun&shy;da&shy;tion connects Viet&shy;nam&shy;ese talent with the
+    semi&shy;con&shy;duc&shy;tor in&shy;dus&shy;try through ed&shy;u&shy;ca&shy;tion,
+    men&shy;tor&shy;ship, and global in&shy;dus&shy;try
+    col&shy;lab&shy;o&shy;ra&shy;tion.</p>
+
+  <div class="shead" style="top:25.75in">What we do<u></u></div>
+
+  <div class="progs">
+    <div class="prog">
+      <div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20v2"/><path d="M12 2v2"/><path d="M17 20v2"/><path d="M17 2v2"/><path d="M2 12h2"/><path d="M2 17h2"/><path d="M2 7h2"/><path d="M20 12h2"/><path d="M20 17h2"/><path d="M20 7h2"/><path d="M7 20v2"/><path d="M7 2v2"/><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8" y="8" width="8" height="8" rx="1"/></svg></div>
+      <div><h3>Demystifying Semiconductors</h3>
+        <p>The first in-depth semi&shy;con&shy;duc&shy;tor web&shy;i&shy;nar series
+          de&shy;liv&shy;ered en&shy;tire&shy;ly in Viet&shy;nam&shy;ese</p></div>
+    </div>
+    <div class="prog">
+      <div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+      <div><h3>VISEMI Chip Chat</h3>
+        <p>Video pod&shy;cast car&shy;ry&shy;ing in&shy;sid&shy;er stories from global
+          Viet&shy;nam&shy;ese semi&shy;con&shy;duc&shy;tor ex&shy;perts</p></div>
+    </div>
+    <div class="prog">
+      <div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09"/><path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05"/></svg></div>
+      <div><h3>Cất Cánh (Takeoff) Fellowship</h3>
+        <p>Six-month ac&shy;cel&shy;er&shy;a&shy;tor and multi-tier
+          schol&shy;ar&shy;ship launch&shy;ing Viet&shy;nam&shy;ese STEM
+          stu&shy;dents into top global MS and PhD pro&shy;grams</p></div>
+    </div>
+    <div class="prog">
+      <div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/><circle cx="12" cy="12" r="10"/></svg></div>
+      <div><h3>Cất Cánh Pathway</h3>
+        <p>Free bi&shy;lin&shy;gual public work&shy;shops on study
+          des&shy;ti&shy;na&shy;tions and ap&shy;pli&shy;ca&shy;tion skills</p></div>
+    </div>
+  </div>
+
+  <div class="scan">
+    <div class="scanhead">
+      <p class="k"><b>Scan</b><span>to learn more about us</span></p>
+      <svg class="chev" viewBox="0 0 24 16" aria-hidden="true">
+        <path d="M3 3.2 L12 12.6 L21 3.2" fill="none" stroke="#FFFFFF" stroke-width="3.4"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="scanbody">
+      <img src="__A(assets/qr-visemi.svg)__" alt="QR code linking to visemi.org">
+    </div>
+    <p class="scanfoot">visemi.org</p>
+  </div>
+
+  <div class="shead shead-wide" style="top:57.4in">Why we exist<u></u></div>
+
+  <p class="why"><b>Chip demand is surging.</b><b class="dim">Skilled talent is not.</b></p>
+
+  <div class="gapcard" aria-hidden="true"></div>
+  <!-- The signature: the copy says industry needs and educational output have
+       "drifted apart", so the device is two traces that literally diverge, with
+       the closing move drawn in brand green. viewBox is 130 x 78 at 0.1in per
+       user unit, so it matches the 13 x 7.78in box exactly and strokes stay true
+       to the print scale. Each series label sits clear of BOTH curves: gold above
+       its own end point, white below its own, and each is checked against where
+       the other curve actually runs under the label's full width. There is no
+       third label. A 13in column will not hold the curves, two series labels and
+       a caption for the arrow, and the arrow reads on its own next to the
+       explainer sentence that says we close the distance. -->
+  <svg class="gap" viewBox="0 0 130 69" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <path d="M8 53 C 44 52 84 42 120 15 L120 48 C 84 52 44 56 8 57 Z" fill="#FFFFFF" fill-opacity=".07"/>
+    <path d="M8 53 C 44 52 84 42 120 15" fill="none" stroke="#F5B433" stroke-width="2.1" stroke-linecap="round"/>
+    <path d="M8 57 C 44 56 84 52 120 48" fill="none" stroke="#FFFFFF" stroke-opacity=".64" stroke-width="2.1" stroke-linecap="round"/>
+    <g fill="#F5B433"><circle cx="8" cy="53" r="1.8"/><circle cx="120" cy="15" r="2.6"/></g>
+    <g fill="#FFFFFF" fill-opacity=".64"><circle cx="8" cy="57" r="1.8"/><circle cx="120" cy="48" r="2.6"/></g>
+    <text x="120" y="9" text-anchor="end" fill="#F5B433" font-family="Be Vietnam Pro" font-size="4.8" font-weight="700" letter-spacing="1">CHIP DEMAND</text>
+    <text x="120" y="63" text-anchor="end" fill="#FFFFFF" fill-opacity=".72" font-family="Be Vietnam Pro" font-size="4.8" font-weight="700" letter-spacing="1">SKILLED TALENT</text>
+    <g stroke="#01B68B" stroke-width="1.3" stroke-linecap="round">
+      <line x1="102" y1="47.9" x2="102" y2="28.8"/>
+      <path d="M99 32.1 L102 28.4 L105 32.1" fill="none"/>
+      <path d="M99 46.6 L102 50.3 L105 46.6" fill="none"/>
+    </g>
+  </svg>
+
+  <p class="note">In&shy;dus&shy;try needs and ed&shy;u&shy;ca&shy;tion&shy;al output have
+    drift&shy;ed apart. We close that dis&shy;tance with train&shy;ing built to
+    in&shy;dus&shy;try re&shy;quire&shy;ments, so par&shy;tic&shy;i&shy;pants are ready to
+    work in this crit&shy;i&shy;cal sector.</p>
+
+  <div class="chip"><img src="__A(assets/chip-band-baked-24in.jpg)__" alt=""></div>
+
+</main>
+</body>
+</html>
