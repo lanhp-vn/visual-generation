@@ -83,6 +83,22 @@ that readers will scan cell by cell.
 This is not decoration for its own sake, which principle 3 forbids. A good chart carries the
 comparison the table was only implying, which is why it is faster to read.
 
+## The logo files are not a colour source
+
+The logo artwork was drawn in a different set of hexes from `brand/tokens.json`, so a colour sampled out
+of a logo file is off-brand even though it came from an official asset:
+
+| Asset | Hexes in the artwork |
+| ----- | -------------------- |
+| `brand/logos/cat-canh-logo-color.svg` | `#242D8F`, `#1CD29B`, `#FFAE00` |
+| `brand/logos/visemi-logo-color.svg` | `#002065`, `#242D8F`, `#26AA82` |
+| `brand/tokens.json`, the palette to actually design in | navy `#001669`, green `#01B68B`, ink `#262538`, gold `#F5B433` |
+
+None of the artwork hexes appear in `tokens.json`, so the brand lint will reject them and, more to the
+point, the result will not sit beside anything already published. Two consequences: never eyedrop a logo,
+and never recolour one to close the gap, since recolouring is explicitly forbidden by the "Color Change"
+rule in the Cất Cánh Logo Guidelines. Use a supplied treatment (`-color`, `-white`) instead.
+
 ## Using these
 
 They are ordered by how often they get violated, not by importance. Before calling a visual done, walk
