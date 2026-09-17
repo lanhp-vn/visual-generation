@@ -52,6 +52,7 @@ eyebrow: Cất Cánh (Takeoff) Fellowship
 orgline: VISEMI Foundation | visemi.org
 # handbook-only cover extra: edition: Cohort 1
 # directory-only cover extras: count_line: 120 entries / confidential: true
+#   contact: hello@example.org  (a mailto line in the cover meta strip)
 #   cover_bg_logo: path/to/cover-art.jpg  (full-bleed band artwork)
 ---
 
@@ -244,6 +245,20 @@ Colors come from token classes, never inline hex. Modeled on structures mined fr
   group's first entries follow the index down the same page, because an index of
   a handful of names left the rest of the page empty. `.dgroup-inline` is the
   band alone, for a group too small to warrant an index.
+- **Directory index (`.dindex`, `directory` family only)** - the family's own
+  contents page. A directory suppresses the generic auto TOC, because an auto
+  TOC can only carry heading text and a directory index has to carry a fact or
+  two per entry so a reader can choose a name without leaving the page. Each row
+  is itself the anchor, which is what lets the printed page number ride on its
+  `::after` via `target-counter(attr(href), page)`; wrapping an anchor inside
+  the row instead would break that. Emit rows in the same order as the entries,
+  or the printed numbers jump about.
+  ```html
+  <div class="dindex">
+    <p class="dindex-group">Group name</p>
+    <a class="dindex-row" href="#entry-one"><span class="dindex-name">Name</span><span class="dindex-field">Discipline</span><span class="dindex-place">Country</span></a>
+  </div>
+  ```
 - **Two-column block (`.twocol`)** - `<div class="twocol"><div>..</div><div>..</div></div>`
   for side-by-side lists or a pie pair.
 
