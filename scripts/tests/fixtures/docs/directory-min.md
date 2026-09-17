@@ -1,9 +1,12 @@
 ---
-template: report
+template: directory
 title: Directory Anchor Probe
 subtitle: A generic two-entity fixture
+edition: Edition 1
+date: September 2026
+count_line: 2 entries
+confidential: true
 lang: en
-date: 2026-09-16
 audience: internal
 ---
 

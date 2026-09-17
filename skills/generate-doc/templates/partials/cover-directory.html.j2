@@ -1,0 +1,28 @@
+{# Directory cover: a full-bleed artwork band above a quiet type block.
+
+   A directory's cover has one job the report and handbook covers do not: say
+   how many entities are inside, because that count is the reason someone opens
+   it. `count_line` carries it and is the only element allowed a fill.
+
+   The artwork rides `cover_bg_logo` (base64 data URI, resolved in
+   html_render.render_doc_html) rather than a second mechanism of its own. It is
+   a band, not a full-page bleed: source artwork for this brand is landscape or
+   square, and cropping it to A4 portrait would throw away the composition.
+
+   No eyebrow label and no dot-joined meta string: both are named in the
+   document skill's removed-defaults list. #}
+<header class="cover cover-directory">
+  {% if bg_logo %}<div class="cover-art" style="background-image:url('{{ bg_logo }}')"></div>{% endif %}
+  <div class="cover-type">
+    <div class="cover-brand">{{ logo | safe }}</div>
+    <h1 class="cover-title">{{ meta.title }}</h1>
+    {% if meta.subtitle %}<p class="cover-subtitle">{{ meta.subtitle }}</p>{% endif %}
+    {% if meta.count_line %}<p class="cover-count">{{ meta.count_line }}</p>{% endif %}
+    <div class="cover-meta">
+      {% if meta.edition %}<span>{{ meta.edition }}</span>{% endif %}
+      {% if meta.date %}<span>{{ ('Cập nhật ' if meta.lang == 'vi' else 'Updated ') ~ meta.date }}</span>{% endif %}
+      {% if meta.confidential %}<span class="cover-confidential">{{ 'Bảo mật' if meta.lang == 'vi' else 'Confidential' }}</span>{% endif %}
+    </div>
+    <p class="cover-orgline">{{ meta.orgline | default('VISEMI Foundation | visemi.org') }}</p>
+  </div>
+</header>

@@ -109,7 +109,7 @@ def validate_document(doc: dict) -> None:
 
 
 # --- Document front-matter (generate-doc) -------------------------------------
-DOC_TEMPLATES = {"report", "handbook"}
+DOC_TEMPLATES = {"report", "handbook", "directory"}
 DOC_LANGS = {"en", "vi"}
 
 

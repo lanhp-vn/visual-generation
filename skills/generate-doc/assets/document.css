@@ -344,3 +344,45 @@ main h2.pgroup.er { background: var(--gold-soft); border-left-color: var(--gold)
 .pie-legend span { display: flex; align-items: center; gap: 8px; font-size: 9pt; color: var(--text); }
 .pie-legend i { width: 11px; height: 11px; border-radius: 3px; flex: 0 0 auto;
   print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+
+/* ============ DIRECTORY: COVER ============ */
+/* A directory lists many entities with one action each. Its cover leads with a
+   full-bleed artwork band and drops the type block onto clean white beneath it,
+   rather than centring type over a gradient like the report and handbook. The
+   reason is the source artwork: this brand's key visuals are landscape or
+   square, so cropping one to A4 portrait would discard the composition. A band
+   keeps it near its own aspect.
+   The band is absolutely positioned so it escapes .cover's padding; .cover
+   already sets position:relative + isolation:isolate + overflow:hidden. */
+.directory .cover { padding: 0; justify-content: flex-start; background: var(--surface); }
+.directory .cover-art { position: absolute; top: 0; left: 0; right: 0; height: 158mm;
+  background-repeat: no-repeat; background-position: 62% 42%; background-size: cover;
+  /* an absolutely-positioned box paints above static in-flow siblings, which
+     hid the brandmark under the band. Same remedy as .cover-bg-logo: drop it a
+     layer; .cover's isolation:isolate keeps that contained. */
+  z-index: -1;
+  print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+/* the artwork's own edges fade, but its lower edge is a hard crop - ramp it into
+   the page ground so the band does not read as a cut-off photograph. */
+.directory .cover-art::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0;
+  height: 34mm; background: linear-gradient(to bottom, transparent, var(--surface)); }
+/* sits just under the artwork's fade rather than pinned to the foot: pinning
+   left a dead band across the page's middle, which is the underfilled page the
+   directory family exists to avoid. */
+.directory .cover-type { padding: 0 24mm; margin-top: 166mm; }
+.directory .cover-brand svg, .directory .cover-brand img { height: 30px; margin-bottom: 11mm; }
+.directory .cover-title { font-size: 30pt; letter-spacing: -.01em; margin: 0 0 10px;
+  string-set: runhead content(text); }
+.directory .cover-subtitle { font-size: 12.5pt; color: var(--text); margin: 0 0 20px; }
+/* the count is why someone opens a directory, so it is the one filled element.
+   Green-to-gold with a cut end echoes the key-visual band; the cut is a real
+   shape, not a clipped rectangle. */
+.directory .cover-count { display: inline-block; font-size: 11pt; font-weight: 600;
+  color: var(--white); padding: 3mm 11mm 3mm 6mm; margin: 0 0 22px;
+  background: linear-gradient(100deg, var(--green) 0%, var(--gold-fill) 100%);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 5mm) 100%, 0 100%);
+  print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+.directory .cover-meta { justify-content: flex-start; gap: 16px; font-size: 9.5pt; }
+/* Confidential is a handling instruction, not chrome: it earns the weight. */
+.directory .cover-confidential { font-weight: 600; color: var(--navy); }
+.directory .cover-orgline { margin-top: 10px; }

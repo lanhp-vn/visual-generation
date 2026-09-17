@@ -71,3 +71,23 @@ def test_both_anchor_routes_resolve_to_a_destination(tmp_path):
             if dest is not None:
                 linked.add(str(dest))
     assert linked <= registered, sorted(linked - registered)
+
+
+def test_directory_is_a_template_family():
+    from visgen.schema import DOC_TEMPLATES
+
+    assert "directory" in DOC_TEMPLATES
+
+
+def test_directory_cover_renders_its_fields(tmp_path):
+    """The body class is `doc directory lang-en`, so an equality match on
+    class="directory" would never fire. Assert the token, not the attribute."""
+    out = tmp_path / "cover"
+    render_doc(FIX / "directory-min.md", out)
+    html = (out / "index.html").read_text(encoding="utf-8")
+    assert "cover-directory" in html
+    assert 'class="doc directory ' in html
+    assert "Directory Anchor Probe" in html
+    assert "2 entries" in html
+    assert "Confidential" in html
+    assert "Updated September 2026" in html
