@@ -132,8 +132,8 @@ All three families share one pipeline and one `document.css`; a body class
 
 | Feature | `report` | `handbook` | `directory` |
 | --- | --- | --- | --- |
-| Cover | Data-forward: eyebrow, title, subtitle, date, audience | Warmer feature gradient: "Handbook" label, edition, title | Full-bleed artwork band over a quiet type block, with a count line and an optional Confidential mark |
-| Section headings (`#`) | Flow continuously down the page | Each opens a new chapter page (styled opener, green top rule) | Each opens a new page, so front and back matter get one page apiece |
+| Cover | Data-forward: eyebrow, title, subtitle, date, audience | Warmer feature gradient: "Handbook" label, edition, title | A compact title block with a count line and an optional Confidential mark. It does not own a page: the lead section follows it down page 1. Supply `cover_bg_logo` to get a full-bleed artwork band above it |
+| Section headings (`#`) | Flow continuously down the page | Each opens a new chapter page (styled opener, green top rule) | Each opens a new page, so front and back matter get one page apiece. Opt one out with `# Title {: .nobreak }` to continue the current page |
 | Running header | Document title | Current chapter name | Document title |
 | Entry layout | n/a | n/a | `.dentry`, two to a page: a fact rail beside a prose column |
 | Best for | Cohort/program reports, donor and partner updates, impact summaries | Fellow/mentor handbooks, program guides, long-form onboarding | Rosters, member directories, any "find a person and contact them" listing |
@@ -238,11 +238,12 @@ Colors come from token classes, never inline hex. Modeled on structures mined fr
     </div>
   </div>
   ```
-- **Directory group opener (`.dgroup`, `.dgroup-inline`)** - `.dgroup` is a
-  full-page opener carrying a band, a count and a jump-linked member index, for a
-  group large enough to earn a page. `.dgroup-inline` is the same band inline at
-  the top of a group's first entry page, for a group too small to fill one: a
-  full page introducing a handful of entities is exactly the underfilled page to avoid.
+- **Directory group opener (`.dgroup`, `.dgroup-inline`)** - `.dgroup` opens a
+  group with a band, a count and a jump-linked member index, for a group large
+  enough to earn an index. It starts a fresh page but does NOT hold one: the
+  group's first entries follow the index down the same page, because an index of
+  a handful of names left the rest of the page empty. `.dgroup-inline` is the
+  band alone, for a group too small to warrant an index.
 - **Two-column block (`.twocol`)** - `<div class="twocol"><div>..</div><div>..</div></div>`
   for side-by-side lists or a pie pair.
 
