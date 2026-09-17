@@ -78,7 +78,9 @@
     {# a directory authors its own contents: an auto TOC can only carry heading
        text, and a directory index has to carry a fact or two per entry so a
        reader can choose a name without leaving the page. #}
-    {% if meta.template != 'directory' %}
+    {# `show_toc: false` opts a short document out: a newsletter, brief or
+       one-pager should not spend a whole page on a contents list. #}
+    {% if meta.template != 'directory' and meta.get('show_toc', True) %}
     <nav class="toc-page">
       <h2 class="toc-title">{{ 'Nội dung' if meta.lang == 'vi' else 'Contents' }}</h2>
       {{ toc_html | safe }}

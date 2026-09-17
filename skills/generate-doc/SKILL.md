@@ -87,6 +87,29 @@ Body text. Use **bold** for emphasis; keep green to roughly 10-20% of a page.
   everything before the marker renders right after the cover, ahead of the auto
   table of contents (e.g. a one-page program summary); everything after follows the
   TOC. The TOC is always built from the post-marker headings.
+- `show_toc: false` drops the contents page entirely. A short document (a
+  newsletter, a brief, a one-pager) should not spend a whole page listing five
+  headings. Default is `true`, so every existing document is unaffected. Do NOT
+  try to achieve this by hiding `.toc-page` with CSS: Paged.js still allocates
+  the page and you get a blank one.
+
+### Three traps that cost a render each
+
+- **A long URL runs off the right margin and loses characters, and no grader
+  catches it.** `doc_lint` checks page overflow, not inline overflow. A Google
+  Forms id is one unbroken 56-character token with no break opportunity, so a
+  bare `<https://…/viewform>` is silently clipped at the page edge and a reader
+  copying it from print gets a dead link. Write document links as labelled
+  Markdown links or a styled button, and keep bare URLs for short ones.
+- **A raw HTML block after a heading defeats the template's keep-with-next**, so
+  the heading reads as orphaned at a page foot. The orphan detector counts the
+  skill's own components (`.statrow`, `.bars`, `.stackbar`, `.pie-card`,
+  `.pcard`, `.dentry`, `.twocol`) plus anything carrying `data-block`. **Put
+  `data-block` on your own custom component wrappers** or they are invisible to
+  it, and restate `break-after: avoid-page` on the heading.
+- **Do not override `.report h1` margins to save space.** Tightening them
+  reflows the whole document and is as likely to split a grid across a page
+  break as to gain you a line. Tighten your own component margins instead.
 
 ### Step 2 - Render
 

@@ -81,8 +81,12 @@ _ORPHAN_JS = """() => {
     if (h.classList.contains('toc-title')) return;
     const pg = h.closest('.pagedjs_page'); if (!pg) return;
     const content = pg.querySelector('.pagedjs_page_content') || pg;
+    // Rich components are divs, not block tags, so a heading followed only by a
+    // .statrow / .bars / profile card would read as orphaned when it is not.
+    // [data-block] is the opt-in for a document's own custom component wrapper.
     const blocks = Array.from(
-      content.querySelectorAll('h1,h2,h3,h4,p,ul,ol,table,figure,blockquote,.admonition')
+      content.querySelectorAll('h1,h2,h3,h4,p,ul,ol,table,figure,blockquote,.admonition,'
+        + '.statrow,.bars,.stackbar,.pie-card,.pie-disc,.pcard,.dentry,.twocol,[data-block]')
     ).filter(e => e.closest('.pagedjs_page') === pg);
     if (blocks.length && blocks[blocks.length - 1] === h)
       bad.push({ text: h.textContent.trim(),
