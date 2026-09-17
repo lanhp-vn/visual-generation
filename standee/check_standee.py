@@ -35,9 +35,16 @@ SRC_SUFFIX = ".src.html"
 # own: "the built @page matches the source's @page" would pass a source that has
 # the wrong size in it, which is the mistake this check exists to catch.
 # Whitespace-stripped and lowercased, to match the normalisation below.
+# visemi-slide-16x9-{en,vi} are not print formats at all: they are 16:9 screen pages whose
+# deliverable is a PNG. It is registered here anyway, at the inch equivalent of
+# 1280 x 720 CSS px, because every source in this folder is checked and an
+# unregistered one is a hard error - and because the same file does print to a
+# correct 960 x 540pt page, which is worth pinning.
 PAGE_SIZES = {
     "visemi-standee": "size:36in72in",
     "visemi-standee-80x200": "size:80cm200cm",
+    "visemi-slide-16x9-en": "size:13.3333in7.5in",
+    "visemi-slide-16x9-vi": "size:13.3333in7.5in",
 }
 
 # What each format must actually measure once printed, in PDF points (72/in), and
@@ -48,6 +55,8 @@ PAGE_SIZES = {
 PAGE_PT = {
     "visemi-standee": (36 * 72, 72 * 72),
     "visemi-standee-80x200": (80 / 2.54 * 72, 200 / 2.54 * 72),
+    "visemi-slide-16x9-en": (1280 * 0.75, 720 * 0.75),  # CSS px -> pt
+    "visemi-slide-16x9-vi": (1280 * 0.75, 720 * 0.75),
 }
 PAGE_PT_TOL = 2.0
 
@@ -56,7 +65,12 @@ BLOCK = re.compile(r"<(style|script)\b[^>]*>.*?</\1>", re.I | re.S)
 TAG = re.compile(r"<[^>]+>")
 WS = re.compile(r"\s+")
 
-# Copy that must render, verbatim (compared case-insensitively).
+# Copy that must render, verbatim (compared case-insensitively). REQUIRED is the
+# English list, used by the standee print masters and the English slide; the
+# Vietnamese slide is checked against REQUIRED_VI instead, because asserting English
+# phrases against a Vietnamese deliverable would fail every line and asserting
+# nothing would let a half-translated file through. Both lists are looked up through
+# required_copy() below, so a new format declares its language once.
 REQUIRED = [
     "unlock vietnam's talents in semiconductors",
     "a u.s. 501(c)(3) nonprofit",
@@ -76,6 +90,42 @@ PROGRAMS = [
     "cất cánh pathway",
 ]
 
+# The Vietnamese slide. Three of the four programme names stay in English inside
+# Vietnamese text (house register: the public workshop invite keeps "workshop",
+# "foundry" and "Ambassador" in English too), so only the Fellowship changes, to its
+# own Vietnamese name "Học bổng Cất Cánh" as carried by the logo-vie lockup.
+# "VISEMI Foundation" is never translated, in any language.
+REQUIRED_VI = [
+    "khai mở",
+    "tài năng việt nam",
+    "trong ngành bán dẫn",
+    "visemi foundation kết nối tài năng việt nam",
+    "tổ chức phi lợi nhuận 501(c)(3) tại hoa kỳ",
+    "visemi.org",
+    "nhu cầu chip đang tăng vọt",
+    "nhân lực tay nghề thì không",
+    "nhu cầu của ngành và đầu ra của hệ thống giáo dục đã cách xa nhau",
+    "quét mã để biết thêm về chúng tôi",
+]
+PROGRAMS_VI = [
+    "demystifying semiconductors",
+    "visemi chip chat",
+    "học bổng cất cánh",
+    "cất cánh pathway",
+]
+
+
+def required_copy(stem: str) -> list[str]:
+    """The phrase list a given format is checked against.
+
+    Keyed off the stem suffix rather than a second registry, so adding a language
+    means adding its lists and nothing else. An unknown suffix falls back to English,
+    which is the right default: every print master and the English slide use it.
+    """
+    if stem.endswith("-vi"):
+        return REQUIRED_VI + PROGRAMS_VI
+    return REQUIRED + PROGRAMS
+
 # The operator chose to print no statistics: every one available is either
 # cumulative or cohort-bound, so any of these on a banner dates the print.
 FORBIDDEN_NUMBERS = ["35.5k", "$200k", "$15,000", "300+", "80%+", "25+", "8 webinars"]
@@ -90,6 +140,14 @@ PARTNER_DIRS = ("assets/partners/", "assets/partners-norm/")
 # has to reach the bottom edge, so a taller banner needs a taller bake), hence the
 # prefix match rather than one filename.
 BAND = re.compile(r"__A\(assets/chip-band-baked[\w-]*\.jpg\)__")
+
+# ...but only where the design HAS a chip band. The 16:9 slide had both the chip
+# artwork and the divergence chart cut on operator review, so requiring a band
+# there would fail a source that is correct. What stays unconditional is the rule
+# the band exists to enforce: no source may point at chip.svg directly, whether or
+# not it carries a band. So this set is "formats whose design includes the band",
+# not "formats allowed to have one".
+NEEDS_BAND = ("visemi-standee", "visemi-standee-80x200")
 
 FONT_WEIGHTS = ("400", "500", "600", "700")
 
@@ -151,7 +209,7 @@ def check_one(stem: str, errors: list[str]) -> None:
     text = visible_text(out)
 
     # --- asset wiring, read from the source where paths are still legible
-    if not BAND.search(src):
+    if stem in NEEDS_BAND and not BAND.search(src):
         bad(f"{src_path.name}: no baked chip band wired, expected {BAND.pattern}")
     if "assets/chip.svg" in src:
         bad(f"{src_path.name}: uses chip.svg raw, use the baked {BAND}")
@@ -220,7 +278,7 @@ def check_one(stem: str, errors: list[str]) -> None:
         bad(f"{out_path.name}: font faces need unicode-range or the subsets collide")
 
     # --- copy
-    for phrase in REQUIRED + PROGRAMS:
+    for phrase in required_copy(stem):
         if phrase not in text:
             bad(f"{out_path.name}: missing required copy {phrase!r}")
     for num in FORBIDDEN_NUMBERS:
@@ -253,6 +311,26 @@ def self_test() -> None:
     # Two registries, one per format. A stem in one and not the other means a
     # format silently loses either its @page check or its PDF measurement.
     assert PAGE_SIZES.keys() == PAGE_PT.keys(), (PAGE_SIZES.keys(), PAGE_PT.keys())
+    assert set(NEEDS_BAND) <= set(PAGE_SIZES), (NEEDS_BAND, PAGE_SIZES.keys())
+    # The Vietnamese list must be a real translation, not a copy of the English one,
+    # and must not be thinner cover than the English one. NOT equal length: the
+    # English headline is asserted as a single run-on phrase while the Vietnamese one
+    # is checked line by line, because its three lines are three separate nowrap
+    # spans and a wrong line break there is exactly what this should catch.
+    assert len(REQUIRED_VI) >= len(REQUIRED), (len(REQUIRED_VI), len(REQUIRED))
+    assert len(PROGRAMS_VI) == len(PROGRAMS), (len(PROGRAMS_VI), len(PROGRAMS))
+    # Overlap between the two lists is a copy-paste that was never translated, EXCEPT
+    # for the language-neutral tokens that are supposed to be identical in both.
+    NEUTRAL = {"visemi.org", "demystifying semiconductors", "visemi chip chat",
+               "cất cánh pathway"}
+    shared = (set(REQUIRED_VI) | set(PROGRAMS_VI)) & (set(REQUIRED) | set(PROGRAMS))
+    assert shared <= NEUTRAL, f"untranslated phrases in the VI lists: {sorted(shared - NEUTRAL)}"
+    assert required_copy("visemi-slide-16x9-vi")[0] in REQUIRED_VI
+    assert required_copy("visemi-standee")[0] in REQUIRED
+    # The exemption is per-format and must stay narrow: every registered format
+    # either carries the band or is a deliberate exception recorded in DESIGN.md.
+    assert not [k for k in NEEDS_BAND if k.startswith("visemi-slide")], (
+        "the 16:9 slides have no chip band")
     # And every registered format must still have a source, or the registry is
     # carrying a name that no longer exists.
     for stem in PAGE_SIZES:

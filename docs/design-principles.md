@@ -90,9 +90,13 @@ of a logo file is off-brand even though it came from an official asset:
 
 | Asset | Hexes in the artwork |
 | ----- | -------------------- |
-| `brand/logos/cat-canh-logo-color.svg` | `#242D8F`, `#1CD29B`, `#FFAE00` |
+| `brand/logos/cat-canh-logo-color.svg` | `#242D8F`, `#1CD29B` |
 | `brand/logos/visemi-logo-color.svg` | `#002065`, `#242D8F`, `#26AA82` |
 | `brand/tokens.json`, the palette to actually design in | navy `#001669`, green `#01B68B`, ink `#262538`, gold `#F5B433` |
+
+**The Cất Cánh mark lost its gold on 30/08/2026.** The two bars under the checkmark were `#FFAE00` and are now navy `#242D8F`, so the fellowship mark is a two-colour mark: green checkmark, navy everything else. Canvas sizes, black and white treatments are byte-identical to the previous package, so only the `-color` files (and the favicon) changed. A rendered artifact built before that date still carries the gold bars and will not match a new one placed beside it.
+
+This did **not** retire gold from the design palette. `tokens.json` still carries gold `#F5B433`, and the validated chart trio is still green `#01B68B` + blue `#33509B` + gold `#D99A1F`; none of those hexes was ever the logo's gold, which is the whole point of this section. A gold accent on a page is still on-brand. What is no longer true is that gold appears in the logo, so a layout justifying a gold rule or tile as "picking up the logo" has lost its reason.
 
 None of the artwork hexes appear in `tokens.json`, so the brand lint will reject them and, more to the
 point, the result will not sit beside anything already published. Two consequences: never eyedrop a logo,
