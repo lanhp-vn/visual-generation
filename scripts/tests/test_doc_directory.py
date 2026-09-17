@@ -121,18 +121,22 @@ def test_five_entries_lay_out_without_overflow(tmp_path):
     )
 
 
-def test_group_opener_starts_its_own_page(tmp_path):
+def test_group_opener_starts_a_fresh_page(tmp_path):
     """Assert the page actually broke, not merely that the class is present.
 
     Paged.js resolves break-before/after against a content-only clone that drops
     the <body> element and its class, so a rule anchored on the body class
     (`.directory .dgroup`) silently never fires there. document.css records the
     identical regression for `.handbook main h1`, whose fix was to anchor the
-    fragmentation rule on <main>, which does survive the clone.
+    fragmentation rule on <main>, which does survive the clone. A class-presence
+    check passes over exactly that bug.
 
-    A class-presence check passes over exactly that bug, so this drives off the
-    printed PDF instead: the role line appears only inside a `.dentry`, so a
-    full-page opener that shares its page with one has not broken.
+    An opener no longer owns its page: its own entries follow it down the page,
+    because holding a whole page for a short index left it half empty. What must
+    still hold is that a group STARTS a page, so the opener may not share one
+    with the previous group's entries. Country names appear only inside an
+    entry, so they mark the previous group's content without matching the index
+    links that name the opener's own members.
     """
     out = tmp_path / "groups"
     render_doc(FIX / "directory-min.md", out)
@@ -144,11 +148,13 @@ def test_group_opener_starts_its_own_page(tmp_path):
     pages = [(p.extract_text() or "") for p in PdfReader(str(pdf)).pages]
     opener = [i for i, t in enumerate(pages) if "Second Field" in t and "2 entries" in t]
     assert opener, "group opener text not found in the printed PDF"
-    assert "Institution Name" not in pages[opener[0]], (
-        "the full-page group opener shares a page with a directory entry, so "
-        "break-before did not fire: anchor the rule on main.directory, not "
-        "on the body class"
-    )
+    page = pages[opener[0]]
+    for stale in ("Country A", "Country B"):
+        assert stale not in page, (
+            f"the group opener shares a page with the previous group ({stale}), "
+            "so break-before did not fire: anchor the rule on main.directory, "
+            "not on the body class"
+        )
 
 
 # --- character budget lint (frozen contract) ---------------------------------

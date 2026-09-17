@@ -354,8 +354,21 @@ main h2.pgroup.er { background: var(--gold-soft); border-left-color: var(--gold)
    keeps it near its own aspect.
    The band is absolutely positioned so it escapes .cover's padding; .cover
    already sets position:relative + isolation:isolate + overflow:hidden. */
-.directory .cover { padding: 0; justify-content: flex-start; background: var(--surface); }
+/* The cover shares page 1 with the lead section rather than owning a page of
+   its own: a title block and a short "how to use" page each half-filled read as
+   two underfilled pages, which is the failure this family exists to avoid. So
+   the block is only as tall as its content and does not break after itself.
+   @page :first sets margin:0 (see the top of this file), so the type block and
+   the lead that follows it both carry their own side padding. */
+.directory .cover { padding: 24mm 24mm 4mm; height: auto;
+  justify-content: flex-start; background: var(--surface); }
+/* break-after is anchored on the cover's OWN class, never on `.directory .cover`:
+   the break engine resolves against a clone with no <body>, so a body-class
+   ancestor never matches there. The partial sets both classes on the header. */
+.cover-directory { break-after: auto; }
+.directory .doc-lead { padding: 0 24mm; }
 .directory .cover-art { position: absolute; top: 0; left: 0; right: 0; height: 158mm;
+  /* a cover carrying artwork wants the full page back */
   background-repeat: no-repeat; background-position: 62% 42%; background-size: cover;
   /* an absolutely-positioned box paints above static in-flow siblings, which
      hid the brandmark under the band. Same remedy as .cover-bg-logo: drop it a
@@ -369,7 +382,7 @@ main h2.pgroup.er { background: var(--gold-soft); border-left-color: var(--gold)
 /* sits just under the artwork's fade rather than pinned to the foot: pinning
    left a dead band across the page's middle, which is the underfilled page the
    directory family exists to avoid. */
-.directory .cover-type { padding: 0 24mm; margin-top: 166mm; }
+.directory .cover-type { padding: 0; margin-top: 0; }
 .directory .cover-brand svg, .directory .cover-brand img { height: 30px; margin-bottom: 11mm; }
 .directory .cover-title { font-size: 30pt; letter-spacing: -.01em; margin: 0 0 10px;
   string-set: runhead content(text); }
@@ -446,10 +459,23 @@ main h2.pgroup.er { background: var(--gold-soft); border-left-color: var(--gold)
    the break therefore moves to the heading - the same `:not(:first-of-type)`
    shape as the handbook, so the TOC's break-after does not leave a blank page -
    and the opener rides along on the fresh page. */
-.directory .dgroup { break-inside: avoid; padding-top: 18mm; }
-main.directory .dgroup { break-before: page; break-after: page; }
+/* the group heading now sits directly above the band, so the deep top pad
+   that once separated a bare opener from the page edge is dead space. */
+.directory .dgroup { break-inside: avoid; padding-top: 2mm; }
+main.directory .dgroup { break-before: page; }
+/* No break-after: the opener's index is a handful of names, and holding a whole
+   page for it left every group opener around half empty. The group still starts
+   on a fresh page (break-before above); its first entries simply follow the
+   index down the same page. */
 main.directory h1 + .dgroup { break-before: avoid; }
 main.directory h1:not(:first-of-type) { break-before: page; }
+/* escape hatch: a section that continues the current page instead of opening a
+   new one, e.g. a short reference block that belongs beside the one before it.
+   It must come AFTER the rule above: `main.directory h1.nobreak` and
+   `main.directory h1:not(:first-of-type)` have identical specificity, so source
+   order is what decides, and placed earlier this silently lost.
+   Mirrors main.report h1.pagebreak, which opts the other way. */
+main.directory h1.nobreak { break-before: auto; }
 .directory .dgroup-band, .directory .dgroup-inline {
   display: inline-block; font-size: 12pt; font-weight: 600; color: var(--white);
   padding: 2.5mm 9mm 2.5mm 5mm;
