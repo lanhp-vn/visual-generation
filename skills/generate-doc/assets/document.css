@@ -386,3 +386,76 @@ main h2.pgroup.er { background: var(--gold-soft); border-left-color: var(--gold)
 /* Confidential is a handling instruction, not chrome: it earns the weight. */
 .directory .cover-confidential { font-weight: 600; color: var(--navy); }
 .directory .cover-orgline { margin-top: 10px; }
+
+/* ============ DIRECTORY: ENTRIES + GROUP OPENERS ============ */
+/* An entry is a fact rail beside a prose column, two to a page, divided by a
+   hairline rather than boxed: the rail already separates facts from prose, so a
+   border would add a second, redundant frame. break-inside: avoid keeps an
+   entry whole - the two-per-page rhythm is lost if one splits across a page. */
+.directory .dentry {
+  display: grid;
+  grid-template-columns: 42mm 118mm;
+  column-gap: 14mm;
+  grid-template-areas: "head head" "rail body";
+  padding-bottom: 6mm; margin-bottom: 6mm;
+  border-bottom: 0.4pt solid var(--navy);
+  break-inside: avoid;
+}
+.directory .dentry:last-child { border-bottom: none; }
+.directory .dentry-head { grid-area: head; display: grid;
+  grid-template-columns: 1fr auto; align-items: baseline; margin-bottom: 3mm; }
+.directory .dentry-name { font-size: 15pt; font-weight: 600; color: var(--navy); margin: 0; }
+.directory .dentry-place { font-size: 9.5pt; font-weight: 500; color: var(--navy);
+  margin: 0; text-align: right; }
+.directory .dentry-role { grid-column: 1 / -1; font-size: 9.5pt; font-weight: 400;
+  color: color-mix(in srgb, var(--text-2) 60%, transparent); margin: 0.5mm 0 0; }
+.directory .dentry-rail { grid-area: rail; }
+.directory .drail-label { font-size: 7.5pt; font-weight: 600;
+  color: color-mix(in srgb, var(--navy) 55%, transparent); margin: 0 0 1mm; }
+.directory .drail-tags { list-style: none; margin: 0 0 4mm; padding: 0; }
+.directory .drail-tags li { font-size: 8.5pt; color: var(--navy); line-height: 1.35; }
+.directory .drail-value { font-size: 8.5pt; color: var(--navy); margin: 0; }
+.directory .dentry-body { grid-area: body; }
+.directory .dentry-bio, .directory .dentry-fact { font-size: 9pt; line-height: 1.45;
+  color: color-mix(in srgb, var(--text-2) 70%, transparent); margin: 0 0 2mm; }
+.directory .dentry-fact b { color: var(--navy); font-weight: 600; margin-right: 2mm; }
+.directory .dentry-action { margin: 3mm 0 0; }
+.directory .dentry-action a { font-size: 9.5pt; font-weight: 600; color: var(--green);
+  text-decoration: none; }
+.directory .dentry-url { display: block; font-size: 7.5pt;
+  color: color-mix(in srgb, var(--text-2) 50%, transparent); }
+
+/* group openers: full page for a large group, an inline band for a small one.
+   The fragmentation declarations are anchored on `main.directory`, never on
+   `.directory .dgroup`: Paged.js resolves break-before/after against a
+   content-only clone that drops <body> and its class (the identical regression
+   documented for `.handbook main h1` above), so a body-class-anchored selector
+   silently never fires there. <main> carries the template name too and survives
+   that clone; visual styling stays keyed off .directory. break-after is anchored
+   the same way because a full-page opener that let the next entry share its page
+   would not be full-page at all.
+   Paged.js 0.4.3 honours break-after: avoid only when overflow chooses the
+   break, not when the following box forces one, so leaving break-before on the
+   opener alone would strand the group's own heading at the foot of the previous
+   page (and trip the orphan-heading lint). When an opener follows its heading
+   the break therefore moves to the heading - the same `:not(:first-of-type)`
+   shape as the handbook, so the TOC's break-after does not leave a blank page -
+   and the opener rides along on the fresh page. */
+.directory .dgroup { break-inside: avoid; padding-top: 18mm; }
+main.directory .dgroup { break-before: page; break-after: page; }
+main.directory h1 + .dgroup { break-before: avoid; }
+main.directory h1:not(:first-of-type) { break-before: page; }
+.directory .dgroup-band, .directory .dgroup-inline {
+  display: inline-block; font-size: 12pt; font-weight: 600; color: var(--white);
+  padding: 2.5mm 9mm 2.5mm 5mm;
+  background: linear-gradient(100deg, var(--green) 0%, var(--gold-fill) 100%);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 4mm) 100%, 0 100%);
+  margin: 0 0 4mm;
+  print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+.directory .dgroup-inline { font-size: 10pt; break-after: avoid; margin-bottom: 5mm; }
+.directory .dgroup-count { font-size: 9.5pt;
+  color: color-mix(in srgb, var(--text-2) 60%, transparent); margin: 0 0 6mm; }
+.directory .dgroup-index { list-style: none; margin: 0; padding: 0; columns: 2;
+  column-gap: 14mm; }
+.directory .dgroup-index li { margin-bottom: 2mm; break-inside: avoid; }
+.directory .dgroup-index a { font-size: 10pt; color: var(--navy); text-decoration: none; }
