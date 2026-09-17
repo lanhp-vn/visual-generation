@@ -422,7 +422,12 @@ main h2.pgroup.er { background: var(--gold-soft); border-left-color: var(--gold)
 .directory .dentry-action { margin: 3mm 0 0; }
 .directory .dentry-action a { font-size: 9.5pt; font-weight: 600; color: var(--green);
   text-decoration: none; }
+/* a booking URL has no spaces to break at, and the Google appointments form of
+   one is long enough to run past the prose column and off the trim. Let it
+   break anywhere rather than overflow: the printed address is a fallback for
+   the link above it, so a mid-token wrap costs nothing. */
 .directory .dentry-url { display: block; font-size: 7.5pt;
+  overflow-wrap: anywhere; word-break: break-all;
   color: color-mix(in srgb, var(--text-2) 50%, transparent); }
 
 /* group openers: full page for a large group, an inline band for a small one.
