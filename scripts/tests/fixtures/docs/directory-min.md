@@ -14,10 +14,13 @@ This fixture proves that internal jump links survive Paged.js plus Chromium
 print. It exercises both routes a directory needs: the auto-generated table of
 contents, and a hand-written anchor into a hand-written id.
 
-<div class="probe-index">
-  <p><a href="#entry-one">Entry One</a></p>
-  <p><a href="#entry-two">Entry Two</a></p>
+<div class="dindex">
+  <p class="dindex-group">Group One</p>
+  <a class="dindex-row" href="#entry-one"><span class="dindex-name">Entry One</span><span class="dindex-field">Discipline A</span><span class="dindex-place">Region A</span></a>
+  <a class="dindex-row" href="#entry-two"><span class="dindex-name">Entry Two</span><span class="dindex-field">Discipline B</span><span class="dindex-place">Region B</span></a>
 </div>
+
+<p class="probe-index"><a href="#group-one">Group One</a> and <a href="#group-two">Group Two</a></p>
 
 <!-- TOC -->
 

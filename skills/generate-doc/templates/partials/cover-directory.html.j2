@@ -20,6 +20,7 @@
     {% if meta.count_line %}<p class="cover-count">{{ meta.count_line }}</p>{% endif %}
     <div class="cover-meta">
       {% if meta.edition %}<span>{{ meta.edition }}</span>{% endif %}
+      {% if meta.contact %}<span><a href="mailto:{{ meta.contact }}">{{ meta.contact }}</a></span>{% endif %}
       {% if meta.date %}<span>{{ ('Cập nhật ' if meta.lang == 'vi' else 'Updated ') ~ meta.date }}</span>{% endif %}
       {% if meta.confidential %}<span class="cover-confidential">{{ 'Bảo mật' if meta.lang == 'vi' else 'Confidential' }}</span>{% endif %}
     </div>

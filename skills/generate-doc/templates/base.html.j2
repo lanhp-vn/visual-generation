@@ -75,10 +75,15 @@
   {% include "partials/cover-" ~ meta.template ~ ".html.j2" %}
   <main class="{{ meta.template }}">
     {% if lead_html %}<div class="doc-lead">{{ lead_html | safe }}</div>{% endif %}
+    {# a directory authors its own contents: an auto TOC can only carry heading
+       text, and a directory index has to carry a fact or two per entry so a
+       reader can choose a name without leaving the page. #}
+    {% if meta.template != 'directory' %}
     <nav class="toc-page">
       <h2 class="toc-title">{{ 'Nội dung' if meta.lang == 'vi' else 'Contents' }}</h2>
       {{ toc_html | safe }}
     </nav>
+    {% endif %}
     {{ body_html | safe }}
   </main>
   <script>{{ pagedjs_js | safe }}</script>

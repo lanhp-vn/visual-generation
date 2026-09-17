@@ -396,6 +396,9 @@ main h2.pgroup.er { background: var(--gold-soft); border-left-color: var(--gold)
   clip-path: polygon(0 0, 100% 0, calc(100% - 5mm) 100%, 0 100%);
   print-color-adjust: exact; -webkit-print-color-adjust: exact; }
 .directory .cover-meta { justify-content: flex-start; gap: 16px; font-size: 9.5pt; }
+/* the cover sits outside <main>, so the body link rule does not reach it and a
+   contact address would otherwise print in the browser default blue. */
+.directory .cover-meta a { color: var(--green); text-decoration: none; }
 /* Confidential is a handling instruction, not chrome: it earns the weight. */
 .directory .cover-confidential { font-weight: 600; color: var(--navy); }
 .directory .cover-orgline { margin-top: 10px; }
@@ -490,3 +493,30 @@ main.directory h1.nobreak { break-before: auto; }
   column-gap: 14mm; }
 .directory .dgroup-index li { margin-bottom: 2mm; break-inside: avoid; }
 .directory .dgroup-index a { font-size: 10pt; color: var(--navy); text-decoration: none; }
+
+/* ============ DIRECTORY: INDEX ============ */
+/* The directory's own contents page. Each row is a single <a> laid out as a
+   grid, so the whole line is one jump target and the printed page number can
+   ride on its ::after via target-counter(attr(href), page) - the same mechanism
+   the auto TOC uses, which is why the row must be the anchor rather than
+   contain one. */
+.directory .dindex { margin: 4mm 0 0; }
+.directory .dindex-group {
+  font-size: 10pt; font-weight: 600; color: var(--navy);
+  background: var(--green-100); padding: 1.6mm 4mm; margin: 4mm 0 0;
+  break-after: avoid; break-inside: avoid;
+  print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+.directory .dindex-row {
+  display: grid; grid-template-columns: 44mm 66mm 36mm 1fr;
+  column-gap: 4mm; align-items: baseline;
+  padding: 1.1mm 4mm; border-bottom: 0.4pt solid var(--line);
+  text-decoration: none; border-left: none; border-right: none; border-top: none;
+  break-inside: avoid; }
+.directory .dindex-name { font-size: 9.5pt; font-weight: 600; color: var(--navy); }
+.directory .dindex-field,
+.directory .dindex-place { font-size: 8pt; line-height: 1.25;
+  color: color-mix(in srgb, var(--text-2) 70%, transparent); }
+.directory .dindex-row::after {
+  content: target-counter(attr(href), page);
+  font-size: 9.5pt; font-weight: 600; color: var(--green);
+  text-align: right; font-variant-numeric: tabular-nums; }

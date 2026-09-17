@@ -208,3 +208,26 @@ def test_lint_doc_surfaces_a_budget_violation(tmp_path):
     assert not result["passed"]
     assert any(v["code"] == "entry-over-budget" for v in result["violations"]), \
         result["violations"]
+
+
+def test_the_directory_index_replaces_the_auto_table_of_contents(tmp_path):
+    """A directory authors its own contents, so the generic auto TOC must not
+    also render: two contents pages is worse than either one."""
+    out = tmp_path / "index"
+    render_doc(FIX / "directory-min.md", out)
+    html = (out / "index.html").read_text(encoding="utf-8")
+    assert 'class="toc-page"' not in html
+    assert 'class="dindex"' in html
+    assert html.count('class="dindex-row"') == 2
+
+
+def test_every_index_row_is_one_jump_target(tmp_path):
+    """The row itself is the anchor, so the whole line is clickable and the
+    printed page number can ride on its ::after. A row that is not a resolvable
+    destination is a contents line that goes nowhere."""
+    out = tmp_path / "indexlinks"
+    render_doc(FIX / "directory-min.md", out)
+    pdf = next((out / "pdf").glob("*.pdf"))
+    reader = PdfReader(str(pdf))
+    registered = set(reader.named_destinations)
+    assert {"/entry-one", "/entry-two"} <= registered, sorted(registered)
