@@ -1,6 +1,6 @@
 ---
 name: generate-doc
-description: Build brand-locked VISEMI / Cất Cánh reports and handbooks from Markdown with YAML front-matter, paginate them with Paged.js in headless Chromium, and print an A4 PDF with selectable text plus per-page PNGs, then grade them (deterministic doc-lint + brand-lint, optional LLM-judge rubric). Use whenever the operator wants a report, cohort or program report, donor/partner/founder update, impact report, handbook, fellow or mentor handbook, guide, or any "write this up as a proper PDF / make a report / make a handbook" task, even if they do not say "Markdown" or "PDF". Content is Markdown (facts from the brief, never invented); layout is one of two template families (report or handbook); brand lives in brand/tokens.json. A4, light theme, local only.
+description: Build brand-locked VISEMI / Cất Cánh reports and handbooks from Markdown with YAML front-matter, paginate them with Paged.js in headless Chromium, and print an A4 PDF with selectable text plus per-page PNGs, then grade them (deterministic doc-lint + brand-lint, optional LLM-judge rubric). Use whenever the operator wants a report, cohort or program report, donor/partner/founder update, impact report, handbook, fellow or mentor handbook, guide, directory, roster, address book, "who is who" listing, or any "write this up as a proper PDF / make a report / make a handbook" task, even if they do not say "Markdown" or "PDF". Content is Markdown (facts from the brief, never invented); layout is one of three template families (report, handbook or directory); brand lives in brand/tokens.json. A4, light theme, local only.
 ---
 
 # generate-doc
@@ -42,7 +42,7 @@ Write a `.md` file with a YAML front-matter block, then the body in Markdown. Sh
 
 ```markdown
 ---
-template: report        # report | handbook
+template: report        # report | handbook | directory
 title: Cất Cánh Cohort 1 Program Report
 subtitle: Plan and progress to date
 lang: en                # en | vi
@@ -51,6 +51,8 @@ audience: Partners and founders
 eyebrow: Cất Cánh (Takeoff) Fellowship
 orgline: VISEMI Foundation | visemi.org
 # handbook-only cover extra: edition: Cohort 1
+# directory-only cover extras: count_line: 120 entries / confidential: true
+#   cover_bg_logo: path/to/cover-art.jpg  (full-bleed band artwork)
 ---
 
 # Executive Summary
@@ -59,8 +61,9 @@ Body text. Use **bold** for emphasis; keep green to roughly 10-20% of a page.
 ```
 
 - `template`: `report` (sections flow continuously; doc title in the running
-  header) or `handbook` (each top-level `#` heading opens a new chapter page; the
-  chapter name runs in the header). Validated on render.
+  header), `handbook` (each top-level `#` heading opens a new chapter page; the
+  chapter name runs in the header), or `directory` (a listing of many entities
+  with structured facts and one action each, two to a page). Validated on render.
 - `lang`: `en` (default) or `vi`. Full Vietnamese diacritics always.
 - Cover fields (`subtitle`, `date`, `audience`, `eyebrow`, `orgline`, and for
   handbooks `edition`) are optional; present ones render on the branded cover.
@@ -124,15 +127,16 @@ reference exemplar: `uv run python scripts/evals/run_evals.py` (reports pass@k).
 
 ## Template families
 
-Both families share one pipeline and one `document.css`; a body class
-(`.report` / `.handbook`) selects the differences.
+All three families share one pipeline and one `document.css`; a body class
+(`.report` / `.handbook` / `.directory`) selects the differences.
 
-| Feature | `report` | `handbook` |
-| --- | --- | --- |
-| Cover | Data-forward: eyebrow, title, subtitle, date, audience | Warmer feature gradient: "Handbook" label, edition, title |
-| Section headings (`#`) | Flow continuously down the page | Each opens a new chapter page (styled opener, green top rule) |
-| Running header | Document title | Current chapter name |
-| Best for | Cohort/program reports, donor and partner updates, impact summaries | Fellow/mentor handbooks, program guides, long-form onboarding |
+| Feature | `report` | `handbook` | `directory` |
+| --- | --- | --- | --- |
+| Cover | Data-forward: eyebrow, title, subtitle, date, audience | Warmer feature gradient: "Handbook" label, edition, title | Full-bleed artwork band over a quiet type block, with a count line and an optional Confidential mark |
+| Section headings (`#`) | Flow continuously down the page | Each opens a new chapter page (styled opener, green top rule) | Each opens a new page, so front and back matter get one page apiece |
+| Running header | Document title | Current chapter name | Document title |
+| Entry layout | n/a | n/a | `.dentry`, two to a page: a fact rail beside a prose column |
+| Best for | Cohort/program reports, donor and partner updates, impact summaries | Fellow/mentor handbooks, program guides, long-form onboarding | Rosters, member directories, any "find a person and contact them" listing |
 
 Common to both: branded cover, auto TOC with real page numbers, running footer
 with page number and org line, token-driven heading/table/callout/figure/blockquote
@@ -208,6 +212,37 @@ Colors come from token classes, never inline hex. Modeled on structures mined fr
     <p class="pcard-needs"><b>Support needs:</b> ...</p>
   </div>
   ```
+- **Directory entry (`.dentry`, `directory` family only)** - one listed entity,
+  two to a page: a 42mm fact rail beside a 118mm prose column, divided from the
+  next by a hairline. Give each entry an `id` so a group index can jump to it.
+  Character budgets are enforced by `doc_lint` and fail the render naming the
+  entity and the field: `.dentry-bio` 280, each `.dentry-fact` 160. Keep the
+  action last; it is the one green moment in the block.
+  ```html
+  <div class="dentry" id="entry-one">
+    <div class="dentry-head">
+      <p class="dentry-name">Name</p>
+      <p class="dentry-place">Country</p>
+      <p class="dentry-role">Role, Institution</p>
+    </div>
+    <div class="dentry-rail">
+      <p class="drail-label">Helps with</p>
+      <ul class="drail-tags"><li>Tag</li></ul>
+      <p class="drail-label">Available</p>
+      <p class="drail-value">2 to 5 h/week</p>
+    </div>
+    <div class="dentry-body">
+      <p class="dentry-bio">Up to 280 characters.</p>
+      <p class="dentry-fact"><b>Funding</b> Up to 160 characters.</p>
+      <p class="dentry-action"><a href="https://example.org/book">Book a session</a><span class="dentry-url">example.org/book</span></p>
+    </div>
+  </div>
+  ```
+- **Directory group opener (`.dgroup`, `.dgroup-inline`)** - `.dgroup` is a
+  full-page opener carrying a band, a count and a jump-linked member index, for a
+  group large enough to earn a page. `.dgroup-inline` is the same band inline at
+  the top of a group's first entry page, for a group too small to fill one: a
+  full page introducing a handful of entities is exactly the underfilled page to avoid.
 - **Two-column block (`.twocol`)** - `<div class="twocol"><div>..</div><div>..</div></div>`
   for side-by-side lists or a pie pair.
 
@@ -261,7 +296,9 @@ motif), never a generic monochrome icon or an opaque logo file.
 
 Headings use `break-after: avoid` (never orphaned at a page foot) and
 `break-inside: avoid`. Figures, blockquotes, callouts, and table rows avoid
-breaking mid-block. Handbook chapter headings force a page break before; report
+breaking mid-block. Handbook chapter headings force a page break before; directory
+`#` headings do the same, and a `.dgroup` opener directly after one rides along
+on that fresh page rather than forcing a second break; report
 `#` headings flow continuously by default (no forced break) - opt one into a
 fresh page with `# Section title {: .pagebreak }` (e.g. a closing/CTA section
 that should stand alone rather than share a page with what precedes it). If
